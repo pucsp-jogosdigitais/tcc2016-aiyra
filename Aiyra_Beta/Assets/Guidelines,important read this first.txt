@@ -1,0 +1,36 @@
+Girls, here i will write the orientations to rest of the team(include me) what each one can acess and change:
+
+	*Editor(only me the programmer,Guilherme).
+	
+	*Live2D(only the ones with purpose to change something on the project related to live2D).
+
+	*Resources(everybody of the team, this folter contains the resources of the project and you can put
+		   , take and change the files in their but keep in mind that this file can be important to
+		   the game to run correctly or someone else of the team).
+
+	*Scenes(everybody of the team, Here is the scenes of the game, scenes that unity read separately 
+                and in general has no relation with one another. but try to not make a change without alert
+		the rest of the team to have a better organization of the navegation of the game and the
+		display of the elements to the player).
+
+	*Scripts(only me the programmer, Guilherme).
+
+	*Standard Assets(no one, is the folter that contains the effect of blur,camera motion effect,etc.
+ 			 have no necessity of acess that folter).
+
+	*Tools(the ones responsible for the convert of the files of the npcs(actors) in to bytes, but you
+	       can create a folter here and put tools that you are using on de development of the game).
+
+	*UnityVS(No one,have no necessity is the folter that visual studio create on the projetct to have
+		 acess to scripts of the project).
+
+	--------------------------------------------Guide------------------------------------------------
+
+	1- Ketlyn you can put all your text in the folter: Resources/Texts but remember to create others 
+	   folters and give them names that remember their functions and put the respective texts and
+	   documents on the respective folters. Are you ok with this logic and terms(answer below)?
+
+	2- Ingrid you can create and manipulate any folter in resources and their files except the ones 
+	   of Ketlyn, Brune and Nicole is responsible.Are you ok with this logic and terms(answer below)?
+
+	3- Nicole for you is the same terms of Ingrid.Are you ok with this logic and terms(answer below)?
