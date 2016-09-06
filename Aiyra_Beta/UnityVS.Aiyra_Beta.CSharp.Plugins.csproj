@@ -55,9 +55,6 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="Live2DUnity">
       <HintPath>Assets\Live2D\Live2DUnity.dll</HintPath>
     </Reference>
@@ -103,6 +100,20 @@
     <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Guidelines,important read this first.txt" />
+    <None Include="Assets\Live2D\Resources\shader\Live2D-SetupMask.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-Add.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-AddCull.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-AddCullMasked.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-AddMasked.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-Mult.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-MultCull.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-MultCullMasked.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-MultMasked.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-Normal.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-NormalCull.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-NormalCullMasked.shader" />
+    <None Include="Assets\Live2D\Resources\shader\merged\Live2D-NormalMasked.shader" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
