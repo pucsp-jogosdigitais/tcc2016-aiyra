@@ -66,16 +66,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Actor\Actor.cs" />
+    <Compile Include="Assets\Scripts\Component\GameController.cs" />
     <Compile Include="Assets\Scripts\Component\GameData.cs" />
     <Compile Include="Assets\Scripts\Component\GameSettings.cs" />
     <Compile Include="Assets\Scripts\Component\SaveSlot.cs" />
     <Compile Include="Assets\Scripts\Component\VideoPlayer.cs" />
+    <Compile Include="Assets\Scripts\Interface\Button\ActorButton.cs" />
+    <Compile Include="Assets\Scripts\Interface\Menu\ActorSelectionMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\AlbumMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\ConfigurationMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\LoadingGameMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\MemoriesMenu.cs" />
-    <Compile Include="Assets\Scripts\Interface\MiniMenu\ConfigWindowsMenu.cs" />
+    <Compile Include="Assets\Scripts\Interface\MiniMenu\ConfigurationMiniMenu.cs" />
     <Compile Include="Assets\Scripts\Live2D\SimpleModel.cs" />
   </ItemGroup>
   <ItemGroup>

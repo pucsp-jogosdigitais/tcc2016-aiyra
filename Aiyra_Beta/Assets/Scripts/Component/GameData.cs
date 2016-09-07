@@ -8,6 +8,13 @@ public class GameData : MonoBehaviour {
 
     private const string playernamesavekey = "PLAYERNAME";
 
+    private const string playercurrentactorsavekey = "PLAYERCURRENTACTOR";
+    private const string enzoaffinitysavekey = "ENZOAFFINITY";
+    private const string isisaffinitysavekey = "ISISAFFINITY";
+    private const string benjaminaffinitysavekey = "BENJAMINAFFINITY";
+    private const string malikaaffinitysavekey = "MALIKAAFFINITY";
+    private const string zakiaffinitysavekey = "ZAKIAFFINITY";
+
     private const string playercurrentscenesavekey = "PLAYERCURRENTSCENE";
     private const string playercurrenttextfilesavekey = "PLAYERCURRENTTEXTFILE";
     private const string playercurrentdialoglinesavekey = "PLAYERCURRENTDIALOGLINE";
@@ -15,8 +22,10 @@ public class GameData : MonoBehaviour {
     private const string gameprogresssavekey = "CURRENTGAMEPROGRESS";
     private const string playtimesavekey = "PLAYTIME";
 
-    private const string saveslot1savekey = "SAVESLOT1";
-    private const string saveslot2savekey = "SAVESLOT2";
+    private const string saveslot0chaptertitlesavekey = "SAVESLOT0CHAPTERTITLE";
+    private const string saveslot0datasavekey = "SAVESLOT0DATA";
+    private const string saveslot0timesavekey = "SAVESLOT0TIME";
+    private const string saveslot0actorsavekey = "SAVESLOT0ACTOR";
 
     public int loadrequest;
     public int saverequest;
@@ -26,12 +35,25 @@ public class GameData : MonoBehaviour {
 
     public string playername;
 
+    public string playercurrentactor;
+
+    public int currentenzoaffinity;
+    public int currentisisaffinity;
+    public int currentbenjaminaffinity;
+    public int currentmalikaaffinity;
+    public int currentzakiaffinity;
+
     public int playercurrentscene;
     public int playercurrenttextfile;
     public int playercurrentdialogline;
 
     public int gameprogress;
     public int playtime;
+
+    public string saveslot0chaptertitle;
+    public string saveslot0data;
+    public float saveslot0time;
+    public Actor saveslot0actor;
 
     public void SetLoadRequest(int value)
     {
@@ -44,6 +66,18 @@ public class GameData : MonoBehaviour {
     public void SetPlayerName(string PlayerName)
     {
         playername = PlayerName;
+    }
+    public void SetPlayerCurrentActor(string CurrentActor)
+    {
+        playercurrentactor = CurrentActor;
+    }
+    public void SetAffinityPoints(int CurrentEnzoAffinity, int CurrentIsisAffinity, int CurrentBenjaminAffinity, int CurrentMalikaAffinity, int CurrentZakiAffinity)
+    {
+        currentenzoaffinity = CurrentEnzoAffinity;
+        currentisisaffinity = CurrentIsisAffinity;
+        currentbenjaminaffinity = CurrentBenjaminAffinity;
+        currentmalikaaffinity = CurrentMalikaAffinity;
+        currentzakiaffinity = CurrentZakiAffinity;
     }
     public void SetGameData(int CurrentScene, int CurrentTextFile, int CurrentDialogLine)
     {
@@ -76,6 +110,14 @@ public class GameData : MonoBehaviour {
     {
         issaving = true;
         PlayerPrefs.SetString(playernamesavekey, playername);
+        PlayerPrefs.SetString(playercurrentactorsavekey, playercurrentactor);
+
+        PlayerPrefs.SetInt(enzoaffinitysavekey, currentenzoaffinity);
+        PlayerPrefs.SetInt(isisaffinitysavekey, currentisisaffinity);
+        PlayerPrefs.SetInt(benjaminaffinitysavekey, currentbenjaminaffinity);
+        PlayerPrefs.SetInt(malikaaffinitysavekey, currentmalikaaffinity);
+        PlayerPrefs.SetInt(zakiaffinitysavekey, currentzakiaffinity);
+
         PlayerPrefs.SetInt(playtimesavekey, playtime);
         issaving = false;
     }
@@ -112,6 +154,14 @@ public class GameData : MonoBehaviour {
     {
         isloading = true;
         playername = PlayerPrefs.GetString(playernamesavekey);
+        playercurrentactor = PlayerPrefs.GetString(playercurrentactorsavekey);
+
+        currentenzoaffinity = PlayerPrefs.GetInt(enzoaffinitysavekey);
+        currentisisaffinity = PlayerPrefs.GetInt(isisaffinitysavekey);
+        currentbenjaminaffinity = PlayerPrefs.GetInt(benjaminaffinitysavekey);
+        currentmalikaaffinity = PlayerPrefs.GetInt(malikaaffinitysavekey);
+        currentzakiaffinity = PlayerPrefs.GetInt(zakiaffinitysavekey);
+
         playtime = PlayerPrefs.GetInt(playtimesavekey);
         isloading = false;
     }

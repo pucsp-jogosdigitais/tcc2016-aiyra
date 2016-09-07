@@ -16,7 +16,6 @@ public class SaveSlot : MonoBehaviour {
     public Image saveslotactor;
     public Text saveslotdata;
     public Text saveslottime;
-    public Button saveslotbutton;
 
     public int saveslotcurrentscene;
     public int saveslotcurrentdialogtextfile;
