@@ -70,9 +70,13 @@
     <Compile Include="Assets\Scripts\Component\GameController.cs" />
     <Compile Include="Assets\Scripts\Component\GameData.cs" />
     <Compile Include="Assets\Scripts\Component\GameSettings.cs" />
+    <Compile Include="Assets\Scripts\Component\MusicPlayer.cs" />
     <Compile Include="Assets\Scripts\Component\SaveSlot.cs" />
     <Compile Include="Assets\Scripts\Component\VideoPlayer.cs" />
+    <Compile Include="Assets\Scripts\Interface\Background\Background.cs" />
     <Compile Include="Assets\Scripts\Interface\Button\ActorButton.cs" />
+    <Compile Include="Assets\Scripts\Interface\Dialog\Dialog.cs" />
+    <Compile Include="Assets\Scripts\Interface\Dialog\DialogBox.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\ActorSelectionMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\AlbumMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\ConfigurationMenu.cs" />
@@ -80,7 +84,11 @@
     <Compile Include="Assets\Scripts\Interface\Menu\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\MemoriesMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\MiniMenu\ConfigurationMiniMenu.cs" />
+    <Compile Include="Assets\Scripts\Interface\MiniMenu\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\Live2D\SimpleModel.cs" />
+    <Compile Include="Assets\Scripts\Player\Player.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Puzzle.cs" />
+    <Compile Include="Assets\Scripts\Scene\Scene.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Guidelines,important read this first.txt" />
@@ -97,6 +105,7 @@
     <None Include="Assets\Live2D\Resources\shader\merged\Live2D-NormalCull.shader" />
     <None Include="Assets\Live2D\Resources\shader\merged\Live2D-NormalCullMasked.shader" />
     <None Include="Assets\Live2D\Resources\shader\merged\Live2D-NormalMasked.shader" />
+    <None Include="Assets\Resources\Texts\Test\FirstTest.txt" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />

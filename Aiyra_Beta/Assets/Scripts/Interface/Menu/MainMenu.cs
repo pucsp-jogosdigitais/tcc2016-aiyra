@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour {
 
+    public GameData gamedata;
     public Animator cameraanimator;
 
     public float lastclicktime;
@@ -18,6 +19,14 @@ public class MainMenu : MonoBehaviour {
         }
         canclick = true;
     }
+    void Start()
+    {
+        gamedata.LoadAllPlayerData();
+        gamedata.LoadAllGameData();
+
+        gamedata.LoadLoadRequest();
+        gamedata.LoadSaveRequest();
+    }
     bool CheckTimeOfAnimator()
     {
         clicktime = Time.time;
@@ -31,7 +40,11 @@ public class MainMenu : MonoBehaviour {
         if (canclick)
         {
             Debug.Log("StartNewGame");
-         //   Application.LoadLevel(7);
+            gamedata.SetLoadRequest(-1);
+            gamedata.SaveLoadRequest();
+            gamedata.SetSaveRequest(-1);
+            gamedata.SaveSaveRequest();
+            Application.LoadLevel(7);
         }
         else
         {
@@ -42,6 +55,11 @@ public class MainMenu : MonoBehaviour {
     {
         if (canclick)
         {
+            Debug.Log("LoadGame");
+            gamedata.SetLoadRequest(-1);
+            gamedata.SaveLoadRequest();
+            gamedata.SetSaveRequest(-1);
+            gamedata.SaveSaveRequest();
             Application.LoadLevel(3);
         }
         else
@@ -75,6 +93,10 @@ public class MainMenu : MonoBehaviour {
     {
         if (canclick)
         {
+            gamedata.SetLoadRequest(-1);
+            gamedata.SaveLoadRequest();
+            gamedata.SetSaveRequest(-1);
+            gamedata.SaveSaveRequest();
             Application.LoadLevel(6);
         }
         else

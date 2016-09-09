@@ -3,11 +3,17 @@ using System.Collections;
 
 public class ConfigurationMenu : MonoBehaviour {
 
+    public GameData gamedata;
     public GameSettings gamesettings;
     public GameObject configwindowsbox;
     public GameObject howtoplaybox;
     public GameObject speakwithusbox;
 
+    void Start()
+    {
+        gamedata.LoadLoadRequest();
+        gamedata.LoadSaveRequest();
+    }
     public void UpdateVolumeSettings()
     {
         gamesettings.musicvolume = gamesettings.volumesliders[0].value;
@@ -37,6 +43,15 @@ public class ConfigurationMenu : MonoBehaviour {
     }
     public void ReturnButton()
     {
-        Application.LoadLevel(2);
+        if (gamedata.loadrequest > 0 || gamedata.saverequest > 0)
+            Application.LoadLevel(7);
+        else
+        {
+            gamedata.SetLoadRequest(-1);
+            gamedata.SaveLoadRequest();
+            gamedata.SetSaveRequest(-1);
+            gamedata.SaveSaveRequest();
+            Application.LoadLevel(2);
+        }
     }
 }

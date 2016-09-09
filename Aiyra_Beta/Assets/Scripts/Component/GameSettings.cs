@@ -16,10 +16,13 @@ public class GameSettings : MonoBehaviour {
     {
         LoadAudioSettings();
 
-        volumesliders[0].maxValue = maxvolume;
-        volumesliders[1].maxValue = maxvolume;
+        if (volumesliders.Length > 0)
+        {
+            volumesliders[0].maxValue = maxvolume;
+            volumesliders[1].maxValue = maxvolume;
 
-        DisplayCurrentVolume();  
+            DisplayCurrentVolume();
+        }
     }
     public void DisplayCurrentVolume()
     {

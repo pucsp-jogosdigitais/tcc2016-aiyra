@@ -114,6 +114,7 @@
     <None Include="Assets\Live2D\Resources\shader\merged\Live2D-NormalCull.shader" />
     <None Include="Assets\Live2D\Resources\shader\merged\Live2D-NormalCullMasked.shader" />
     <None Include="Assets\Live2D\Resources\shader\merged\Live2D-NormalMasked.shader" />
+    <None Include="Assets\Resources\Texts\Test\FirstTest.txt" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />

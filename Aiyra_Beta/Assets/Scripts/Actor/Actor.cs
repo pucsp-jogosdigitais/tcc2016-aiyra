@@ -15,4 +15,13 @@ public class Actor : MonoBehaviour {
 
     public bool hasdialog;
 
+    void OnEnable()
+    {
+        Debug.Log(actorname + " has enter in scene for dialog ");
+    }
+    void OnDisable()
+    {
+        Debug.Log(actorname + " has left the scene ");
+    }
+
 }

@@ -22,11 +22,6 @@ public class GameData : MonoBehaviour {
     private const string gameprogresssavekey = "CURRENTGAMEPROGRESS";
     private const string playtimesavekey = "PLAYTIME";
 
-    private const string saveslot0chaptertitlesavekey = "SAVESLOT0CHAPTERTITLE";
-    private const string saveslot0datasavekey = "SAVESLOT0DATA";
-    private const string saveslot0timesavekey = "SAVESLOT0TIME";
-    private const string saveslot0actorsavekey = "SAVESLOT0ACTOR";
-
     public int loadrequest;
     public int saverequest;
 
@@ -48,12 +43,8 @@ public class GameData : MonoBehaviour {
     public int playercurrentdialogline;
 
     public int gameprogress;
-    public int playtime;
 
-    public string saveslot0chaptertitle;
-    public string saveslot0data;
-    public float saveslot0time;
-    public Actor saveslot0actor;
+    public float playtime;
 
     public void SetLoadRequest(int value)
     {
@@ -89,7 +80,7 @@ public class GameData : MonoBehaviour {
     {
         gameprogress = CurrentGameProgress;
     }
-    public void SetPlayTime(int CurrentTime)
+    public void SetPlayTime(float CurrentTime)
     {
         playtime = CurrentTime;
     }
@@ -118,7 +109,7 @@ public class GameData : MonoBehaviour {
         PlayerPrefs.SetInt(malikaaffinitysavekey, currentmalikaaffinity);
         PlayerPrefs.SetInt(zakiaffinitysavekey, currentzakiaffinity);
 
-        PlayerPrefs.SetInt(playtimesavekey, playtime);
+        PlayerPrefs.SetFloat(playtimesavekey, playtime);
         issaving = false;
     }
     public void SaveAllGameData()
@@ -162,7 +153,7 @@ public class GameData : MonoBehaviour {
         currentmalikaaffinity = PlayerPrefs.GetInt(malikaaffinitysavekey);
         currentzakiaffinity = PlayerPrefs.GetInt(zakiaffinitysavekey);
 
-        playtime = PlayerPrefs.GetInt(playtimesavekey);
+        playtime = PlayerPrefs.GetFloat(playtimesavekey);
         isloading = false;
     }
     public void LoadAllGameData()
