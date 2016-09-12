@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GameData : MonoBehaviour {
 
+    #region Keys
+
     private const string loadrequestsavekey = "LOADREQUEST";
     private const string saverequestsavekey = "SAVEREQUEST";
 
@@ -20,7 +22,12 @@ public class GameData : MonoBehaviour {
     private const string playercurrentdialoglinesavekey = "PLAYERCURRENTDIALOGLINE";
 
     private const string gameprogresssavekey = "CURRENTGAMEPROGRESS";
+    private const string gamedatasavekey = "DATA";
     private const string playtimesavekey = "PLAYTIME";
+
+    #endregion
+
+    #region Attributes
 
     public int loadrequest;
     public int saverequest;
@@ -45,6 +52,27 @@ public class GameData : MonoBehaviour {
     public int gameprogress;
 
     public float playtime;
+
+    #endregion
+
+    #region Methods
+
+    #region Set Values Methods
+
+    #region Reset Methods
+
+    public void ResetAffinitys()
+    {
+        currentenzoaffinity = 0;
+        currentisisaffinity = 0;
+        currentbenjaminaffinity = 0;
+        currentmalikaaffinity = 0;
+        currentzakiaffinity = 0;
+    }
+
+    #endregion
+
+    #region Set Methods
 
     public void SetLoadRequest(int value)
     {
@@ -84,7 +112,17 @@ public class GameData : MonoBehaviour {
     {
         playtime = CurrentTime;
     }
+
+    #endregion
+
+    #endregion
+
+    #region Save And Load Methods
+
     //Save Methods
+
+    #region Save Methods
+
     public void SaveLoadRequest()
     {
         issaving = true;
@@ -127,8 +165,23 @@ public class GameData : MonoBehaviour {
         PlayerPrefs.SetString(playernamesavekey, playername);
         issaving = false;
     }
+    public void SaveAllAffinitys()
+    {
+        issaving = true;
+        PlayerPrefs.SetInt(enzoaffinitysavekey, currentenzoaffinity);
+        PlayerPrefs.SetInt(isisaffinitysavekey, currentisisaffinity);
+        PlayerPrefs.SetInt(benjaminaffinitysavekey, currentbenjaminaffinity);
+        PlayerPrefs.SetInt(malikaaffinitysavekey, currentmalikaaffinity);
+        PlayerPrefs.SetInt(zakiaffinitysavekey, currentzakiaffinity);
+        issaving = false;
+    }
 
-   //Load Methods
+    #endregion
+
+    //Load Methods
+
+    #region Load Methods
+
     public void LoadLoadRequest()
     {
         isloading = true;
@@ -138,7 +191,7 @@ public class GameData : MonoBehaviour {
     public void LoadSaveRequest()
     {
         isloading = true;
-        loadrequest = PlayerPrefs.GetInt(saverequestsavekey);
+        saverequest = PlayerPrefs.GetInt(saverequestsavekey);
         isloading = false;
     }
     public void LoadAllPlayerData()
@@ -165,5 +218,11 @@ public class GameData : MonoBehaviour {
         gameprogress = PlayerPrefs.GetInt(gameprogresssavekey);
         isloading = false;
     }
+
+    #endregion
+
+    #endregion
+
+    #endregion
 
 }

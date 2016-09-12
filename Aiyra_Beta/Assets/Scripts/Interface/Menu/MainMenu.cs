@@ -44,6 +44,17 @@ public class MainMenu : MonoBehaviour {
             gamedata.SaveLoadRequest();
             gamedata.SetSaveRequest(-1);
             gamedata.SaveSaveRequest();
+
+            gamedata.SetPlayerName("Luna");
+            gamedata.SetPlayerCurrentActor("");
+            gamedata.SetAffinityPoints(0, 0, 0, 0, 0);
+            gamedata.SetPlayTime(gamedata.playtime);
+            gamedata.SaveAllPlayerData();
+
+            gamedata.playercurrentscene = 0;
+            gamedata.playercurrenttextfile = 0;
+            gamedata.playercurrentdialogline = 0;
+            gamedata.SaveAllGameData();
             Application.LoadLevel(7);
         }
         else

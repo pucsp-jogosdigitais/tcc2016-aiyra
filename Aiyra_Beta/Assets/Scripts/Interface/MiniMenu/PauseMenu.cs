@@ -5,45 +5,82 @@ using System.Collections;
 public class PauseMenu : MonoBehaviour {
 
     public GameData gamedata;
+    public GameController gamecontroller;
     public GameObject affinitybarbox;
-    public Scrollbar affinityscrollbar;
+    public Slider affinityslider;
+    public RectTransform filltransform;
+    public RectTransform handletransform;
     public GameObject helpbox;
-    public Actor[] actors;
 
+
+    public bool hideactors;
+    void Awake()
+    {
+
+    }
+    void Start()
+    {
+        if (affinitybarbox.activeInHierarchy || helpbox.activeInHierarchy)
+        {
+            affinitybarbox.SetActive(false);
+            helpbox.SetActive(false);
+        }
+        gameObject.SetActive(false);
+    }
     void OnEnable()
     {
         Debug.Log("game paused");
-        gamedata.SetLoadRequest(7);
-        gamedata.SaveLoadRequest();
-        gamedata.SetSaveRequest(7);
-        gamedata.SaveSaveRequest();
+        if (gamedata.loadrequest < 0)
+        {
+            gamedata.SetLoadRequest(7);
+            gamedata.SaveLoadRequest();
+        }
+        if (gamedata.saverequest < 0)
+        {
+            gamedata.SetSaveRequest(7);
+            gamedata.SaveSaveRequest();
+        }
     }
     void OnDisable()
     {
         Debug.Log("game running");
     }
-	public void SaveButton()
+    #region PauseButton
+    public void OnClickPauseGame()
     {
+        if (!gameObject.activeInHierarchy)
+        {
+            gameObject.SetActive(true);
+        }
+    }
+    #endregion
+    public void SaveButton()
+    {
+        gamedata.SetSaveRequest(7);
+        gamedata.SaveSaveRequest();
+        gamedata.SetLoadRequest(-1);
+        gamedata.SaveLoadRequest();
         Application.LoadLevel(3);
     }
     public void LoadButton()
     {
+        gamedata.SetLoadRequest(7);
+        gamedata.SaveLoadRequest();
+        gamedata.SetSaveRequest(-1);
+        gamedata.SaveSaveRequest();
         Application.LoadLevel(3);
     }
     public void ParametersButtons()
     {
         if (!affinitybarbox.activeInHierarchy)
         {
-            foreach (Actor actor in actors)
-                actor.gameObject.SetActive(false);
+            hideactors = true;
             affinitybarbox.SetActive(true);
             if (gamedata.playercurrentactor == "Enzo")
-                affinityscrollbar.value = gamedata.currentenzoaffinity;
+                affinityslider.value = gamedata.currentenzoaffinity;
         }
         else {
-            foreach (Actor actor in actors)
-                if (actor.hasdialog)
-                    actor.gameObject.SetActive(true);
+            hideactors = false;
             affinitybarbox.SetActive(false); }
     }
     public void OptionsButton()
@@ -54,14 +91,11 @@ public class PauseMenu : MonoBehaviour {
     {
         if (!helpbox.activeInHierarchy)
         {
-            foreach (Actor actor in actors)
-                actor.gameObject.SetActive(false);
+            hideactors = true;
             helpbox.SetActive(true);
         }
          else {
-            foreach (Actor actor in actors)
-                if (actor.hasdialog)
-                    actor.gameObject.SetActive(true);
+            hideactors = false;
             helpbox.SetActive(false);
         }
     }
@@ -72,9 +106,7 @@ public class PauseMenu : MonoBehaviour {
     }
     public void ReturnButton()
     {
-        foreach (Actor actor in actors)
-            if(actor.hasdialog)
-                actor.gameObject.SetActive(true);
+        hideactors = false;
         affinitybarbox.SetActive(false);
         helpbox.SetActive(false);
         gameObject.SetActive(false);
