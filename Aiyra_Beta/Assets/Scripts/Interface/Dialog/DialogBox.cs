@@ -19,15 +19,20 @@ public class DialogBox : MonoBehaviour {
     public int endatdialog;
 
     public int currentdialoganswers;
+    public int nextdialoganswers;
 
     public int lastanswerid;
 
     public bool hasanswered;
     public bool hasnextdialog;
+    public bool hasnextanswers;
     public bool onclickenddialog;
     #endregion
 
     #region methods
+
+    #region Enable And Disable Methods
+
     void OnEnable()
     {
         Debug.Log("DialogDisplayBox active");
@@ -36,6 +41,11 @@ public class DialogBox : MonoBehaviour {
     {
         Debug.Log("DialogDisplayBox disactive");
     }
+
+    #endregion
+
+    #region Awake And Start
+
     void Awake()
     {
         if(gamedata == null)
@@ -47,6 +57,8 @@ public class DialogBox : MonoBehaviour {
         if (text == null)
             text = gameObject.GetComponentInChildren<Text>();
     }
+
+    #endregion
 
     #region Dialog Update Methods
 
@@ -96,6 +108,8 @@ public class DialogBox : MonoBehaviour {
 
     #endregion
 
+    #region Dialog Fundamental Methods
+
     #region methods for adjust dialogbox and dialog
 
     #region Dialog Start Methods
@@ -106,6 +120,7 @@ public class DialogBox : MonoBehaviour {
         gameObject.SetActive(true);
         dialog.ChangeDialogText();
         answerbox.SetActive(false);
+        lastanswerid = -1;
     }
 
     #endregion
@@ -117,6 +132,11 @@ public class DialogBox : MonoBehaviour {
         dialog.currentdialogline = 0;
         if (currentdialog != nextdialog)
             hasnextdialog = true;
+    }
+
+    void RestartDialogAnswers()
+    {
+        currentdialoganswers = 0;
     }
 
     #endregion
@@ -143,7 +163,7 @@ public class DialogBox : MonoBehaviour {
 
     public void Processed()
     {
-        if (dialogbox.gameObject.activeInHierarchy)
+        if (dialogbox.gameObject.activeInHierarchy && !gamecontroller.pausemenu.gameObject.activeInHierarchy)
         {
             if (onclickenddialog)
                 scene.scenestate = Scene.state.interaction;
@@ -160,9 +180,11 @@ public class DialogBox : MonoBehaviour {
 
                     if (!dialog.isanswermoment)
                     {
+
                         if (dialog.currentdialogline == dialog.enddialogatline)
                         {
                             currentdialog = nextdialog;
+                            currentdialoganswers = nextdialoganswers;
                             RestartDialog();
                             dialog.ChangeDialogText();
                         }
@@ -182,23 +204,11 @@ public class DialogBox : MonoBehaviour {
         }
         else
         {
-            Debug.Log("DialogBox not active can�t procced with dialog");
-            EndDialog();
-        }
-    }
-    public void ManageDialog()
-    {
-        if (hasnextdialog)
-        {
-            onclickenddialog = false;
-            currentdialog = nextdialog;
-            nextdialog = 0;
-            RestartDialog();
-        }          
-        else
-        {
-            onclickenddialog = true;
-            Debug.Log("Dialog has ended in textfile " + currentdialog + " Line " + dialog.currentdialogline);
+            if (!gamecontroller.pausemenu.gameObject.activeInHierarchy)
+            {
+                Debug.Log("DialogBox not active can�t procced with dialog");
+                EndDialog();
+            }
         }
     }
 
@@ -213,7 +223,7 @@ public class DialogBox : MonoBehaviour {
     public void OnAnswerContinue()
     {
         answerbox.SetActive(false);
-        Debug.Log("Respondeu  !!! continua");
+        Debug.Log("Respondeu " + lastanswerid);
         if (currentdialoganswers < gamecontroller.scenes[gamecontroller.currentscene].answers.Length - 1)
             currentdialoganswers++;
         hasanswered = true;
@@ -222,25 +232,37 @@ public class DialogBox : MonoBehaviour {
     public void OnAnswerGoToScene(int Scene)
     {
         answerbox.SetActive(false);
-        Debug.Log("Respondeu !!! vai para a scene" + Scene);
+        Debug.Log("Respondeu vai para a scene " + Scene);
         hasanswered = true;
     }
     public void OnAnswerGainAffinity(AnswerButton AnswerButton)
     {
+        if (gamecontroller.player.currentactoraffinity < 100)
+        {
+            gamecontroller.player.currentactoraffinity += AnswerButton.currentvalue;
+            Debug.Log("Você ganhou " + AnswerButton.currentvalue + " pontos de affinidade com " + gamecontroller.player.playercurrentactor);
+        }
+        SetAnswerButtonsValue(0, 0, 0);
+        /*
         if (gamedata.playercurrentactor == "Enzo")
         {
             if (gamedata.currentenzoaffinity < 100)
             {
                 Debug.Log("You Gain " + AnswerButton.currentvalue + " With Enzo");
+                gamecontroller.player.currentactoraffinity += 
                 gamedata.currentenzoaffinity += AnswerButton.currentvalue;
                 gamedata.SaveAllAffinitys();
             }
             else { Debug.LogWarning("Player already reach the limit of affinity with this character"); }
         }
+        */
     }
     public void OnAnswerChangeNextDialog(AnswerButton AnswerButton)
     {
         lastanswerid = AnswerButton.answerbuttonid;
+        currentdialog = nextdialog;
+        RestartDialog();
+        dialog.ChangeDialogText();
     }
 
     #endregion
@@ -252,7 +274,7 @@ public class DialogBox : MonoBehaviour {
         answersbuttons[1].currentvalue = NewAnswerButton1Value;
         answersbuttons[2].currentvalue = NewAnswerButton2Value;
     }
-    public void SetNextDialog(int CaseAnswer1, int CaseAnswer2, int CaseAnswer3)
+    public void AnswerSetNextDialog(int CaseAnswer1, int CaseAnswer2, int CaseAnswer3)
     {
         if (lastanswerid == 0)
             nextdialog = CaseAnswer1;
@@ -261,6 +283,8 @@ public class DialogBox : MonoBehaviour {
         if (lastanswerid == 2)
             nextdialog = CaseAnswer3;
     }
+    #endregion
+
     #endregion
 
     #endregion

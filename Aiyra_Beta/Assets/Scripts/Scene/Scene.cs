@@ -12,4 +12,6 @@ public class Scene : MonoBehaviour {
     public GameObject[] objects;
     public Puzzle[] puzzles;
 
+    public string scenename;
+    public int sceneid;
 }

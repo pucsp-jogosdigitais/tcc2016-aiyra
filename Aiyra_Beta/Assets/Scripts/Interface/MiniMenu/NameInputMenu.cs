@@ -20,6 +20,8 @@ public class NameInputMenu : MonoBehaviour {
 
     #region Methods
 
+    #region Awake And Start Methods
+
     void Start()
     {
         namelimit = nameletters.Length - 1;
@@ -27,6 +29,9 @@ public class NameInputMenu : MonoBehaviour {
         gamedata.LoadAllPlayerData();
         gamedata.LoadAllGameData();
     }
+
+    #endregion
+
     #region Methods for buttons
 
     #region Main Buttons Methods

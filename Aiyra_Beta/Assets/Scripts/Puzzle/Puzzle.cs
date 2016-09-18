@@ -19,6 +19,9 @@ public class Puzzle : MonoBehaviour {
     #endregion
 
     #region Methods
+
+    #region Enable And Disable Methods
+
     void OnEnable()
     {
         if(scene != null)
@@ -33,6 +36,11 @@ public class Puzzle : MonoBehaviour {
 
         gamecontroller.canprogress = true;
     }
+
+    #endregion
+
+    #region Awake And Start Methods
+
     void Awake()
     {
         if (gamecontroller == null)
@@ -48,11 +56,22 @@ public class Puzzle : MonoBehaviour {
 
         puzzlecollider.size = new Vector2(puzzletransform.sizeDelta.x, puzzletransform.sizeDelta.y);
     }
+
+    #endregion
+
+    #region Updates Methods
+
     void Update()
     {
         resolved = CheckPuzzleResolution();
-        ManipulatePicture();
+
+        //ManipulatePicture();
     }
+
+    #endregion
+
+    #region MouseOver And Interaction Methods
+
     void OnMouseOver()
     {
         if (Input.GetButtonDown("Confirm"))
@@ -64,6 +83,13 @@ public class Puzzle : MonoBehaviour {
             }
         }
     }
+
+    #endregion
+
+    #region Puzzle Fundamental Methods
+
+    #region Check Resolution
+
     bool CheckPuzzleResolution()
     {
         if (gameObject.name == "PuzzlePhoto")
@@ -72,6 +98,12 @@ public class Puzzle : MonoBehaviour {
 
         return false;
     }
+
+    #endregion
+
+    #region Puzzle Resolution Methods
+
+    /*
     void ManipulatePicture()
     {
         Component blur = GameObject.Find("Main Camera").GetComponent("BlurOptimized");
@@ -89,6 +121,12 @@ public class Puzzle : MonoBehaviour {
         }
         
     }
+    */
+
+    #endregion
+
+    #region Puzzle Reward Methods
+
     void RewardPlayer()
     {
         /*
@@ -99,9 +137,19 @@ public class Puzzle : MonoBehaviour {
         }
         */
     }
+
+    #endregion
+
+    #region Puzzle End And Exit Methods
+
     void ExitPuzzle()
     {
         gameObject.SetActive(false);
     }
+
+    #endregion
+
+    #endregion
+
     #endregion
 }

@@ -4,6 +4,8 @@ using System.Collections;
 
 public class PauseMenu : MonoBehaviour {
 
+    #region Attributes
+
     public GameData gamedata;
     public GameController gamecontroller;
     public GameObject affinitybarbox;
@@ -12,21 +14,14 @@ public class PauseMenu : MonoBehaviour {
     public RectTransform handletransform;
     public GameObject helpbox;
 
-
     public bool hideactors;
-    void Awake()
-    {
 
-    }
-    void Start()
-    {
-        if (affinitybarbox.activeInHierarchy || helpbox.activeInHierarchy)
-        {
-            affinitybarbox.SetActive(false);
-            helpbox.SetActive(false);
-        }
-        gameObject.SetActive(false);
-    }
+    #endregion
+
+    #region Methods
+
+    #region Enable And Disable Methods
+
     void OnEnable()
     {
         Debug.Log("game paused");
@@ -45,6 +40,27 @@ public class PauseMenu : MonoBehaviour {
     {
         Debug.Log("game running");
     }
+
+    #endregion
+
+    #region Awake And Start
+
+    void Awake()
+    {
+
+    }
+    void Start()
+    {
+        if (affinitybarbox.activeInHierarchy || helpbox.activeInHierarchy)
+        {
+            affinitybarbox.SetActive(false);
+            helpbox.SetActive(false);
+        }
+        gameObject.SetActive(false);
+    }
+
+    #endregion
+
     #region PauseButton
     public void OnClickPauseGame()
     {
@@ -54,6 +70,9 @@ public class PauseMenu : MonoBehaviour {
         }
     }
     #endregion
+
+    #region Buttons Methods
+
     public void SaveButton()
     {
         gamedata.SetSaveRequest(7);
@@ -76,8 +95,7 @@ public class PauseMenu : MonoBehaviour {
         {
             hideactors = true;
             affinitybarbox.SetActive(true);
-            if (gamedata.playercurrentactor == "Enzo")
-                affinityslider.value = gamedata.currentenzoaffinity;
+            affinityslider.value = gamecontroller.player.currentactoraffinity;
         }
         else {
             hideactors = false;
@@ -111,4 +129,9 @@ public class PauseMenu : MonoBehaviour {
         helpbox.SetActive(false);
         gameObject.SetActive(false);
     }
+
+    #endregion
+
+    #endregion
+
 }

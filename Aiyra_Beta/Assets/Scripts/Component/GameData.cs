@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class GameData : MonoBehaviour {
 
@@ -20,14 +21,16 @@ public class GameData : MonoBehaviour {
     private const string playercurrentscenesavekey = "PLAYERCURRENTSCENE";
     private const string playercurrenttextfilesavekey = "PLAYERCURRENTTEXTFILE";
     private const string playercurrentdialoglinesavekey = "PLAYERCURRENTDIALOGLINE";
+    private const string currentscenestatesavekey = "CURRENTSCENESTATE";
 
     private const string gameprogresssavekey = "CURRENTGAMEPROGRESS";
-    private const string gamedatasavekey = "DATA";
+    private const string savedatasavekey = "DATA";
     private const string playtimesavekey = "PLAYTIME";
 
     #endregion
 
     #region Attributes
+    public DateTime systemdata;
 
     public int loadrequest;
     public int saverequest;
@@ -36,7 +39,6 @@ public class GameData : MonoBehaviour {
     public bool issaving;
 
     public string playername;
-
     public string playercurrentactor;
 
     public int currentenzoaffinity;
@@ -48,9 +50,11 @@ public class GameData : MonoBehaviour {
     public int playercurrentscene;
     public int playercurrenttextfile;
     public int playercurrentdialogline;
+    public string currentscenestate;
 
     public int gameprogress;
 
+    public string data;
     public float playtime;
 
     #endregion
@@ -68,6 +72,10 @@ public class GameData : MonoBehaviour {
         currentbenjaminaffinity = 0;
         currentmalikaaffinity = 0;
         currentzakiaffinity = 0;
+    }
+    public void ResetPlaytime()
+    {
+        playtime = 0;
     }
 
     #endregion
@@ -104,9 +112,22 @@ public class GameData : MonoBehaviour {
         playercurrenttextfile = CurrentTextFile;
         playercurrentdialogline = CurrentDialogLine;
     }
+    public void SetCurrentSceneState(string CurrentSceneState)
+    {
+        currentscenestate = CurrentSceneState;
+    }
     public void SetGameProgress(int CurrentGameProgress)
     {
         gameprogress = CurrentGameProgress;
+    }
+    public void SetData()
+    {
+        systemdata = DateTime.Now;
+        data = systemdata.ToShortDateString();
+    }
+    public void SetData(DateTime CurrentData)
+    {
+        data = CurrentData.ToShortDateString();
     }
     public void SetPlayTime(float CurrentTime)
     {
@@ -147,6 +168,7 @@ public class GameData : MonoBehaviour {
         PlayerPrefs.SetInt(malikaaffinitysavekey, currentmalikaaffinity);
         PlayerPrefs.SetInt(zakiaffinitysavekey, currentzakiaffinity);
 
+        PlayerPrefs.SetString(savedatasavekey, data);
         PlayerPrefs.SetFloat(playtimesavekey, playtime);
         issaving = false;
     }
@@ -156,6 +178,7 @@ public class GameData : MonoBehaviour {
         PlayerPrefs.SetInt(playercurrentscenesavekey, playercurrentscene);
         PlayerPrefs.SetInt(playercurrenttextfilesavekey, playercurrenttextfile);
         PlayerPrefs.SetInt(playercurrentdialoglinesavekey, playercurrentdialogline);
+        PlayerPrefs.SetString(currentscenestatesavekey, currentscenestate);
         PlayerPrefs.SetInt(gameprogresssavekey, gameprogress);
         issaving = false;
     }
@@ -163,6 +186,12 @@ public class GameData : MonoBehaviour {
     {
         issaving = true;
         PlayerPrefs.SetString(playernamesavekey, playername);
+        issaving = false;
+    }
+    public void SavePlayerCurrentActor()
+    {
+        issaving = true;
+        PlayerPrefs.SetString(playercurrentactorsavekey, playercurrentactor);
         issaving = false;
     }
     public void SaveAllAffinitys()
@@ -175,7 +204,18 @@ public class GameData : MonoBehaviour {
         PlayerPrefs.SetInt(zakiaffinitysavekey, currentzakiaffinity);
         issaving = false;
     }
-
+    public void SaveData()
+    {
+        issaving = true;
+        PlayerPrefs.SetString(savedatasavekey, data);
+        issaving = false;
+    }
+    public void SavePlayTime()
+    {
+        issaving = true;
+        PlayerPrefs.SetFloat(playtimesavekey, playtime);
+        issaving = false;
+    }
     #endregion
 
     //Load Methods
@@ -206,6 +246,7 @@ public class GameData : MonoBehaviour {
         currentmalikaaffinity = PlayerPrefs.GetInt(malikaaffinitysavekey);
         currentzakiaffinity = PlayerPrefs.GetInt(zakiaffinitysavekey);
 
+        data = PlayerPrefs.GetString(savedatasavekey);
         playtime = PlayerPrefs.GetFloat(playtimesavekey);
         isloading = false;
     }
@@ -215,6 +256,7 @@ public class GameData : MonoBehaviour {
         playercurrentscene = PlayerPrefs.GetInt(playercurrentscenesavekey);
         playercurrenttextfile = PlayerPrefs.GetInt(playercurrenttextfilesavekey);
         playercurrentdialogline = PlayerPrefs.GetInt(playercurrentdialoglinesavekey);
+        currentscenestate = PlayerPrefs.GetString(currentscenestatesavekey);
         gameprogress = PlayerPrefs.GetInt(gameprogresssavekey);
         isloading = false;
     }

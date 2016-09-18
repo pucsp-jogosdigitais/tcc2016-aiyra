@@ -8,6 +8,8 @@ public class SceneBehaviour : MonoBehaviour {
     public enum behaviour { OnDialogEndGoTo, OnTimeEndGoTo, OnDialogEndSaveGameProgress, OnDialogEndSaveGameAndLoadGameScene };
     public behaviour scenebehaviour;
 
+    public float timertogo;
+
     public int scene;
     public int gamescene;
 
@@ -17,12 +19,19 @@ public class SceneBehaviour : MonoBehaviour {
 
     #region Methods
 
+    #region Awake And Start Methods
+
     void Awake ()
     {
         if(gamecontroller == null)
             gamecontroller = GameObject.Find("GameController").GetComponent<GameController>();
     }
-    void Update()
+
+    #endregion
+
+    #region Update Methods
+
+    public void UpdateSceneBehaviour()
     {
         
         #region Cases
@@ -31,52 +40,77 @@ public class SceneBehaviour : MonoBehaviour {
         {
             if (gamecontroller.currentscene == 0)
                 OnDialogEndGoTo(scene);
+
+            if (gamecontroller.currentscene == 3)
+            {
+                if (gamecontroller.dialogbox.lastanswerid >= 0)
+                {
+                    if (gamecontroller.dialogbox.lastanswerid == 2)
+                        OnDialogEndGoTo(6);
+                    else { OnDialogEndGoTo(4); }
+                }
+            }
+                //else { OnDialogEndGoTo(4); }
+
+            if (gamecontroller.currentscene == 4)
+            {
+                OnDialogEndGoTo(5);
+            }
+
+            if (gamecontroller.currentscene == 5)
+                OnDialogEndGoTo(6);
         }
-        /*
+
         if(scenebehaviour == behaviour.OnTimeEndGoTo)
         {
-
+            if (gamecontroller.currentscene == 6)
+                OnTimeEndGoTo();
         }
+
         if(scenebehaviour == behaviour.OnDialogEndSaveGameProgress)
         {
 
         }
-        */
+
         if(scenebehaviour == behaviour.OnDialogEndSaveGameAndLoadGameScene)
         {
-            if (gamecontroller.currentscene == 1)
-                if(gamecontroller.gamedata.playercurrentactor == "")
-                    OnDialogEndSaveGameAndLoadGameScene(1, 1, 0);
         }
 
         #endregion
 
     }
 
+    #endregion
+
     #region SceneBahaviour Fundamental Methods
 
-    void OnDialogEndGoTo(int Scene)
+    public void OnDialogEndGoTo(int Scene)
     {
         if (gamecontroller != null)
             if (!gamecontroller.dialogbox.gameObject.activeInHierarchy)
             {
+                Debug.Log("You has go to scene" + Scene);
                 gamecontroller.currentscene = Scene;
                 gamecontroller.dialogbox.StartDialog(0);
             }
     }
-    void OnTimeEndGoTo(float Time)
+    public void OnTimeEndGoTo()
     {
         if (gamecontroller != null)
-            if (Time > 0)
-                Time--;
+            if (timertogo > 0)
+            {
+                timertogo --;
+                Debug.Log( "Tempo para entrar no portal: " + timertogo);
+            }
             else
             {
                 gamecontroller.currentscene = scene;
                 gamecontroller.dialogbox.StartDialog(0);
+                Debug.Log("You has go to Scene " + scene);
             }
 
     }
-    void OnDialogEndSaveGameProgress()
+    public void OnDialogEndSaveGameProgress()
     {
         if (gamecontroller != null)
             if (!gamecontroller.dialogbox.gameObject.activeInHierarchy)
@@ -87,10 +121,10 @@ public class SceneBehaviour : MonoBehaviour {
                 */
             }
     }
-    void OnDialogEndSaveGameAndLoadGameScene(int SceneReference,int DialogReference,int DialogLineReference)
+    public void OnDialogEndSaveGameAndLoadGameScene(int DialogReference,int DialogLineReference)
     {
         if (gamecontroller != null)
-            if (gamecontroller.currentscene == SceneReference && gamecontroller.dialogbox.currentdialog == DialogReference && gamecontroller.dialogbox.dialog.currentdialogline == DialogLineReference)
+            if (gamecontroller.dialogbox.currentdialog == DialogReference && gamecontroller.dialogbox.dialog.currentdialogline == DialogLineReference)
             {
                 gamecontroller.gamedata.SaveAllPlayerData();
                 gamecontroller.gamedata.SaveAllGameData();

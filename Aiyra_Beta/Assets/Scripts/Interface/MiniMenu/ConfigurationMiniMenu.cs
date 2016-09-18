@@ -3,7 +3,8 @@ using System.Collections;
 
 public class ConfigurationMiniMenu : MonoBehaviour {
 
-	public void GoToURL(string URL)
+    #region Buttons Methods
+    public void GoToURL(string URL)
     {
         Application.OpenURL(URL);
     }
@@ -11,4 +12,5 @@ public class ConfigurationMiniMenu : MonoBehaviour {
     {
         gameObject.SetActive(false);
     }
+    #endregion
 }

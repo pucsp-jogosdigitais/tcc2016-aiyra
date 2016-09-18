@@ -16,6 +16,7 @@ public class SaveSlot : MonoBehaviour {
     public string saveslotcurrentscenesavekey;
     public string saveslotcurrentdialogsavekey;
     public string saveslotcurrentdialoglinesavekey;
+    public string saveslotcurrentscenestatesavekey;
     #endregion
 
     #region Attributes
@@ -32,6 +33,7 @@ public class SaveSlot : MonoBehaviour {
     public int saveslotcurrentscene;
     public int saveslotcurrenttextfile;
     public int saveslotcurrentdialogline;
+    public string saveslotcurrentscenestate;
 
     public float saveslottime;
 
@@ -41,12 +43,30 @@ public class SaveSlot : MonoBehaviour {
 
     #region Methods
 
+    #region Enable And Disable Methods
+
+    void OnEnable()
+    {
+        Debug.Log("Save Slot " + saveslotid + " Active and Enable");
+    }
+
+    void OnDisable()
+    {
+        Debug.Log("Save Slot " + saveslotid + " Disable");
+    }
+
+    #endregion
+
+    #region Awake And Start Methods
+
     void Start()
     {
         //Prepare saveslot for use and display it information.
         UploadSaveSlotKeys();
         UploadSaveSlotInformation();
     }
+
+    #endregion
 
     #region UploadSaveSlotKeys and Display Elements Methods
 
@@ -63,6 +83,7 @@ public class SaveSlot : MonoBehaviour {
         saveslotcurrentscenesavekey = "SAVESLOT" + saveslotid.ToString() + "CURRENTSCENE";
         saveslotcurrentdialogsavekey = "SAVESLOT" + saveslotid.ToString() + "CURRENTDIALOG";
         saveslotcurrentdialoglinesavekey = "SAVESLOT" + saveslotid.ToString() + "CURRENTDIALOGLINE";
+        saveslotcurrentscenestatesavekey = "SAVESLOT" + saveslotid.ToString() + "CURRENTSCENESTATE";
     }
     void UploadSaveSlotInformation()
     {
@@ -79,7 +100,10 @@ public class SaveSlot : MonoBehaviour {
     {
         PlayerPrefs.SetString(saveslotchaptersavekey, saveslotchaptertext.text);
         PlayerPrefs.SetString(saveslotactorsavekey, saveslotactorimage.name);
+        if (saveslotactorimage.name == "Enzo")
+            saveslotactorimage.sprite = Resources.Load<Actor>("Prefabs/Actor/Enzo").actorimage;
         PlayerPrefs.SetString(saveslotdatasavekey, saveslotdatatext.text);
+        saveslottime += gamedata.playtime;
         PlayerPrefs.SetFloat(saveslottimesavekey, saveslottime);
 
         PlayerPrefs.SetString(saveslotplayernamesavekey, saveslotplayername);
@@ -88,6 +112,7 @@ public class SaveSlot : MonoBehaviour {
         PlayerPrefs.SetInt(saveslotcurrentscenesavekey, saveslotcurrentscene);
         PlayerPrefs.SetInt(saveslotcurrentdialogsavekey, saveslotcurrenttextfile);
         PlayerPrefs.SetInt(saveslotcurrentdialoglinesavekey, saveslotcurrentdialogline);
+        PlayerPrefs.SetString(saveslotcurrentscenestatesavekey, saveslotcurrentscenestate);
     }
 
     #endregion
@@ -110,14 +135,41 @@ public class SaveSlot : MonoBehaviour {
         saveslotcurrentscene = PlayerPrefs.GetInt(saveslotcurrentscenesavekey);
         saveslotcurrenttextfile = PlayerPrefs.GetInt(saveslotcurrentdialogsavekey);
         saveslotcurrentdialogline = PlayerPrefs.GetInt(saveslotcurrentdialoglinesavekey);
+        saveslotcurrentscenestate = PlayerPrefs.GetString(saveslotcurrentscenestatesavekey);
     }
     void LoadDataToGameData()
     {
         gamedata.isloading = true;
+        gamedata.playername = saveslotplayername;
         gamedata.playercurrentactor = saveslotactorimage.name;
+        if (saveslotactorimage.name == "Enzo")
+        {
+            gamedata.currentenzoaffinity = saveslotplayeractoraffinity;
+        }
+        if (saveslotactorimage.name == "Isis")
+        {
+            gamedata.currentisisaffinity = saveslotplayeractoraffinity;
+        }
+        if (saveslotactorimage.name == "Benjamin")
+        {
+            gamedata.currentbenjaminaffinity = saveslotplayeractoraffinity;
+        }
+        if (saveslotactorimage.name == "Malika")
+        {
+            gamedata.currentmalikaaffinity = saveslotplayeractoraffinity;
+        }
+        if (saveslotactorimage.name == "Zaki")
+        {
+            gamedata.currentzakiaffinity = saveslotplayeractoraffinity;
+        }
+
         gamedata.playercurrentscene = saveslotcurrentscene;
         gamedata.playercurrenttextfile = saveslotcurrenttextfile;
         gamedata.playercurrentdialogline = saveslotcurrentdialogline;
+        gamedata.currentscenestate = saveslotcurrentscenestate;
+
+        gamedata.SetData();
+        //gamedata.data = saveslotdatatext.text;
         gamedata.playtime = saveslottime;
         gamedata.isloading = false;
     }
@@ -145,7 +197,7 @@ public class SaveSlot : MonoBehaviour {
             if(gamedata.playercurrentactor == "Enzo")
                 saveslotactorimage.sprite = Resources.Load<Actor>("Prefabs/Actor/Enzo").actorimage;
 
-            saveslotdatatext.text = gamedata.playtime.ToString();
+            saveslotdatatext.text = gamedata.data;
 
             saveslottime = gamedata.playtime;
             saveslottimetext.text = saveslottime.ToString();
@@ -179,6 +231,8 @@ public class SaveSlot : MonoBehaviour {
 
             saveslotcurrentdialogline = gamedata.playercurrentdialogline;
 
+            saveslotcurrentscenestate = gamedata.currentscenestate;
+
             SaveSlotSaveData();
 
         }
@@ -187,42 +241,10 @@ public class SaveSlot : MonoBehaviour {
 
         #region Case Load
 
-        if (gamedata.loadrequest >= 0 || gamedata.loadrequest < 0 && gamedata.saverequest < 0)
+        if ( gamedata.loadrequest >= -1 && gamedata.saverequest < 0)
         {
-            gamedata.playercurrentscene = saveslotcurrentscene;
 
-            gamedata.playercurrentactor = saveslotactorimage.name;
-
-            // data has make in gamedata gamedata.data
-
-            gamedata.playtime += saveslottime;
-
-            gamedata.playername = saveslotplayername;
-
-            if(saveslotactorimage.name == "Enzo")
-            {
-                gamedata.currentenzoaffinity = saveslotplayeractoraffinity;
-            }
-            if (saveslotactorimage.name == "Isis")
-            {
-                gamedata.currentisisaffinity = saveslotplayeractoraffinity;
-            }
-            if (saveslotactorimage.name == "Benjamin")
-            {
-                gamedata.currentbenjaminaffinity = saveslotplayeractoraffinity;
-            }
-            if (saveslotactorimage.name == "Malika")
-            {
-                gamedata.currentmalikaaffinity = saveslotplayeractoraffinity;
-            }
-            if (saveslotactorimage.name == "Zaki")
-            {
-                gamedata.currentzakiaffinity = saveslotplayeractoraffinity;
-            }
-
-            gamedata.playercurrenttextfile = saveslotcurrenttextfile;
-
-            gamedata.playercurrentdialogline = saveslotcurrentdialogline;
+            LoadDataToGameData();
 
             gamedata.SaveAllPlayerData();
 
@@ -232,6 +254,7 @@ public class SaveSlot : MonoBehaviour {
         }
 
         #endregion
+
     }
     /*
     public void SaveSlotClick()

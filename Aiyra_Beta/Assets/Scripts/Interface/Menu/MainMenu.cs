@@ -3,6 +3,8 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour {
 
+    #region Attributes
+
     public GameData gamedata;
     public Animator cameraanimator;
 
@@ -10,6 +12,12 @@ public class MainMenu : MonoBehaviour {
     public float clicktime;
 
     public bool canclick;
+
+    #endregion
+
+    #region Methods
+
+    #region Awake And Start
 
     void Awake()
     {
@@ -27,6 +35,9 @@ public class MainMenu : MonoBehaviour {
         gamedata.LoadLoadRequest();
         gamedata.LoadSaveRequest();
     }
+
+    #endregion
+
     bool CheckTimeOfAnimator()
     {
         clicktime = Time.time;
@@ -35,6 +46,9 @@ public class MainMenu : MonoBehaviour {
 
         return false;
     }
+
+    #region Buttons Methods
+
     public void NewGameButton()
     {
         if (canclick)
@@ -45,7 +59,7 @@ public class MainMenu : MonoBehaviour {
             gamedata.SetSaveRequest(-1);
             gamedata.SaveSaveRequest();
 
-            gamedata.SetPlayerName("Luna");
+            gamedata.SetPlayerName("");
             gamedata.SetPlayerCurrentActor("");
             gamedata.SetAffinityPoints(0, 0, 0, 0, 0);
             gamedata.SetPlayTime(gamedata.playtime);
@@ -54,6 +68,7 @@ public class MainMenu : MonoBehaviour {
             gamedata.playercurrentscene = 0;
             gamedata.playercurrenttextfile = 0;
             gamedata.playercurrentdialogline = 0;
+            gamedata.currentscenestate = Scene.state.dialog.ToString();
             gamedata.SaveAllGameData();
             Application.LoadLevel(7);
         }
@@ -80,6 +95,7 @@ public class MainMenu : MonoBehaviour {
     }
     public void AlbumButton()
     {
+        Debug.Log("Album CLicked");
         if (canclick)
         {
             Application.LoadLevel(4);
@@ -141,4 +157,7 @@ public class MainMenu : MonoBehaviour {
             canclick = CheckTimeOfAnimator();
         }
     }
+    #endregion
+
+    #endregion
 }

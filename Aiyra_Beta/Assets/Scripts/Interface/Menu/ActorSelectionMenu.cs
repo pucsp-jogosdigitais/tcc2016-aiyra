@@ -4,6 +4,8 @@ using System.Collections;
 
 public class ActorSelectionMenu : MonoBehaviour {
 
+    #region Attributes
+
     public GameData gamedata;
     public GameObject actordescriptionbox;
     public Text actorname;
@@ -11,6 +13,21 @@ public class ActorSelectionMenu : MonoBehaviour {
     public Text actordescription;
     public ActorButton[] actorsbuttons;
 
+    #endregion
+
+    #region Methods
+
+    #region Awake And Start
+
+    void Start()
+    {
+        gamedata.LoadAllPlayerData();
+        gamedata.LoadAllGameData();
+    }
+
+    #endregion
+
+    #region Buttons Methods
     public void DisplayActorDescription(ActorButton ActorToDisplay)
     {
         if (!actordescriptionbox.activeInHierarchy)
@@ -24,6 +41,7 @@ public class ActorSelectionMenu : MonoBehaviour {
     public void AcceptButton()
     {
         gamedata.SetPlayerCurrentActor(actorname.text);
+        gamedata.ResetAffinitys();
         gamedata.SaveAllPlayerData();
         gamedata.SetSaveRequest(7);
         gamedata.SaveSaveRequest();
@@ -33,4 +51,9 @@ public class ActorSelectionMenu : MonoBehaviour {
     {
         actordescriptionbox.SetActive(false);
     }
+
+    #endregion
+
+    #endregion
+
 }
