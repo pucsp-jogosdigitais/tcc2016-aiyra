@@ -13,6 +13,17 @@ public class AlbumMenu : MonoBehaviour {
 
     #region Methods
 
+    #region Awake And Start
+
+    void Start()
+    {
+        gallerybox.SetActive(false);
+        diarybox.SetActive(false);
+        gameendsbox.SetActive(false);
+    }
+
+    #endregion
+
     #region Buttons Methods
     public void GalleryButton()
     {

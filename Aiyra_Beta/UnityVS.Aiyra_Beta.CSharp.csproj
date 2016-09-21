@@ -67,6 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Actor\Actor.cs" />
+    <Compile Include="Assets\Scripts\Component\ActorCG.cs" />
+    <Compile Include="Assets\Scripts\Component\ActorDiaryPage.cs" />
+    <Compile Include="Assets\Scripts\Component\CGDisplayer.cs" />
     <Compile Include="Assets\Scripts\Component\GameController.cs" />
     <Compile Include="Assets\Scripts\Component\GameData.cs" />
     <Compile Include="Assets\Scripts\Component\GameSettings.cs" />
@@ -84,6 +87,8 @@
     <Compile Include="Assets\Scripts\Interface\Menu\AlbumMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\ConfigurationMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\DiaryMenu.cs" />
+    <Compile Include="Assets\Scripts\Interface\Menu\DisplayCGMenu.cs" />
+    <Compile Include="Assets\Scripts\Interface\Menu\EndsMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\GalleryMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\GameEndsMenu.cs" />
     <Compile Include="Assets\Scripts\Interface\Menu\LoadingGameMenu.cs" />

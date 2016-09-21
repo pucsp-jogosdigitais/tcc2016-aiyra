@@ -6,7 +6,9 @@ using System.Collections;
 [RequireComponent(typeof(AudioSource))]
 public class VideoPlayer : MonoBehaviour {
 
-    public enum videoType { intro };
+    #region Attributes
+
+    public enum videoType { intro, gameend };
     public videoType videotype;
 
     public MovieTexture movie;
@@ -17,6 +19,12 @@ public class VideoPlayer : MonoBehaviour {
     public bool playautomatic;
     public bool replayable;
     public bool hasended;
+
+    #endregion
+
+    #region Methods
+
+    #region Awake And Start
 
     void Awake()
     {
@@ -40,6 +48,11 @@ public class VideoPlayer : MonoBehaviour {
             movieaudio.Play();
         }
     }
+
+    #endregion
+
+    #region Update Methods
+
     void Update()
     {
         if(!replayable)
@@ -49,6 +62,13 @@ public class VideoPlayer : MonoBehaviour {
                 Application.LoadLevel(nextlevel);
         PlayerInput();
     }
+
+    #endregion
+
+    #region Video Player Fundamental Methods
+
+    #region Check Methods
+
     bool CheckMovieEnd()
     {
         if (!movie.isPlaying)
@@ -56,10 +76,22 @@ public class VideoPlayer : MonoBehaviour {
 
         return false;
     }
+
+    #endregion
+
+    #region Player Comands Methods
+
     void PlayerInput()
     {
         if (Input.GetButtonDown("Confirm"))
             if (videotype == videoType.intro)
                 Application.LoadLevel(nextlevel);
     }
+
+    #endregion
+
+    #endregion
+
+    #endregion
+
 }
