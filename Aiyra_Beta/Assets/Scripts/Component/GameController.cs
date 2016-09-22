@@ -278,7 +278,14 @@ public class GameController : MonoBehaviour {
 
     void AdjustDialogDisplayBoxToNextDialog()
     {
-        if(currentscene >= 0 && currentscene < 3)
+        if(currentscene == 0)
+        {
+            if (dialogbox.currentdialog == 0)
+                if(dialogbox.lastanswerid < 0 || dialogbox.lastanswerid > 3)
+                    dialogbox.nextdialog = 1;
+            dialogbox.AnswerSetNextDialog(1, 2, 3);
+        }
+        else if(currentscene >= 1 && currentscene < 3)
         {
             if(dialogbox.currentdialog == 0)
             {
@@ -287,15 +294,16 @@ public class GameController : MonoBehaviour {
                 else { dialogbox.nextdialog = dialogbox.currentdialog; }
             }
         }
-        if (currentscene == 3)
+        else if (currentscene == 3)
         {
             if (dialogbox.currentdialog == 0)
             {
-                dialogbox.nextdialog = 1;
+                if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                    dialogbox.nextdialog = 1;
                 dialogbox.AnswerSetNextDialog(1, 2, 3);
             }
         }
-        if (currentscene >= 4 && currentscene < 8)
+        else if (currentscene >= 4 && currentscene < 8)
         {
             if (dialogbox.currentdialog == 0)
             {

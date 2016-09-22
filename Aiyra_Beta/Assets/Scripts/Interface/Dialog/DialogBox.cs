@@ -57,6 +57,10 @@ public class DialogBox : MonoBehaviour {
         if (text == null)
             text = gameObject.GetComponentInChildren<Text>();
     }
+    void Start()
+    {
+        lastanswerid = -1;
+    }
 
     #endregion
 
