@@ -121,9 +121,10 @@ public class DialogBox : MonoBehaviour {
     public void StartDialog(int DialogToStart)
     {
         currentdialog = DialogToStart;
+        dialog.currentdialogline = 0;
         gameObject.SetActive(true);
-        dialog.ChangeDialogText();
         answerbox.SetActive(false);
+        dialog.ChangeDialogText();
         lastanswerid = -1;
     }
 
@@ -134,6 +135,7 @@ public class DialogBox : MonoBehaviour {
     void RestartDialog()
     {
         dialog.currentdialogline = 0;
+        lastanswerid = -1;
         if (currentdialog != nextdialog)
             hasnextdialog = true;
     }
@@ -179,7 +181,6 @@ public class DialogBox : MonoBehaviour {
                 }
                 if (hasnextdialog)
                 {
-
                     onclickenddialog = false;
 
                     if (!dialog.isanswermoment)
@@ -226,18 +227,11 @@ public class DialogBox : MonoBehaviour {
 
     public void OnAnswerContinue()
     {
-        answerbox.SetActive(false);
-        Debug.Log("Respondeu " + lastanswerid);
         if (currentdialoganswers < gamecontroller.scenes[gamecontroller.currentscene].answers.Length - 1)
             currentdialoganswers++;
         hasanswered = true;
         dialog.isanswermoment = false;
-    }
-    public void OnAnswerGoToScene(int Scene)
-    {
         answerbox.SetActive(false);
-        Debug.Log("Respondeu vai para a scene " + Scene);
-        hasanswered = true;
     }
     public void OnAnswerGainAffinity(AnswerButton AnswerButton)
     {
@@ -247,26 +241,16 @@ public class DialogBox : MonoBehaviour {
             Debug.Log("Você ganhou " + AnswerButton.currentvalue + " pontos de affinidade com " + gamecontroller.player.playercurrentactor);
         }
         SetAnswerButtonsValue(0, 0, 0);
-        /*
-        if (gamedata.playercurrentactor == "Enzo")
-        {
-            if (gamedata.currentenzoaffinity < 100)
-            {
-                Debug.Log("You Gain " + AnswerButton.currentvalue + " With Enzo");
-                gamecontroller.player.currentactoraffinity += 
-                gamedata.currentenzoaffinity += AnswerButton.currentvalue;
-                gamedata.SaveAllAffinitys();
-            }
-            else { Debug.LogWarning("Player already reach the limit of affinity with this character"); }
-        }
-        */
     }
     public void OnAnswerChangeNextDialog(AnswerButton AnswerButton)
     {
         lastanswerid = AnswerButton.answerbuttonid;
-        currentdialog = nextdialog;
-        RestartDialog();
-        dialog.ChangeDialogText();
+        Debug.Log("Respondeu " + lastanswerid);
+        nextdialog = AnswerButton.nextdialog;
+        Debug.Log("NextDialog" + nextdialog);
+        //currentdialog = nextdialog;
+        //RestartDialog();
+        //dialog.ChangeDialogText();
     }
 
     #endregion
@@ -278,14 +262,11 @@ public class DialogBox : MonoBehaviour {
         answersbuttons[1].currentvalue = NewAnswerButton1Value;
         answersbuttons[2].currentvalue = NewAnswerButton2Value;
     }
-    public void AnswerSetNextDialog(int CaseAnswer1, int CaseAnswer2, int CaseAnswer3)
+    public void AnswerButtonsSetNextDialog(int AnswerButton0NextDialog, int AnswerButton1NextDialog, int AnswerButton2NextDialog)
     {
-        if (lastanswerid == 0)
-            nextdialog = CaseAnswer1;
-        if (lastanswerid == 1)
-            nextdialog = CaseAnswer2;
-        if (lastanswerid == 2)
-            nextdialog = CaseAnswer3;
+        answersbuttons[0].nextdialog = AnswerButton0NextDialog;
+        answersbuttons[1].nextdialog = AnswerButton1NextDialog;
+        answersbuttons[2].nextdialog = AnswerButton2NextDialog;
     }
     #endregion
 

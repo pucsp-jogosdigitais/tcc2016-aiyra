@@ -85,7 +85,6 @@ public class ObjectI : MonoBehaviour {
     {
         if (Input.GetButtonDown("Interaction"))
         {
-
             if (scene.scenestate == Scene.state.interaction)
             {
                 #region Doors
@@ -104,6 +103,12 @@ public class ObjectI : MonoBehaviour {
                         {
                             PlayInteractionSound();
                             gamecontroller.currentscene = 3;
+                            gamecontroller.dialogbox.StartDialog(0);
+                        }
+                        if(gameObject.name == "NormalClassroomDoor")
+                        {
+                            PlayInteractionSound();
+                            gamecontroller.currentscene = 5;
                             gamecontroller.dialogbox.StartDialog(0);
                         }
                     }

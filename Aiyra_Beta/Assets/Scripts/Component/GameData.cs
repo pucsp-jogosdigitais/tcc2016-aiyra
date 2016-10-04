@@ -22,6 +22,7 @@ public class GameData : MonoBehaviour {
     private const string playercurrenttextfilesavekey = "PLAYERCURRENTTEXTFILE";
     private const string playercurrentdialoglinesavekey = "PLAYERCURRENTDIALOGLINE";
     private const string currentscenestatesavekey = "CURRENTSCENESTATE";
+    private const string currentdialoganswerstatesavekey = "CURRENTDIALOGANSWERSTATE";
 
     private const string gameprogresssavekey = "CURRENTGAMEPROGRESS";
     private const string savedatasavekey = "DATA";
@@ -51,6 +52,7 @@ public class GameData : MonoBehaviour {
     public int playercurrenttextfile;
     public int playercurrentdialogline;
     public string currentscenestate;
+    public string currentdialoganswerstate;
 
     public int gameprogress;
 
@@ -72,6 +74,10 @@ public class GameData : MonoBehaviour {
         currentbenjaminaffinity = 0;
         currentmalikaaffinity = 0;
         currentzakiaffinity = 0;
+    }
+    public void ResetDialogAnswerState()
+    {
+        currentdialoganswerstate = "False";
     }
     public void ResetPlaytime()
     {
@@ -115,6 +121,10 @@ public class GameData : MonoBehaviour {
     public void SetCurrentSceneState(string CurrentSceneState)
     {
         currentscenestate = CurrentSceneState;
+    }
+    public void SetCurrentDialogAnswerState(string CurrentDialogAnswerState)
+    {
+        currentdialoganswerstate = CurrentDialogAnswerState;
     }
     public void SetGameProgress(int CurrentGameProgress)
     {
@@ -179,6 +189,7 @@ public class GameData : MonoBehaviour {
         PlayerPrefs.SetInt(playercurrenttextfilesavekey, playercurrenttextfile);
         PlayerPrefs.SetInt(playercurrentdialoglinesavekey, playercurrentdialogline);
         PlayerPrefs.SetString(currentscenestatesavekey, currentscenestate);
+        PlayerPrefs.SetString(currentdialoganswerstate, currentdialoganswerstatesavekey);
         PlayerPrefs.SetInt(gameprogresssavekey, gameprogress);
         issaving = false;
     }
@@ -257,6 +268,7 @@ public class GameData : MonoBehaviour {
         playercurrenttextfile = PlayerPrefs.GetInt(playercurrenttextfilesavekey);
         playercurrentdialogline = PlayerPrefs.GetInt(playercurrentdialoglinesavekey);
         currentscenestate = PlayerPrefs.GetString(currentscenestatesavekey);
+        currentdialoganswerstate = PlayerPrefs.GetString(currentdialoganswerstatesavekey);
         gameprogress = PlayerPrefs.GetInt(gameprogresssavekey);
         isloading = false;
     }

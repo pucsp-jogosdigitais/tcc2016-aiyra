@@ -66,6 +66,10 @@ public class NameInputMenu : MonoBehaviour {
             confirmtext.text = nametext.text;
             confirmbox.SetActive(true);
         }
+        else
+        {
+            Debug.LogWarning("Write a letter for have a name");
+        }
     }
 
     #endregion

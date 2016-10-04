@@ -23,7 +23,7 @@ public class Dialog : MonoBehaviour {
     #region Methods
     void OnEnable()
     {
-        Debug.Log("Dialog active" + dialogtextfile);
+        Debug.Log("Dialog active " + dialogtextfile);
     }
     void OnDisable()
     {
