@@ -40,6 +40,7 @@ public class EndsMenu : MonoBehaviour {
 
     public void LoadActorCGsAndPlay(ActorButton ActorButton)
     {
+        /*
         if (ActorButton.actor.actorname == "Enzo")
         {
             if (especficendtext.text == "Finais Perfeitos")
@@ -60,13 +61,16 @@ public class EndsMenu : MonoBehaviour {
                 Debug.LogError("No end type found");
             }
         }
+        */
         displaycgmenu.lastmenu = gameObject;
     }
+    
     public void ReturnButton()
     {
         gameObject.SetActive(false);
         gameendsmenu.SetActive(true);
     }
+    
 
     #endregion
 

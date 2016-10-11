@@ -7,10 +7,12 @@ public class GalleryMenu : MonoBehaviour {
     #region Attributes
 
     public GameObject albummenu;
+    public Button gobackbutton;
+    public Button gofowardbutton;
     public DisplayCGMenu displaycgmenu;
-    public ActorButton[] actorbuttons;
     public ActorCG[] actorcgs;
 
+    public int currentpages;
     #endregion
 
     #region Methods
@@ -28,25 +30,61 @@ public class GalleryMenu : MonoBehaviour {
     }
 
     #endregion
-    
+
     #region Buttons Methods
 
-    public void LoadActorCGs(ActorButton ActorButton)
+    public void LoadActorDiary()
     {
+        Debug.Log("ActorGalleryLoaded");
+        /*switch (CurrentPage)
+        {
+            case 0: for(int)
+        }
         if (ActorButton.actor.actorname == "Enzo")
         {
-            for (int i = 0; i < actorcgs.Length; i++)
+            for (int i = 0; i < actordiaries.Length; i++)
             {
-                actorcgs[i].SetCGID(i);
-                actorcgs[i].SetCGPath("Backgrounds/Teste/");
+                actordiaries[i].SetCGID(i);
+                actordiaries[i].SetCGPath("Backgrounds/Teste/");
                 if (i == 0)
-                    actorcgs[i].isunlock = false;
+                    actordiaries[i].isunlock = false;
                 //actorcgs[i].SetCGName("MainMenu");
                 else
                 {
-                    actorcgs[i].SetCGName("JardimTeste");
+                    actordiaries[i].SetCGName("JardimTeste");
                 }
             }
+        }
+        */
+    }
+    public void LoadNextPage()
+    {
+        if (currentpages < 5)
+        {
+            gofowardbutton.interactable = true;
+            gobackbutton.interactable = true;
+            currentpages++;
+            LoadActorDiary();
+        }
+        else
+        {
+            gofowardbutton.interactable = false;
+            gobackbutton.interactable = true;
+        }
+    }
+    public void LoadBackPage()
+    {
+        if (currentpages > 0)
+        {
+            gobackbutton.interactable = true;
+            gofowardbutton.interactable = true;
+            currentpages--;
+            LoadActorDiary();
+        }
+        else
+        {
+            gobackbutton.interactable = false;
+            gofowardbutton.interactable = true;
         }
     }
     public void DisplayCGOnCGDisplayer(ActorCG ActorCG)
@@ -57,6 +95,21 @@ public class GalleryMenu : MonoBehaviour {
             displaycgmenu.gameObject.SetActive(true);
             displaycgmenu.cgdisplayer.cg = ActorCG.cgimage.sprite;
         }
+    }
+    public void GalleryButton()
+    {
+        albummenu.GetComponent<AlbumMenu>().gallerybox.SetActive(true);
+        gameObject.SetActive(false);
+    }
+    public void DiaryButton()
+    {
+        albummenu.GetComponent<AlbumMenu>().diarybox.SetActive(true);
+        gameObject.SetActive(false);
+    }
+    public void GameEndsButton()
+    {
+        albummenu.GetComponent<AlbumMenu>().gameendsbox.SetActive(true);
+        gameObject.SetActive(false);
     }
     public void ReturnButton()
     {

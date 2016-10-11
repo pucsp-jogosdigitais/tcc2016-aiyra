@@ -4,6 +4,12 @@ using System.Collections;
 
 public class ActorCG : MonoBehaviour {
 
+    #region Keys
+
+    //public string cgstatesavekey = "CG" +
+
+    #endregion
+
     #region Attributes
     public Image cgimage;
 
@@ -44,10 +50,6 @@ public class ActorCG : MonoBehaviour {
 
     void Update()
     {
-        if (cgpath.Length > 0 && cgname.Length > 0)
-            isunlock = true;
-        else { isunlock = false; }
-
         if (isunlock)
         {
             Debug.Log("CG " + cgid + "Unlock");

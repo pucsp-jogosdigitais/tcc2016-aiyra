@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityStandardAssets.ImageEffects;
 using System.Collections;
 
 public class GameController : MonoBehaviour {
@@ -12,10 +13,12 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region Attributes
+
     public GameData gamedata;
     public GameSettings gamesettings;
     public Player player;
     public CameraEyeEffect playereyesfilter;
+    public MotionBlur effectscamerablurfilter;
     public Background background;
     public MusicPlayer musicplayer;
     public DialogBox dialogbox;
@@ -26,6 +29,7 @@ public class GameController : MonoBehaviour {
 
     public int currentscene;
     public bool canprogress;
+
     #endregion
 
     #region Methods
@@ -73,7 +77,9 @@ public class GameController : MonoBehaviour {
         SetScenesName();
 
         LoadAllGameAndPlayerDataToCurrentGame();
-        
+
+        player.inventary = new System.Collections.Generic.List<string>();
+
         musicplayer.PlayMusic();
 
         dialogbox.scene = scenes[currentscene];
@@ -144,6 +150,19 @@ public class GameController : MonoBehaviour {
         LoadObjectsIInCurrentScene();
 
         UpdateObjectIVolume();
+
+        #endregion
+        #region Puzzle Control
+
+        UpdatePuzzleScene();
+
+        UpdatePuzzle();
+
+        LoadPuzzleInCurrentScene();
+
+        UpdatePuzzleIVolume();
+
+        CheckIfPlayerHasResolvedPuzzle();
 
         #endregion
         #region Scene Control
@@ -410,7 +429,6 @@ public class GameController : MonoBehaviour {
             if (objecti != null)
                 objecti.GetComponent<ObjectI>().scene = scenes[currentscene];
         }
-
     }
     void LoadObjectsIInCurrentScene()
     {
@@ -430,6 +448,50 @@ public class GameController : MonoBehaviour {
                 objecti.GetComponent<ObjectI>().objectsound.volume = gamesettings.effectsvolume;
     }
 
+    #endregion
+
+    #region Puzzle Methods
+    void UpdatePuzzleScene()
+    {
+        foreach (Puzzle puzzle in scenes[currentscene].puzzles)
+        {
+            if (puzzle != null)
+                puzzle.scene = scenes[currentscene];
+        }
+    }
+    void UpdatePuzzle()
+    {
+        foreach (Puzzle puzzlei in scenes[currentscene].puzzles)
+        {
+            if (!puzzlei.resolved && puzzlei.gameObject.activeInHierarchy)
+                if (puzzlei.GetComponent<PuzzlePicture>() != null)
+                    puzzlei.GetComponent<PuzzlePicture>().UpdatePicuteStatus();
+        }
+    }
+    void LoadPuzzleInCurrentScene()
+    {
+        for (int i = 0; i < scenes.Length; i++)
+            if (i != currentscene)
+                foreach (Puzzle puzzle in scenes[i].puzzles)
+                    puzzle.gameObject.SetActive(false);
+
+        foreach (Puzzle puzzle in scenes[currentscene].puzzles)
+            if (!puzzle.resolved)
+                puzzle.gameObject.SetActive(true);
+    }
+    void UpdatePuzzleIVolume()
+    {
+        foreach (Puzzle puzzle in scenes[currentscene].puzzles)
+            if (puzzle.puzzlesound.volume != gamesettings.effectsvolume)
+                puzzle.puzzlesound.volume = gamesettings.effectsvolume;
+    }
+    void CheckIfPlayerHasResolvedPuzzle()
+    {
+        foreach (string puzzle in player.inventary)
+            foreach (Puzzle puzzleinscene in scenes[currentscene].puzzles)
+                if (puzzle == puzzleinscene.gameObject.name)
+                    puzzleinscene.resolved = true;
+    }
     #endregion
 
     #region Scenes Methods

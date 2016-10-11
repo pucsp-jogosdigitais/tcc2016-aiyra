@@ -7,6 +7,10 @@ using System.Collections;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Puzzle : MonoBehaviour {
 
+    #region Keys
+
+    #endregion
+
     #region attributes
     public GameController gamecontroller;
     public Scene scene;
@@ -24,17 +28,17 @@ public class Puzzle : MonoBehaviour {
 
     void OnEnable()
     {
-        if(scene != null)
-        scene.scenestate = Scene.state.puzzle;
+        //if(scene != null)
+        //scene.scenestate = Scene.state.puzzle;
 
-        gamecontroller.canprogress = false;
+        //gamecontroller.canprogress = false;
     }
     void OnDisable()
     {
-        if(scene != null)
-        scene.scenestate = Scene.state.interaction;
+        //if(scene != null)
+        //scene.scenestate = Scene.state.interaction;
 
-        gamecontroller.canprogress = true;
+        //gamecontroller.canprogress = true;
     }
 
     #endregion
@@ -61,12 +65,14 @@ public class Puzzle : MonoBehaviour {
 
     #region Updates Methods
 
+    /*
     void Update()
     {
         resolved = CheckPuzzleResolution();
 
         //ManipulatePicture();
     }
+    */
 
     #endregion
 
@@ -77,9 +83,15 @@ public class Puzzle : MonoBehaviour {
         if (Input.GetButtonDown("Confirm"))
         {
             if (resolved)
-            { 
-                RewardPlayer();
+            {
+                gamecontroller.canprogress = true;
+                RewardPlayerWithObject();
                 ExitPuzzle();
+            }
+            else
+            {
+                Debug.Log("Player did not end puzzle cant procced");
+                gamecontroller.canprogress = false;
             }
         }
     }
@@ -92,10 +104,13 @@ public class Puzzle : MonoBehaviour {
 
     bool CheckPuzzleResolution()
     {
+        /*
         if (gameObject.name == "PuzzlePhoto")
             if (puzzletransform.rotation.z >= 0)
                 return true;
 
+        return false;
+        */
         return false;
     }
 
@@ -127,15 +142,10 @@ public class Puzzle : MonoBehaviour {
 
     #region Puzzle Reward Methods
 
-    void RewardPlayer()
+    void RewardPlayerWithObject()
     {
-        /*
-        if (gameObject.name == "PuzzlePhoto")
-        {
-            GameObject.Find("MainRoomPicture").GetComponent<Object>().isavailable = false;
-            Debug.Log("Voc� Constou a foto" + gameObject.name);
-        }
-        */
+        if (GetComponent<PuzzlePicture>() != null)
+            gamecontroller.player.inventary.Add(gameObject.name);
     }
 
     #endregion

@@ -18,10 +18,13 @@ public class ActorButton : MonoBehaviour {
 
     void Awake()
     {
-        if (actornamebuttontext != null)
-            actornamebuttontext.text = actor.actorname;
-        if (actorimagebuttonimage != null)
-            actorimagebuttonimage.sprite = actor.actorimage;
+        if (actor != null)
+        {
+            if (actornamebuttontext != null)
+                actornamebuttontext.text = actor.actorname;
+            if (actorimagebuttonimage != null)
+                actorimagebuttonimage.sprite = actor.actorimage;
+        }
     }
 
     #endregion
