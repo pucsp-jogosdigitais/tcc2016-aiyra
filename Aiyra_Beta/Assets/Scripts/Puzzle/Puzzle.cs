@@ -8,7 +8,7 @@ using System.Collections;
 public class Puzzle : MonoBehaviour {
 
     #region Keys
-
+    public string puzzlestatussavekey;
     #endregion
 
     #region attributes
@@ -19,6 +19,7 @@ public class Puzzle : MonoBehaviour {
     public Image puzzleimage;
     public BoxCollider2D puzzlecollider;
 
+    public bool active;
     public bool resolved;
     #endregion
 
@@ -82,16 +83,18 @@ public class Puzzle : MonoBehaviour {
     {
         if (Input.GetButtonDown("Confirm"))
         {
-            if (resolved)
+            if(!active && !resolved)
             {
-                gamecontroller.canprogress = true;
-                RewardPlayerWithObject();
-                ExitPuzzle();
+                Debug.Log("Player start puzzle" + gameObject.name);
+                gamecontroller.canprogress = false;
+                active = true;
             }
             else
             {
-                Debug.Log("Player did not end puzzle cant procced");
-                gamecontroller.canprogress = false;
+                Debug.Log("Player end puzzle" + gameObject.name);
+                gamecontroller.canprogress = true;
+                RewardPlayerWithObject();
+                ExitPuzzle();
             }
         }
     }
@@ -99,6 +102,15 @@ public class Puzzle : MonoBehaviour {
     #endregion
 
     #region Puzzle Fundamental Methods
+
+    #region Update CG Status And Values
+
+    public void UploadPuzzleSaveKey()
+    {
+        puzzlestatussavekey = "PUZZLE" + gameObject + "SAVEKEY";
+    }
+
+    #endregion
 
     #region Check Resolution
 
@@ -156,6 +168,33 @@ public class Puzzle : MonoBehaviour {
     {
         gameObject.SetActive(false);
     }
+
+    #endregion
+
+    #region Save And Load Methods
+
+    #region Save Method
+
+    public void SavePuzzleStatus()
+    {
+        PlayerPrefs.SetString(puzzlestatussavekey, resolved.ToString());
+    }
+
+    #endregion
+
+    #region Load Method
+
+    public void LoadPuzzleStatus()
+    {
+        if (PlayerPrefs.GetString(puzzlestatussavekey) == "TRUE")
+            resolved = true;
+        else
+        {
+            resolved = false;
+        }
+    }
+
+    #endregion
 
     #endregion
 

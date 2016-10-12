@@ -5,11 +5,13 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
     #region Actors Reference Keys
-    private const string EnzoReference = "Enzo";
-    private const string IsisReference = "Isis";
-    private const string BenjaminEndress = "Benjamin";
-    private const string MalikaReference = "Malika";
-    private const string ZakiReference = "Zaki";
+    private const string enzoreference = "Enzo";
+    private const string isisreference = "Isis";
+    private const string benjaminreference = "Benjamin";
+    private const string malikareference = "Malika";
+    private const string zakireference = "Zaki";
+
+    private const string enzogalleryreference = "ENZOGALLERY" /* + CGID;*/;
     #endregion
 
     #region Attributes
@@ -451,6 +453,7 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region Puzzle Methods
+
     void UpdatePuzzleScene()
     {
         foreach (Puzzle puzzle in scenes[currentscene].puzzles)
@@ -492,6 +495,7 @@ public class GameController : MonoBehaviour {
                 if (puzzle == puzzleinscene.gameObject.name)
                     puzzleinscene.resolved = true;
     }
+
     #endregion
 
     #region Scenes Methods

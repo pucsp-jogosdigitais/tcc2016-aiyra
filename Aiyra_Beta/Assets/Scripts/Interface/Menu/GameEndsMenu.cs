@@ -14,6 +14,7 @@ public class GameEndsMenu : MonoBehaviour {
     #region Attributes
 
     public GameObject albummenu;
+    public CollectionData collectiondata;
     public DisplayCGMenu displaycgmenu;
     public ActorButton[] actorbuttons;
 

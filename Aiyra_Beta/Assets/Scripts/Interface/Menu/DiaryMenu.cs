@@ -9,8 +9,10 @@ public class DiaryMenu : MonoBehaviour {
     public GameObject albummenu;
     public Button gobackbutton;
     public Button gofowardbutton;
+    public CollectionData collectiondata;
     public DisplayCGMenu displaycgmenu;
-    public ActorCG[] actordiaries;
+    public ActorCG[] actordiariespage0;
+    public ActorCG[] actordiariespage1;
 
     public int currentpages;
     #endregion
@@ -27,6 +29,48 @@ public class DiaryMenu : MonoBehaviour {
     void OnDisable()
     {
         Debug.Log("Diary Menu Desactive");
+    }
+
+    #endregion
+
+    #region Awake And Start Methods
+
+    void Start()
+    {
+        Debug.Log("Diary Start and Set CGs");
+        UploadDiaryPagesStatus();
+    }
+
+    #endregion
+
+    #region Diary Fundamental Methods
+
+    public void UploadDiaryPagesStatus()
+    {
+        for (int i = 0; i < actordiariespage0.Length; i++)
+        {
+            actordiariespage0[i].cgid = i;
+            if (actordiariespage0[i].isunlock)
+            {
+                actordiariespage0[i].GetComponent<Button>().interactable = true;
+            }
+            else
+            {
+                actordiariespage0[i].GetComponent<Button>().interactable = false;
+            }
+        }
+        for (int i = 0; i < actordiariespage1.Length; i++)
+        {
+            actordiariespage1[i].cgid = i;
+            if (actordiariespage1[i].isunlock)
+            {
+                actordiariespage1[i].GetComponent<Button>().interactable = true;
+            }
+            else
+            {
+                actordiariespage1[i].GetComponent<Button>().interactable = false;
+            }
+        }
     }
 
     #endregion

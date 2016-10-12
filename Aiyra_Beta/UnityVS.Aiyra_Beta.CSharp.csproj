@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Component\ActorCG.cs" />
     <Compile Include="Assets\Scripts\Component\ActorDiaryPage.cs" />
     <Compile Include="Assets\Scripts\Component\CGDisplayer.cs" />
+    <Compile Include="Assets\Scripts\Component\CollectionData.cs" />
     <Compile Include="Assets\Scripts\Component\GameController.cs" />
     <Compile Include="Assets\Scripts\Component\GameData.cs" />
     <Compile Include="Assets\Scripts\Component\GameSettings.cs" />

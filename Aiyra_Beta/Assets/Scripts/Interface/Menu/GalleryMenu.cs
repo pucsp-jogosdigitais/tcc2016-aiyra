@@ -9,10 +9,13 @@ public class GalleryMenu : MonoBehaviour {
     public GameObject albummenu;
     public Button gobackbutton;
     public Button gofowardbutton;
+    public CollectionData collectiondata;
     public DisplayCGMenu displaycgmenu;
-    public ActorCG[] actorcgs;
+    public ActorCG[] actorcgspage0;
+    public ActorCG[] actorcgspage1;
 
     public int currentpages;
+    public int numberofpages;
     #endregion
 
     #region Methods
@@ -31,40 +34,188 @@ public class GalleryMenu : MonoBehaviour {
 
     #endregion
 
-    #region Buttons Methods
+    #region Awake And Start Methods
+    
+    //method that will take care the inicialize of the gallery with methods that need to be execute when it start
+    void Start()
+    {
+        Debug.Log("Gallery Start and Set CGs");
+        LoadActorGallery();
+        UploadCGSStatus();
+    }
 
-    public void LoadActorDiary()
+    #endregion
+
+    #region Gallery Fundamental Methods
+
+    #region Upload CGs Methods
+
+    //THIS METHOD UPLOAD THE STATUS OF THE CG LIKE IT ID, IT NAME, IF IT IS UNLOCKED
+    public void UploadCGSStatus()
+    {
+        //Inicialize a whip of the type for to run all page 0 cg
+        for (int i = 0; i < actorcgspage0.Length; i++)
+        {
+            //change the cg id to it respective place in the whip
+            actorcgspage0[i].cgid = i;
+            //check what page is the player for than change the cg name to get it status from the collectiondata
+            switch(currentpages)
+            {
+                case 0:
+                    actorcgspage0[i].gameObject.name = "ENZOGALLERY" + actorcgspage0[i].cgid.ToString();
+                    break;
+                case 1:
+                    actorcgspage0[i].gameObject.name = "ISISGALLERY" + actorcgspage0[i].cgid.ToString();
+                    break;
+                case 2:
+                    actorcgspage0[i].gameObject.name = "BENJAMINGALLERY" + actorcgspage0[i].cgid.ToString();
+                    break;
+                case 3:
+                    actorcgspage0[i].gameObject.name = "MALIKAGALLERY" + actorcgspage0[i].cgid.ToString();
+                    break;
+            }
+
+            //Check if player has unlock the cg in collectiondata and load it from collectiondata
+            collectiondata.SetActorCG(actorcgspage0[i]);
+            collectiondata.LoadSpecficActorCGStatus();
+            
+            //check if the current cg is unlocked to provide it for the player
+            if (actorcgspage0[i].isunlock)
+            {
+                actorcgspage0[i].GetComponent<Button>().interactable = true;
+            }
+            else
+            {
+                actorcgspage0[i].GetComponent<Button>().interactable = false;
+            }
+
+            //If cg is unlocked update it internal information for the player
+            actorcgspage0[i].UpdateCG();
+        }
+        //Same thing has the last whip but for page 1
+        for (int i = 0; i < actorcgspage1.Length; i++)
+        {
+            actorcgspage1[i].cgid = i;
+            switch (currentpages)
+            {
+                case 0:
+                    actorcgspage1[i].gameObject.name = "ISISGALLERY" + actorcgspage0[i].cgid.ToString();
+                    break;
+                case 1:
+                    actorcgspage1[i].gameObject.name = "BENJAMINGALLERY" + actorcgspage0[i].cgid.ToString();
+                    break;
+                case 2:
+                    actorcgspage1[i].gameObject.name = "MALIKAGALLERY" + actorcgspage0[i].cgid.ToString();
+                    break;
+                case 3:
+                    actorcgspage1[i].gameObject.name = "ZAKIGALLERY" + actorcgspage0[i].cgid.ToString();
+                    break;
+            }
+
+            collectiondata.SetActorCG(actorcgspage1[i]);
+            collectiondata.LoadSpecficActorCGStatus();
+
+            if (actorcgspage1[i].isunlock)
+            {
+                actorcgspage1[i].GetComponent<Button>().interactable = true;
+            }
+            else
+            {
+                actorcgspage1[i].GetComponent<Button>().interactable = false;
+            }
+
+            actorcgspage1[0].UpdateCG();
+
+        }
+    }
+
+    #endregion
+
+    #region Load Gallery Methods
+
+    public void LoadActorGallery()
     {
         Debug.Log("ActorGalleryLoaded");
-        /*switch (CurrentPage)
+
+        switch (currentpages)
         {
-            case 0: for(int)
-        }
-        if (ActorButton.actor.actorname == "Enzo")
-        {
-            for (int i = 0; i < actordiaries.Length; i++)
-            {
-                actordiaries[i].SetCGID(i);
-                actordiaries[i].SetCGPath("Backgrounds/Teste/");
-                if (i == 0)
-                    actordiaries[i].isunlock = false;
-                //actorcgs[i].SetCGName("MainMenu");
-                else
+            case 0:
+                for (int i = 0; i < actorcgspage0.Length; i++)
                 {
-                    actordiaries[i].SetCGName("JardimTeste");
+                    actorcgspage0[i].SetCGPath("Backgrounds/Teste/");
+                    switch (i)
+                    {
+                        case 0:
+                            actorcgspage0[i].SetCGName("MainMenu");
+                            break;
+                        case 1:
+                            actorcgspage0[i].SetCGName("CenarioSala");
+                            break;
+                        default:
+                            actorcgspage0[i].SetCGPath("JardimTeste");
+                            break;
+                    }
                 }
-            }
+                for (int i = 0; i < actorcgspage1.Length; i++)
+                {
+                    actorcgspage1[i].SetCGPath("Backgrounds/Teste/");
+                    actorcgspage1[i].SetCGName("JardimTeste");
+                }
+                break;
+            case 1:
+                for (int i = 0; i < actorcgspage0.Length; i++)
+                {
+                    actorcgspage0[i].SetCGPath("Backgrounds/Teste/");
+                    actorcgspage0[i].SetCGName("JardimTeste");
+                }
+                for (int i = 0; i < actorcgspage1.Length; i++)
+                {
+                    actorcgspage1[i].SetCGPath("Backgrounds/Teste/");
+                    actorcgspage1[i].SetCGName("CenarioSala");
+                }
+                break;
+            case 2:
+                for (int i = 0; i < actorcgspage0.Length; i++)
+                {
+                    actorcgspage0[i].SetCGPath("Backgrounds/Teste/");
+                    actorcgspage0[i].SetCGName("CenarioSala");
+                }
+                for (int i = 0; i < actorcgspage1.Length; i++)
+                {
+                    actorcgspage1[i].SetCGPath("Backgrounds/Teste/");
+                    actorcgspage1[i].SetCGName("Quarto1");
+                }
+                break;
+            case 3:
+                for (int i = 0; i < actorcgspage0.Length; i++)
+                {
+                    actorcgspage0[i].SetCGPath("Backgrounds/Teste/");
+                    actorcgspage0[i].SetCGName("Quarto1");
+                }
+                for (int i = 0; i < actorcgspage1.Length; i++)
+                {
+                    actorcgspage1[i].SetCGPath("Backgrounds/Teste/");
+                    actorcgspage1[i].SetCGName("SalaNormal.2");
+                }
+                break;
         }
-        */
     }
+
+    #endregion
+    
+    #endregion
+
+    #region Buttons Methods
+
     public void LoadNextPage()
     {
-        if (currentpages < 5)
+        if (currentpages < numberofpages)
         {
             gofowardbutton.interactable = true;
             gobackbutton.interactable = true;
             currentpages++;
-            LoadActorDiary();
+            LoadActorGallery();
+            UploadCGSStatus();
         }
         else
         {
@@ -79,7 +230,8 @@ public class GalleryMenu : MonoBehaviour {
             gobackbutton.interactable = true;
             gofowardbutton.interactable = true;
             currentpages--;
-            LoadActorDiary();
+            LoadActorGallery();
+            UploadCGSStatus();
         }
         else
         {

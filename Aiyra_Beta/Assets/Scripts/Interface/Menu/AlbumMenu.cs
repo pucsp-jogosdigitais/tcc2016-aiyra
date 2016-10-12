@@ -13,6 +13,19 @@ public class AlbumMenu : MonoBehaviour {
 
     #region Methods
 
+    #region Enable And Disable Methods
+
+    void OnEnable()
+    {
+        Debug.Log("Album Active and Enable");
+    }
+    void OnDisable()
+    {
+        Debug.Log("Album Desactive");
+    }
+
+    #endregion
+
     #region Awake And Start
 
     void Start()

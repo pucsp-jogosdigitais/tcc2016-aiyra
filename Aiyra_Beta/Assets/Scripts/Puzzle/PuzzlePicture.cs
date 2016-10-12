@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class PuzzlePicture : MonoBehaviour {
+public class PuzzlePicture : MonoBehaviour
+{
 
     #region Attributes
 
@@ -10,7 +11,7 @@ public class PuzzlePicture : MonoBehaviour {
     #endregion
 
     #region Methods
-    
+
     #region Enable and Disable
 
     void OnEnable()
@@ -40,7 +41,7 @@ public class PuzzlePicture : MonoBehaviour {
     {
         if (puzzle != null)
         {
-            if (!puzzle.resolved)
+            if (!puzzle.resolved && puzzle.active)
             {
                 if (Input.GetKey(KeyCode.A))
                     transform.Rotate(0, 0, 1);
@@ -50,26 +51,33 @@ public class PuzzlePicture : MonoBehaviour {
                     transform.Translate(-1, 0, 0);
                 if (Input.GetKey(KeyCode.RightArrow))
                     transform.Translate(1, 0, 0);
-
-                if (transform.rotation.z < 3 && transform.rotation.z > 357)
+                
+                if (puzzle.gamecontroller.pausemenu.gameObject.activeInHierarchy)
+                {
+                    puzzle.gamecontroller.effectscamerablurfilter.blurAmount = 0;
+                }
+                else
+                {
+                    if (transform.rotation.z > 0)
                     {
-                        puzzle.gamecontroller.effectscamerablurfilter.blurAmount = 0;
-                        puzzle.resolved = true;
+                        puzzle.gamecontroller.effectscamerablurfilter.blurAmount = transform.rotation.z;
                     }
                     else
                     {
-                        puzzle.gamecontroller.effectscamerablurfilter.blurAmount = transform.rotation.z / 10;
+                        puzzle.gamecontroller.effectscamerablurfilter.blurAmount = transform.rotation.z * -1;
                     }
+                    if (transform.rotation.z < 3 && transform.rotation.z > 357)
+                    {
+                        puzzle.resolved = true;
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("No puzzle script associated with picture puzzle");
             }
         }
-        else
-        {
-            Debug.Log("No puzzle script associated with picture puzzle");
-        }
-
-        #endregion
-
-        #endregion
     }
-
+    #endregion
 }
+#endregion

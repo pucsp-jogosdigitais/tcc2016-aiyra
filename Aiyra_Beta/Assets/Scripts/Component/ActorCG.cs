@@ -4,12 +4,6 @@ using System.Collections;
 
 public class ActorCG : MonoBehaviour {
 
-    #region Keys
-
-    //public string cgstatesavekey = "CG" +
-
-    #endregion
-
     #region Attributes
     public Image cgimage;
 
@@ -25,6 +19,7 @@ public class ActorCG : MonoBehaviour {
 
     #region Enable And Disable Methods
 
+    //methods that check if the gameobject is active or not and answer the developer the case
     void OnEnable()
     {
         Debug.Log("CG " + cgid + " Active and Enable");
@@ -48,16 +43,17 @@ public class ActorCG : MonoBehaviour {
 
     #region Update Methods
 
-    void Update()
+    public void UpdateCG()
     {
         if (isunlock)
         {
-            Debug.Log("CG " + cgid + "Unlock");
+            Debug.Log("CG: " + cgid + "Unlock Load CG");
             cgimage.sprite = Resources.Load<Sprite>(cgpath + cgname);
         }
         else
         {
-            Debug.Log("CG not unlocked");
+            Debug.Log("CG: " + cgid + "not unlocked cant load");
+            cgimage.sprite = Resources.Load<Sprite>("Sprites/Buttons/AlbumMenu/CG_Locked");
         }
     }
     #endregion
