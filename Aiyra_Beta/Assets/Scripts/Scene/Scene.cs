@@ -5,6 +5,7 @@ public class Scene : MonoBehaviour {
 
     public enum state { dialog, interaction, puzzle };
     public state scenestate;
+    public MovieTexture[] livebackground;
     public Sprite[] backgrounds;
     public AudioClip[] musics;
     public TextAsset[] dialogs;

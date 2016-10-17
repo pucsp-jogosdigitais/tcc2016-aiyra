@@ -11,6 +11,8 @@ public class DialogBox : MonoBehaviour {
     public Dialog dialog;
     public GameObject dialogbox;
     public Text text;
+    public GameObject speakerbox;
+    public Text speakernametext;
     public GameObject answerbox;
     public AnswerButton[] answersbuttons;
 
@@ -115,6 +117,15 @@ public class DialogBox : MonoBehaviour {
     #region Dialog Fundamental Methods
 
     #region methods for adjust dialogbox and dialog
+
+    #region Speaker Methods
+
+    public void SetSpeakerName(string NewSpeaker)
+    {
+        speakernametext.text = NewSpeaker;
+    }
+
+    #endregion
 
     #region Dialog Start Methods
 

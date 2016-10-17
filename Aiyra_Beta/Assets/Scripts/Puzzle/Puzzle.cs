@@ -79,23 +79,25 @@ public class Puzzle : MonoBehaviour {
 
     #region MouseOver And Interaction Methods
 
+    //Method that check if the mouse is over the trigger of the puzzle and if the player has interacted with it
     void OnMouseOver()
     {
         if (Input.GetButtonDown("Confirm"))
         {
-            if(!active && !resolved)
+            if(!active)
             {
                 Debug.Log("Player start puzzle" + gameObject.name);
                 gamecontroller.canprogress = false;
                 active = true;
             }
+            /*
             else
             {
                 Debug.Log("Player end puzzle" + gameObject.name);
                 gamecontroller.canprogress = true;
                 RewardPlayerWithObject();
                 ExitPuzzle();
-            }
+            }*/
         }
     }
 

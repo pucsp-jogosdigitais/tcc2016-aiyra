@@ -5,6 +5,8 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
     #region Actors Reference Keys
+    private const string unkownreference = "???";
+    private const string juruparireference = "Jurupari";
     private const string enzoreference = "Enzo";
     private const string isisreference = "Isis";
     private const string benjaminreference = "Benjamin";
@@ -12,6 +14,7 @@ public class GameController : MonoBehaviour {
     private const string zakireference = "Zaki";
 
     private const string enzogalleryreference = "ENZOGALLERY" /* + CGID;*/;
+    private const string isisgalleryreference = "ISISGALLERY" /* + CGID;*/;
     #endregion
 
     #region Attributes
@@ -21,6 +24,7 @@ public class GameController : MonoBehaviour {
     public Player player;
     public CameraEyeEffect playereyesfilter;
     public MotionBlur effectscamerablurfilter;
+    public LiveBackground livebackground;
     public Background background;
     public MusicPlayer musicplayer;
     public DialogBox dialogbox;
@@ -30,6 +34,7 @@ public class GameController : MonoBehaviour {
     public Scene[] scenes;
 
     public int currentscene;
+    public bool[] answersresultreaded;
     public bool canprogress;
 
     #endregion
@@ -95,6 +100,22 @@ public class GameController : MonoBehaviour {
     {
         #region Background Control
 
+        if (scenes[currentscene].livebackground.Length <= 0)
+            livebackground.gameObject.SetActive(false);
+        else
+        {
+            livebackground.gameObject.SetActive(true);
+
+            if (livebackground.movie.Length != scenes[currentscene].livebackground.Length)
+            {
+                livebackground.movie = new MovieTexture[scenes[currentscene].livebackground.Length];
+                for (int i = 0; i < scenes[currentscene].livebackground.Length; i ++)
+                    livebackground.movie[i] = scenes[currentscene].livebackground[i];
+            }
+
+            livebackground.UpdateLiveBackground();
+        }
+
         if (scenes[currentscene].backgrounds.Length <= 0)
             background.gameObject.SetActive(false);
         else
@@ -120,6 +141,8 @@ public class GameController : MonoBehaviour {
 
         #endregion
         #region Dialog Control
+
+        UpdateSpeaker();
 
         PrepareAnswersMoments();
 
@@ -223,28 +246,103 @@ public class GameController : MonoBehaviour {
 
     #region Dialog Methods
 
+    #region Set Speaker or Current Actor that is Speaking Methods
+
+    void UpdateSpeaker()
+    {
+        switch(currentscene)
+        {
+            case 0:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline >= 0 && dialogbox.dialog.currentdialogline < 5)
+                        dialogbox.SetSpeakerName(unkownreference);
+                    if (dialogbox.dialog.currentdialogline == 6 || dialogbox.dialog.currentdialogline >= 8)
+                        dialogbox.SetSpeakerName(juruparireference);
+                    if (dialogbox.dialog.currentdialogline == 7)
+                        dialogbox.SetSpeakerName(player.playername);
+                }
+                else if(dialogbox.currentdialog == 1)
+                {
+                    dialogbox.SetSpeakerName(juruparireference);
+                }
+                else if(dialogbox.currentdialog == 2)
+                {
+                    dialogbox.SetSpeakerName(juruparireference);
+                }
+                else if (dialogbox.currentdialog == 3)
+                {
+                    dialogbox.SetSpeakerName(juruparireference);
+                }
+                else if(dialogbox.currentdialog == 4)
+                {
+                    dialogbox.SetSpeakerName(juruparireference);
+                }
+                break;
+            case 1:
+                if(dialogbox.currentdialog == 0)
+                    dialogbox.SetSpeakerName(player.playername);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+        }
+    }
+
+    #endregion
+
     #region Dialog Answer Methods
+    //method that prepare dialog for a answer moment and alert when is the moment of give the object
     void PrepareAnswersMoments()
     {
         if (currentscene == 0)
         {
             if (dialogbox.currentdialog == 0)
             {
-                if (dialogbox.dialog.currentdialogline == 8)
+                if (dialogbox.dialog.currentdialogline == 9)
                     if(!dialogbox.hasanswered) 
                         dialogbox.dialog.isanswermoment = true;
-                if (dialogbox.dialog.currentdialogline == 9)
+                if (dialogbox.dialog.currentdialogline == 10)
                     dialogbox.hasanswered = false;
             }
+            else
+            {
+                if (dialogbox.currentdialog != 4)
+                {
+                    if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
+                    {
+                        if (!dialogbox.hasanswered)
+                            dialogbox.dialog.isanswermoment = true;
+                    }
+                    else
+                    {
+                        dialogbox.hasanswered = false;
+                    }
+                }
+                else
+                {
+                    if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = dialogbox.currentdialog;
+                }
+            }
         }
-        if (currentscene == 3)
+        if (currentscene == 1)
         {
             if (dialogbox.currentdialog == 0)
             {
-                if (dialogbox.dialog.currentdialogline == 5)
+                if (dialogbox.dialog.currentdialogline == 3)
                     if (!dialogbox.hasanswered)
                         dialogbox.dialog.isanswermoment = true;
-                if (dialogbox.dialog.currentdialogline == 6)
+                if (dialogbox.dialog.currentdialogline != 3)
                     dialogbox.hasanswered = false;
             }
         }
@@ -252,10 +350,10 @@ public class GameController : MonoBehaviour {
         {
             if(dialogbox.currentdialog == 0)
             {
-                if (dialogbox.dialog.currentdialogline == 2)
+                if (dialogbox.dialog.currentdialogline == 3)
                     if (!dialogbox.hasanswered)
                         dialogbox.dialog.isanswermoment = true;
-                if (dialogbox.dialog.currentdialogline == 3)
+                if (dialogbox.dialog.currentdialogline != 3)
                     dialogbox.hasanswered = false;
             }
         }
@@ -277,6 +375,8 @@ public class GameController : MonoBehaviour {
         */
         #endregion
     }
+
+    //method that give the value of affinity the answer buttons will have 
     void UploadAnswersValue()
     {
         if (currentscene == 7)
@@ -294,33 +394,99 @@ public class GameController : MonoBehaviour {
                 dialogbox.SetAnswerButtonsValue(0, 0, 0);
             }
         }
+        if (currentscene == 7)
+        {
+            if (dialogbox.currentdialog == 0)
+            {
+                dialogbox.SetAnswerButtonsValue(10, 15, 20);
+            }
+        }
     }
 
     #endregion
 
     #region Next Dialog Adjust Methods
 
+    //method that adjust next dialog for current dialog not value has the final dialog causing the dialog to end
     void AdjustDialogDisplayBoxToNextDialog()
     {
         if(currentscene == 0)
         {
             if (dialogbox.currentdialog == 0)
             {
+                answersresultreaded = new bool[3];
                 if (dialogbox.lastanswerid < 0)
                 {
-                    dialogbox.nextdialog = 1;
+                    dialogbox.nextdialog = 5;
                     dialogbox.AnswerButtonsSetNextDialog(1, 2, 3);
                 }
             }
+            else
+            {
+
+                if(CheckAnswersResultReaded() == true)
+                {
+                    dialogbox.nextdialog = 4;
+                }
+
+                if (dialogbox.currentdialog == 1)
+                {
+                    if (answersresultreaded.Length <= 0)
+                        answersresultreaded = new bool[3];
+                    else
+                    {
+                        answersresultreaded[0] = true;
+                    }
+                }
+                if (dialogbox.currentdialog == 2)
+                {
+                    if (answersresultreaded.Length <= 0)
+                        answersresultreaded = new bool[3];
+                    else
+                    {
+                        answersresultreaded[1] = true;
+                    }
+                }
+                if (dialogbox.currentdialog == 2)
+                {
+                    if (answersresultreaded.Length <= 0)
+                        answersresultreaded = new bool[3];
+                    else
+                    {
+                        answersresultreaded[2] = true;
+                    }
+                }
+
+                if (dialogbox.nextdialog == dialogbox.currentdialog)
+                    dialogbox.nextdialog++;
+            }
         }
-        else if(currentscene >= 1 && currentscene < 3)
+        else if(currentscene == 1)
         {
             if(dialogbox.currentdialog == 0)
             {
+                if(dialogbox.dialog.currentdialogline < 3)
+                    dialogbox.nextdialog = 3;
+
+                dialogbox.AnswerButtonsSetNextDialog(1, 2, 0);
+                /*
                 if(dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
                     dialogbox.nextdialog = 1;
                 else { dialogbox.nextdialog = dialogbox.currentdialog; }
+                */
             }
+            if (dialogbox.currentdialog == 1 || dialogbox.currentdialog == 2)
+            {
+                if (dialogbox.dialog.currentdialogline <= dialogbox.dialog.enddialogatline)
+                    dialogbox.nextdialog = 3;
+            }
+
+        }
+        else if(currentscene >= 2 && currentscene < 3)
+        {
+            if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                dialogbox.nextdialog = 1;
+            else { dialogbox.nextdialog = dialogbox.currentdialog; }
         }
         else if (currentscene == 3)
         {
@@ -345,15 +511,28 @@ public class GameController : MonoBehaviour {
 
     #endregion
 
-    #region Test Methods
+    #region Check AnswerResultReaded
 
-    void ControlDialogBehaviour(int Scene,int Dialog,int DialogLine,int AnswerButton0AffinityValue, int AnswerButton1AffinityValue, int AnswerButton2AffinityValue,int NextDialogCaseAnswer0,int NextDialogCaseAnswer1,int NextDialogCaseAnswer2)
+    //Method that check if the player has read all the possible results of a dialog questions
+    bool CheckAnswersResultReaded()
     {
-        if (currentscene == Scene && dialogbox.currentdialog == Dialog && dialogbox.dialog.currentdialogline == DialogLine)
+        //create a counter that will add values to it has the player has read the results
+        int count = 0;
+        //create a whip of type for that will check all answerresultreaded to know how much results the player has read
+        for(int i = 0; i < answersresultreaded.Length; i ++)
         {
-            dialogbox.SetAnswerButtonsValue(AnswerButton0AffinityValue, AnswerButton1AffinityValue, AnswerButton2AffinityValue);
-            dialogbox.AnswerButtonsSetNextDialog(NextDialogCaseAnswer0, NextDialogCaseAnswer1, NextDialogCaseAnswer2);
+            if (answersresultreaded[i] == true)
+                count++;
+            else
+            {
+                return false;
+            }
         }
+        //Check if the player has read all possible answer result
+        if (count >= answersresultreaded.Length)
+            return true;
+
+        return false;
     }
 
     #endregion
