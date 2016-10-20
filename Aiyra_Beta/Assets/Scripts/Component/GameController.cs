@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
     #region Actors Reference Keys
     private const string unkownreference = "???";
     private const string juruparireference = "Jurupari";
+    private const string motherreference = "Mãe";
     private const string enzoreference = "Enzo";
     private const string isisreference = "Isis";
     private const string benjaminreference = "Benjamin";
@@ -63,6 +64,8 @@ public class GameController : MonoBehaviour {
             player = GameObject.Find("Player Main Camera").GetComponent<Player>();
         if (playereyesfilter == null)
             playereyesfilter = GameObject.Find("PlayerEyesEffect").GetComponent<CameraEyeEffect>();
+        if (livebackground == null)
+            livebackground = GameObject.Find("LiveBackground").GetComponent<LiveBackground>();
         if (background == null)
             background = GameObject.Find("Background").GetComponent<Background>();
         if (musicplayer == null)
@@ -100,44 +103,12 @@ public class GameController : MonoBehaviour {
     {
         #region Background Control
 
-        if (scenes[currentscene].livebackground.Length <= 0)
-            livebackground.gameObject.SetActive(false);
-        else
-        {
-            livebackground.gameObject.SetActive(true);
-
-            if (livebackground.movie.Length != scenes[currentscene].livebackground.Length)
-            {
-                livebackground.movie = new MovieTexture[scenes[currentscene].livebackground.Length];
-                for (int i = 0; i < scenes[currentscene].livebackground.Length; i ++)
-                    livebackground.movie[i] = scenes[currentscene].livebackground[i];
-            }
-
-            livebackground.UpdateLiveBackground();
-        }
-
-        if (scenes[currentscene].backgrounds.Length <= 0)
-            background.gameObject.SetActive(false);
-        else
-        {
-            background.gameObject.SetActive(true);
-            background.backgroundimage.sprite = scenes[currentscene].backgrounds[background.currentbackground];
-        }
+        BackgroundManager();
 
         #endregion
         #region Music Control
 
-        if (musicplayer.music.volume != gamesettings.musicvolume)
-            musicplayer.music.volume = gamesettings.musicvolume;
-
-        if (musicplayer.endatmusicclip != scenes[currentscene].musics.Length)
-            musicplayer.LimitMusicLengh(scenes[currentscene].musics.Length - 1);
-
-        if (scenes[currentscene].musics.Length > 0)
-            musicplayer.music.clip = scenes[currentscene].musics[musicplayer.currentmusicclip];
-
-        if (!musicplayer.music.isPlaying)
-            musicplayer.NextMusic();
+        MusicManager();
 
         #endregion
         #region Dialog Control
@@ -157,6 +128,8 @@ public class GameController : MonoBehaviour {
         #endregion
         #region Actors Control
 
+        PrepareActorExpressions();
+
         PrepareActorDialogLines();
 
         for (int i = 0; i < actors.Length; i++)
@@ -166,7 +139,7 @@ public class GameController : MonoBehaviour {
                 actors[i].gameObject.SetActive(true);
             else { actors[i].gameObject.SetActive(false); }
         }
-
+        
         #endregion
         #region ObjectsI Control
 
@@ -244,10 +217,68 @@ public class GameController : MonoBehaviour {
 
     #region GameController Fundamental Methods
 
+    #region Background Methods
+
+    //method that manage the livebackground and background
+    void BackgroundManager()
+    {
+        //Check if the current scene have a livebackground to desactive or active the livebackground script
+        if (scenes[currentscene].livebackground.Length <= 0)
+            livebackground.gameObject.SetActive(false);
+        else
+        {
+            livebackground.gameObject.SetActive(true);
+
+            if (livebackground.movies.Length != scenes[currentscene].livebackground.Length)
+            {
+                livebackground.movies = new MovieTexture[scenes[currentscene].livebackground.Length];
+                for (int i = 0; i < scenes[currentscene].livebackground.Length; i++)
+                    livebackground.movies[i] = scenes[currentscene].livebackground[i];
+            }
+
+            livebackground.UpdateLiveBackground();
+        }
+
+        //Check if the current scene have a background to desactive or active the background script
+        if (scenes[currentscene].backgrounds.Length <= 0)
+            background.gameObject.SetActive(false);
+        else
+        {
+            background.gameObject.SetActive(true);
+            background.backgroundimage.sprite = scenes[currentscene].backgrounds[background.currentbackground];
+        }
+    }
+
+    #endregion
+
+    #region Music Methods
+
+    void MusicManager()
+    {
+        //check if the volume of musicplayer in´t equal to the gamesettings volume and in case of diference make the ajusts
+        if (musicplayer.music.volume != gamesettings.musicvolume)
+            musicplayer.music.volume = gamesettings.musicvolume;
+
+        //check if the length of the musicplayer music list and in case of not correct if value make it length equal to the playlist of the current scene
+        if (musicplayer.endatmusicclip != scenes[currentscene].musics.Length)
+            musicplayer.LimitMusicLengh(scenes[currentscene].musics.Length - 1);
+
+        //check if the current scene length is greater than 0 to make the music player play and work
+        if (scenes[currentscene].musics.Length > 0)
+            musicplayer.music.clip = scenes[currentscene].musics[musicplayer.currentmusicclip];
+
+        //check if the music player has end the current music to play the next music
+        if (!musicplayer.music.isPlaying)
+            musicplayer.NextMusic();
+    }
+
+    #endregion
+
     #region Dialog Methods
 
-    #region Set Speaker or Current Actor that is Speaking Methods
+    #region Set Speaker(Current Actor that is Speaking) Methods
 
+    //Method that update the speaker box of the dialog box changing the name of the speaker to the current and correct actor name
     void UpdateSpeaker()
     {
         switch(currentscene)
@@ -280,8 +311,21 @@ public class GameController : MonoBehaviour {
                 }
                 break;
             case 1:
-                if(dialogbox.currentdialog == 0)
+                if (dialogbox.currentdialog == 0)
+                {
                     dialogbox.SetSpeakerName(player.playername);
+                }
+                if(dialogbox.currentdialog == 1)
+                {
+                    dialogbox.SetSpeakerName(player.playername);
+                }
+                if(dialogbox.currentdialog == 2)
+                {
+                    if (dialogbox.dialog.currentdialogline >= 0 && dialogbox.dialog.currentdialogline < 6 || dialogbox.dialog.currentdialogline >= 8)
+                        dialogbox.SetSpeakerName(player.playername);
+                    else { dialogbox.SetSpeakerName(motherreference); }
+                }
+
                 break;
             case 2:
                 break;
@@ -304,6 +348,62 @@ public class GameController : MonoBehaviour {
     //method that prepare dialog for a answer moment and alert when is the moment of give the object
     void PrepareAnswersMoments()
     {
+        switch (currentscene)
+        {
+            case 0:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline == 9)
+                        if (!dialogbox.hasanswered)
+                            dialogbox.dialog.isanswermoment = true;
+                    if (dialogbox.dialog.currentdialogline == 10)
+                        dialogbox.hasanswered = false;
+                }
+                else
+                {
+                    if (dialogbox.currentdialog != 4)
+                    {
+                        if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
+                        {
+                            if (!dialogbox.hasanswered)
+                                dialogbox.dialog.isanswermoment = true;
+                        }
+                        else
+                        {
+                            dialogbox.hasanswered = false;
+                        }
+                    }
+                    else
+                    {
+                        if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
+                            dialogbox.nextdialog = dialogbox.currentdialog;
+                    }
+                }
+                break;
+            case 1:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline == 3)
+                        if (!dialogbox.hasanswered)
+                            dialogbox.dialog.isanswermoment = true;
+                    if (dialogbox.dialog.currentdialogline != 3)
+                        dialogbox.hasanswered = false;
+                }
+                break;
+            case 7:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline == 3)
+                        if (!dialogbox.hasanswered)
+                            dialogbox.dialog.isanswermoment = true;
+                    if (dialogbox.dialog.currentdialogline != 3)
+                        dialogbox.hasanswered = false;
+                }
+                break;
+        }
+
+        #region Test
+        /*
         if (currentscene == 0)
         {
             if (dialogbox.currentdialog == 0)
@@ -373,12 +473,30 @@ public class GameController : MonoBehaviour {
             }
         }
         */
-        #endregion
+        #endregion            
     }
-
     //method that give the value of affinity the answer buttons will have 
     void UploadAnswersValue()
     {
+        switch (currentscene)
+        {
+            case 1:
+                if (dialogbox.currentdialog == 0)
+                {
+                    dialogbox.SetAnswerButtonsValue(0, 0, 0);
+                }
+                break;
+            case 7:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.lastanswerid < 0)
+                        dialogbox.SetAnswerButtonsValue(5, 10, 3);
+                }
+                break;
+        }
+
+        #region Test
+        /*
         if (currentscene == 7)
         {
             if (dialogbox.currentdialog == 0)
@@ -401,6 +519,8 @@ public class GameController : MonoBehaviour {
                 dialogbox.SetAnswerButtonsValue(10, 15, 20);
             }
         }
+        */
+        #endregion
     }
 
     #endregion
@@ -554,20 +674,54 @@ public class GameController : MonoBehaviour {
         {
             if (!pausemenu.hideactors)
             {
-                if (actors[i].name == "Enzo")
+                switch (actors[i].name)
                 {
-                    if (currentscene == 0)
-                        if (dialogbox.currentdialog == 0)
-                            actors[i].dialoglines = new int[5] { 3, 4, 5, 6, 7 };
-                        else { actors[i].dialoglines = new int[0]; }
-                    if (currentscene == 1)
-                        if (dialogbox.currentdialog == 0)
-                            actors[i].dialoglines = new int[5] { 3, 4, 5, 6, 7 };
-                        else { actors[i].dialoglines = new int[0]; }
-                    if (currentscene == 7)
-                        if (dialogbox.currentdialog == 0)
-                            actors[i].dialoglines = new int[5] { 2, 3, 4, 5, 6 };
-                        else { actors[i].dialoglines = new int[0]; }
+                    case "Enzo":
+                        switch (currentscene)
+                        {
+                            case 7:
+                                if (dialogbox.currentdialog == 0)
+                                    actors[i].dialoglines = new int[5] { 0, 1, 2, 3, 4 };
+                                else { actors[i].dialoglines = new int[0]; }
+                                break;
+                            default:
+                                Debug.Log("Doing Default of actor lines");
+                                actors[i].dialoglines = new int[0];
+                                break;
+                        }
+                        break;
+                    case "Jurupari":
+                        switch (currentscene)
+                        {
+                            case 0:
+                                switch (dialogbox.currentdialog)
+                                {
+                                    case 0:
+                                        actors[i].dialoglines = new int[12] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+                                        break;
+                                    case 1:
+                                        actors[i].dialoglines = new int[8] { 0, 1, 2, 3, 4, 5, 6, 7 };
+                                        break;
+                                    case 2:
+                                        actors[i].dialoglines = new int[4] { 0, 1, 2, 3 };
+                                        break;
+                                    case 3:
+                                        actors[i].dialoglines = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
+                                        break;
+                                    case 4:
+                                        actors[i].dialoglines = new int[3] { 0, 1, 2 };
+                                        break;
+                                    default:
+                                        actors[i].dialoglines = new int[0];
+                                        break;
+                                }
+                                break;
+                            default:
+                                Debug.Log("Doing Default of actor lines");
+                                actors[i].dialoglines = new int[0];
+                                break;
+                        }
+                        break;
                 }
             }
         }
@@ -576,31 +730,74 @@ public class GameController : MonoBehaviour {
     {
         for (int i = 0; i < actors.Length; i++)
         {
-            if (!pausemenu.hideactors)
+            switch (actors[i].name)
             {
-                if (actors[i].name == "Enzo")
-                {
-                    if (currentscene == 7)
+                case "Enzo":
+                    switch (currentscene)
                     {
-                        if (dialogbox.currentdialog == 0)
-                        {
-                            if (dialogbox.dialog.currentdialogline >= 0 && dialogbox.dialog.currentdialogline < 2)
-                                //actors[i].GetComponent<SimpleModel>()
-                                Debug.Log("Enzo has do a expression");
-                        }
-                        else { actors[i].dialoglines = new int[0]; }
+                        case 7:
+                            switch (dialogbox.dialog.currentdialogline)
+                            {
+                                case 0:
+                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                    break;
+                            }
+                            break;
+                        default:
+                            Debug.Log("Doing Default of actor Enzo motion");
+                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                           break;
                     }
-                    else { actors[i].dialoglines = new int[0]; }
-                }
-            }
-            else
-            {
-                actors[i].dialoglines = new int[0];
+                    break;
+                case "Jurupari":
+                    switch(currentscene)
+                    {
+                        case 0:
+                            switch (dialogbox.currentdialog)
+                            {
+                                case 0:
+                                    switch (dialogbox.dialog.currentdialogline)
+                                    {
+                                        case 0:
+                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 6);
+                                            break;
+                                        case 4:
+                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                            break;
+                                        default:
+                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                            break;
+                                    }
+                                    break;
+                                case 1:
+                                    switch (dialogbox.dialog.currentdialogline)
+                                    {
+                                        case 0:
+                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (dialogbox.dialog.currentdialogline)
+                                    {
+                                        case 0:
+                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
+                                            break;
+                                    }
+                                    break;
+                            }
+                            break;
+                        default:
+                            Debug.Log("Doing Default of actor Jurupari motion");
+                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                            break;
+                    }
+                    break;
             }
         }
     }
     #endregion
-
+   
     #region ObjectI Methods
 
     void UpdateObjectIScene()

@@ -10,7 +10,7 @@ public class LiveBackground : MonoBehaviour {
     public enum LiveBackgroundBehaviour { random, inorder, justone }
     public LiveBackgroundBehaviour livebackgroundbehaviour;
 
-    public MovieTexture[] movie;
+    public MovieTexture[] movies;
     private AudioSource movieaudio;
 
     public int currentmovie;
@@ -33,21 +33,21 @@ public class LiveBackground : MonoBehaviour {
     }
     void Start()
     {
-        if (movie.Length > 0)
+        if (movies.Length > 0)
         {
             if (replayable)
             {
-                movie[currentmovie].loop = true;
+                movies[currentmovie].loop = true;
                 movieaudio.loop = true;
             }
             else
             {
-                movie[currentmovie].loop = false;
+                movies[currentmovie].loop = false;
                 movieaudio.loop = false;
             }
             if (playautomatic)
             {
-                movie[currentmovie].Play();
+                movies[currentmovie].Play();
                 movieaudio.Play();
             }
         }
@@ -73,7 +73,7 @@ public class LiveBackground : MonoBehaviour {
 
     bool CheckMovieEnd()
     {
-        if (!movie[currentmovie].isPlaying)
+        if (!movies[currentmovie].isPlaying)
             return true;
 
         return false;
@@ -85,29 +85,29 @@ public class LiveBackground : MonoBehaviour {
 
     public void UploadLiveBackground()
     {
-        if (movie.Length > 0)
+        if (movies.Length > 0)
         {
             if (livebackgroundbehaviour == LiveBackgroundBehaviour.justone)
             {
-                GetComponent<RawImage>().texture = movie[currentmovie] as MovieTexture;
-                movieaudio.clip = movie[currentmovie].audioClip;
+                GetComponent<RawImage>().texture = movies[currentmovie] as MovieTexture;
+                movieaudio.clip = movies[currentmovie].audioClip;
 
-                movie[currentmovie].Play();
+                movies[currentmovie].Play();
                 movieaudio.Play();
             }
             if (livebackgroundbehaviour == LiveBackgroundBehaviour.random)
             {
-                nextmovie = Random.Range(0, movie.Length);
+                nextmovie = Random.Range(0, movies.Length);
                 currentmovie = nextmovie;
-                GetComponent<RawImage>().texture = movie[currentmovie] as MovieTexture;
-                movieaudio.clip = movie[currentmovie].audioClip;
+                GetComponent<RawImage>().texture = movies[currentmovie] as MovieTexture;
+                movieaudio.clip = movies[currentmovie].audioClip;
 
-                movie[currentmovie].Play();
+                movies[currentmovie].Play();
                 movieaudio.Play();
             }
             if(livebackgroundbehaviour == LiveBackgroundBehaviour.inorder)
             {
-                if (nextmovie < movie.Length - 1)
+                if (nextmovie < movies.Length - 1)
                 {
                     nextmovie++;
                     currentmovie = nextmovie;
@@ -117,10 +117,10 @@ public class LiveBackground : MonoBehaviour {
                     nextmovie = 0;
                 }
 
-                GetComponent<RawImage>().texture = movie[currentmovie] as MovieTexture;
-                movieaudio.clip = movie[currentmovie].audioClip;
+                GetComponent<RawImage>().texture = movies[currentmovie] as MovieTexture;
+                movieaudio.clip = movies[currentmovie].audioClip;
 
-                movie[currentmovie].Play();
+                movies[currentmovie].Play();
                 movieaudio.Play();
             }
         }

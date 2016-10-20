@@ -242,6 +242,9 @@ public class DialogBox : MonoBehaviour {
             currentdialoganswers++;
         hasanswered = true;
         dialog.isanswermoment = false;
+        //test
+        Processed();
+        //
         answerbox.SetActive(false);
     }
     public void OnAnswerGainAffinity(AnswerButton AnswerButton)

@@ -4,7 +4,19 @@ using System.Collections;
 
 public class Actor : MonoBehaviour {
 
+    #region Animator Keys Reference
+
+    public string motionreference = "Motion";
+
+    #endregion
+
+    #region Attributes
+
+    public SimpleModel actormodel;
+
     public Sprite actorimage;
+
+    public Animator actoranimator;
 
     public string actorname;
 
@@ -15,6 +27,12 @@ public class Actor : MonoBehaviour {
 
     public bool hasdialog;
 
+    #endregion
+
+    #region Methods
+
+    #region Enable and Disable
+
     void OnEnable()
     {
         Debug.Log(actorname + " has enter in scene for dialog ");
@@ -23,5 +41,9 @@ public class Actor : MonoBehaviour {
     {
         Debug.Log(actorname + " has left the scene ");
     }
+
+    #endregion
+
+    #endregion
 
 }
