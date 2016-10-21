@@ -20,11 +20,18 @@ public class ConfigurationMenu : MonoBehaviour {
 
     void Start()
     {
+        configaudiobox.SetActive(false);
+        configwindowsbox.SetActive(false);
+        howtoplaybox.SetActive(false);
+        speakwithusbox.SetActive(false);
+
         gamedata.LoadLoadRequest();
         gamedata.LoadSaveRequest();
     }
 
     #endregion
+
+    #region Update Volume Settings
 
     public void UpdateVolumeSettings()
     {
@@ -33,6 +40,8 @@ public class ConfigurationMenu : MonoBehaviour {
 
         gamesettings.SaveAudioSettings();
     }
+
+    #endregion
 
     #region Buttons Methods
 

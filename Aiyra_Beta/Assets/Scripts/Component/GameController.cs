@@ -36,6 +36,7 @@ public class GameController : MonoBehaviour {
 
     public int currentscene;
     public bool[] answersresultreaded;
+    public int count;
     public bool canprogress;
 
     #endregion
@@ -361,22 +362,25 @@ public class GameController : MonoBehaviour {
                 }
                 else
                 {
-                    if (dialogbox.currentdialog != 4)
+                    if (dialogbox.nextdialog != 4)
                     {
-                        if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
+                        if (dialogbox.currentdialog != 4)
                         {
-                            if (!dialogbox.hasanswered)
-                                dialogbox.dialog.isanswermoment = true;
+                            if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
+                            {
+                                if (!dialogbox.hasanswered)
+                                    dialogbox.dialog.isanswermoment = true;
+                            }
+                            else
+                            {
+                                dialogbox.hasanswered = false;
+                            }
                         }
                         else
                         {
-                            dialogbox.hasanswered = false;
+                            if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
+                                dialogbox.nextdialog = dialogbox.currentdialog;
                         }
-                    }
-                    else
-                    {
-                        if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
-                            dialogbox.nextdialog = dialogbox.currentdialog;
                     }
                 }
                 break;
@@ -401,79 +405,6 @@ public class GameController : MonoBehaviour {
                 }
                 break;
         }
-
-        #region Test
-        /*
-        if (currentscene == 0)
-        {
-            if (dialogbox.currentdialog == 0)
-            {
-                if (dialogbox.dialog.currentdialogline == 9)
-                    if(!dialogbox.hasanswered) 
-                        dialogbox.dialog.isanswermoment = true;
-                if (dialogbox.dialog.currentdialogline == 10)
-                    dialogbox.hasanswered = false;
-            }
-            else
-            {
-                if (dialogbox.currentdialog != 4)
-                {
-                    if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
-                    {
-                        if (!dialogbox.hasanswered)
-                            dialogbox.dialog.isanswermoment = true;
-                    }
-                    else
-                    {
-                        dialogbox.hasanswered = false;
-                    }
-                }
-                else
-                {
-                    if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
-                        dialogbox.nextdialog = dialogbox.currentdialog;
-                }
-            }
-        }
-        if (currentscene == 1)
-        {
-            if (dialogbox.currentdialog == 0)
-            {
-                if (dialogbox.dialog.currentdialogline == 3)
-                    if (!dialogbox.hasanswered)
-                        dialogbox.dialog.isanswermoment = true;
-                if (dialogbox.dialog.currentdialogline != 3)
-                    dialogbox.hasanswered = false;
-            }
-        }
-        if(currentscene == 7)
-        {
-            if(dialogbox.currentdialog == 0)
-            {
-                if (dialogbox.dialog.currentdialogline == 3)
-                    if (!dialogbox.hasanswered)
-                        dialogbox.dialog.isanswermoment = true;
-                if (dialogbox.dialog.currentdialogline != 3)
-                    dialogbox.hasanswered = false;
-            }
-        }
-        #region Test
-        /*
-        if (currentscene == 1)
-        {
-            if (dialogbox.currentdialog == 0)
-            {
-                if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
-                    if (!dialogbox.hasanswered) 
-                        dialogbox.dialog.isanswermoment = true;
-            }
-            if(dialogbox.currentdialog != 0)
-            {
-                dialogbox.hasanswered = false;
-            }
-        }
-        */
-        #endregion            
     }
     //method that give the value of affinity the answer buttons will have 
     void UploadAnswersValue()
@@ -494,33 +425,7 @@ public class GameController : MonoBehaviour {
                 }
                 break;
         }
-
-        #region Test
-        /*
-        if (currentscene == 7)
-        {
-            if (dialogbox.currentdialog == 0)
-            {
-                if(dialogbox.dialog.currentdialogline == 2)
-                    dialogbox.SetAnswerButtonsValue(5, 10, 3);
-            }
-        }
-        if (currentscene == 1)
-        {
-            if (dialogbox.currentdialog == 0)
-            {
-                dialogbox.SetAnswerButtonsValue(0, 0, 0);
-            }
-        }
-        if (currentscene == 7)
-        {
-            if (dialogbox.currentdialog == 0)
-            {
-                dialogbox.SetAnswerButtonsValue(10, 15, 20);
-            }
-        }
-        */
-        #endregion
+        
     }
 
     #endregion
@@ -530,102 +435,132 @@ public class GameController : MonoBehaviour {
     //method that adjust next dialog for current dialog not value has the final dialog causing the dialog to end
     void AdjustDialogDisplayBoxToNextDialog()
     {
-        if(currentscene == 0)
+        
+        //check the current scene to programming next dialog according
+        switch (currentscene)
         {
-            if (dialogbox.currentdialog == 0)
-            {
-                answersresultreaded = new bool[3];
-                if (dialogbox.lastanswerid < 0)
+            case 0:
+                if (dialogbox.currentdialog == 0)
                 {
-                    dialogbox.nextdialog = 5;
+                    answersresultreaded = new bool[3];
                     dialogbox.AnswerButtonsSetNextDialog(1, 2, 3);
-                }
-            }
-            else
-            {
-
-                if(CheckAnswersResultReaded() == true)
-                {
-                    dialogbox.nextdialog = 4;
-                }
-
-                if (dialogbox.currentdialog == 1)
-                {
-                    if (answersresultreaded.Length <= 0)
-                        answersresultreaded = new bool[3];
-                    else
+                    if (dialogbox.lastanswerid < 0)
                     {
-                        answersresultreaded[0] = true;
+                        dialogbox.nextdialog = 5;
                     }
                 }
-                if (dialogbox.currentdialog == 2)
+                else
                 {
-                    if (answersresultreaded.Length <= 0)
-                        answersresultreaded = new bool[3];
-                    else
+
+                    if (CheckAnswersResultReaded() == true)
                     {
-                        answersresultreaded[1] = true;
+                        dialogbox.nextdialog = 4;
+                        count = 0;
                     }
+
+                    if (dialogbox.currentdialog == 1)
+                    {
+                        if (answersresultreaded.Length <= 0)
+                            answersresultreaded = new bool[3];
+                        else
+                        {
+                            answersresultreaded[0] = true;
+                        }
+                    }
+                    if (dialogbox.currentdialog == 2)
+                    {
+                        if (answersresultreaded.Length <= 0)
+                            answersresultreaded = new bool[3];
+                        else
+                        {
+                            answersresultreaded[1] = true;
+                        }
+                    }
+                    if (dialogbox.currentdialog == 2)
+                    {
+                        if (answersresultreaded.Length <= 0)
+                            answersresultreaded = new bool[3];
+                        else
+                        {
+                            answersresultreaded[2] = true;
+                        }
+                    }
+
+                    if (dialogbox.nextdialog == dialogbox.currentdialog)
+                        dialogbox.nextdialog++;
                 }
-                if (dialogbox.currentdialog == 2)
+                break;
+            case 1:
+                if (dialogbox.currentdialog == 0)
                 {
-                    if (answersresultreaded.Length <= 0)
-                        answersresultreaded = new bool[3];
-                    else
-                    {
-                        answersresultreaded[2] = true;
-                    }
+                    if (dialogbox.dialog.currentdialogline < 3)
+                        dialogbox.nextdialog = 3;
+
+                    dialogbox.AnswerButtonsSetNextDialog(1, 2, 0);
                 }
-
-                if (dialogbox.nextdialog == dialogbox.currentdialog)
-                    dialogbox.nextdialog++;
-            }
-        }
-        else if(currentscene == 1)
-        {
-            if(dialogbox.currentdialog == 0)
-            {
-                if(dialogbox.dialog.currentdialogline < 3)
-                    dialogbox.nextdialog = 3;
-
-                dialogbox.AnswerButtonsSetNextDialog(1, 2, 0);
-                /*
-                if(dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
-                    dialogbox.nextdialog = 1;
-                else { dialogbox.nextdialog = dialogbox.currentdialog; }
-                */
-            }
-            if (dialogbox.currentdialog == 1 || dialogbox.currentdialog == 2)
-            {
-                if (dialogbox.dialog.currentdialogline <= dialogbox.dialog.enddialogatline)
-                    dialogbox.nextdialog = 3;
-            }
-
-        }
-        else if(currentscene >= 2 && currentscene < 3)
-        {
-            if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
-                dialogbox.nextdialog = 1;
-            else { dialogbox.nextdialog = dialogbox.currentdialog; }
-        }
-        else if (currentscene == 3)
-        {
-            if (dialogbox.currentdialog == 0)
-            {
-                dialogbox.AnswerButtonsSetNextDialog(1, 2, 3);
-                if (dialogbox.lastanswerid < 0)
-                    dialogbox.nextdialog = 1;
-                
-            }
-        }
-        else if (currentscene >= 4 && currentscene < 8)
-        {
-            if (dialogbox.currentdialog == 0)
-            {
+                if (dialogbox.currentdialog == 1 || dialogbox.currentdialog == 2)
+                {
+                    if (dialogbox.dialog.currentdialogline <= dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = 3;
+                }
+                break;
+            case 2:
                 if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
                     dialogbox.nextdialog = 1;
                 else { dialogbox.nextdialog = dialogbox.currentdialog; }
-            }
+                break;
+            case 3:
+                if (dialogbox.currentdialog == 0)
+                {
+                    dialogbox.AnswerButtonsSetNextDialog(1, 2, 3);
+                    if (dialogbox.lastanswerid < 0)
+                        dialogbox.nextdialog = 1;
+
+                }
+                break;
+            case 4:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = 1;
+                    else { dialogbox.nextdialog = dialogbox.currentdialog; }
+                }
+                break;
+            case 5:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = 1;
+                    else { dialogbox.nextdialog = dialogbox.currentdialog; }
+                }
+                break;
+            case 6:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = 1;
+                    else { dialogbox.nextdialog = dialogbox.currentdialog; }
+                }
+                break;
+            case 7:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = 1;
+                    else { dialogbox.nextdialog = dialogbox.currentdialog; }
+                }
+                break;
+            case 8:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = 1;
+                    else { dialogbox.nextdialog = dialogbox.currentdialog; }
+                }
+                break;
+            default:
+                Debug.Log("Their is no default to next dialog yeat");
+                break;
         }
     }
 
@@ -636,21 +571,23 @@ public class GameController : MonoBehaviour {
     //Method that check if the player has read all the possible results of a dialog questions
     bool CheckAnswersResultReaded()
     {
-        //create a counter that will add values to it has the player has read the results
-        int count = 0;
+        //Check if the player has read all possible answer result
+        if (count >= answersresultreaded.Length)
+        {
+            return true;
+        }
         //create a whip of type for that will check all answerresultreaded to know how much results the player has read
-        for(int i = 0; i < answersresultreaded.Length; i ++)
+        for (int i = 0; i < answersresultreaded.Length; i ++)
         {
             if (answersresultreaded[i] == true)
+            {
                 count++;
+            }
             else
             {
                 return false;
             }
         }
-        //Check if the player has read all possible answer result
-        if (count >= answersresultreaded.Length)
-            return true;
 
         return false;
     }
@@ -663,66 +600,67 @@ public class GameController : MonoBehaviour {
     bool CheckActorDialogLines(Actor ActorI)
     {
         foreach (int actordialogline in ActorI.dialoglines)
-            if (actordialogline == dialogbox.dialog.currentdialogline)
-                return true;
+            if (!pausemenu.hideactors)
+            {
+                if (actordialogline == dialogbox.dialog.currentdialogline)
+                    return true;
+            }
+            else { Debug.Log("Game Paused and request actor to hide their selfts"); return false; }
 
         return false;
     }
     void PrepareActorDialogLines()
     {
-        for(int i = 0; i < actors.Length; i ++)
+        for (int i = 0; i < actors.Length; i++)
         {
-            if (!pausemenu.hideactors)
+            switch (actors[i].name)
             {
-                switch (actors[i].name)
-                {
-                    case "Enzo":
-                        switch (currentscene)
-                        {
-                            case 7:
-                                if (dialogbox.currentdialog == 0)
-                                    actors[i].dialoglines = new int[5] { 0, 1, 2, 3, 4 };
-                                else { actors[i].dialoglines = new int[0]; }
-                                break;
-                            default:
-                                Debug.Log("Doing Default of actor lines");
-                                actors[i].dialoglines = new int[0];
-                                break;
-                        }
-                        break;
-                    case "Jurupari":
-                        switch (currentscene)
-                        {
-                            case 0:
-                                switch (dialogbox.currentdialog)
-                                {
-                                    case 0:
-                                        actors[i].dialoglines = new int[12] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-                                        break;
-                                    case 1:
-                                        actors[i].dialoglines = new int[8] { 0, 1, 2, 3, 4, 5, 6, 7 };
-                                        break;
-                                    case 2:
-                                        actors[i].dialoglines = new int[4] { 0, 1, 2, 3 };
-                                        break;
-                                    case 3:
-                                        actors[i].dialoglines = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
-                                        break;
-                                    case 4:
-                                        actors[i].dialoglines = new int[3] { 0, 1, 2 };
-                                        break;
-                                    default:
-                                        actors[i].dialoglines = new int[0];
-                                        break;
-                                }
-                                break;
-                            default:
-                                Debug.Log("Doing Default of actor lines");
-                                actors[i].dialoglines = new int[0];
-                                break;
-                        }
-                        break;
-                }
+                case "Enzo":
+                    switch (currentscene)
+                    {
+                        case 7:
+                            if (dialogbox.currentdialog == 0)
+                                actors[i].dialoglines = new int[5] { 0, 1, 2, 3, 4 };
+                            else { actors[i].dialoglines = new int[0]; }
+                            break;
+                        default:
+                            Debug.Log("Doing Default of actor lines");
+                            actors[i].dialoglines = new int[0];
+                            break;
+                    }
+                    break;
+                case "Jurupari":
+                    switch (currentscene)
+                    {
+                        case 0:
+                            switch (dialogbox.currentdialog)
+                            {
+                                case 0:
+                                    actors[i].dialoglines = new int[12] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+                                    break;
+                                case 1:
+                                    actors[i].dialoglines = new int[8] { 0, 1, 2, 3, 4, 5, 6, 7 };
+                                    break;
+                                case 2:
+                                    actors[i].dialoglines = new int[4] { 0, 1, 2, 3 };
+                                    break;
+                                case 3:
+                                    actors[i].dialoglines = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
+                                    break;
+                                case 4:
+                                    actors[i].dialoglines = new int[3] { 0, 1, 2 };
+                                    break;
+                                default:
+                                    actors[i].dialoglines = new int[0];
+                                    break;
+                            }
+                            break;
+                        default:
+                            Debug.Log("Doing Default of actor lines");
+                            actors[i].dialoglines = new int[0];
+                            break;
+                    }
+                    break;
             }
         }
     }

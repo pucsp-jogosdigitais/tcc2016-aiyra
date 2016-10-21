@@ -4,14 +4,23 @@ using System.Collections;
 
 public class GameSettings : MonoBehaviour {
 
-    private const string  musicvolumesavekey = "MUSICVOLUME";
-    private const string  effectsvolumesavekey = "EFFECTSVOLUME";
+    #region Attributes
 
-    public Slider[] volumesliders; 
+    private const string musicvolumesavekey = "MUSICVOLUME";
+    private const string effectsvolumesavekey = "EFFECTSVOLUME";
+
+    public Slider[] volumesliders;
 
     public float musicvolume;
     public float effectsvolume;
     public float maxvolume;
+
+    #endregion
+
+    #region Methods
+
+    #region Awake And Start
+
     void Start()
     {
         LoadAudioSettings();
@@ -24,6 +33,11 @@ public class GameSettings : MonoBehaviour {
             DisplayCurrentVolume();
         }
     }
+
+    #endregion
+
+    #region Game Settings Fundamental Methods
+
     public void DisplayCurrentVolume()
     {
         volumesliders[0].value = musicvolume;
@@ -39,4 +53,9 @@ public class GameSettings : MonoBehaviour {
         musicvolume = PlayerPrefs.GetFloat(musicvolumesavekey);
         effectsvolume = PlayerPrefs.GetFloat(effectsvolumesavekey);
     }
+
+    #endregion
+
+    #endregion
+
 }
