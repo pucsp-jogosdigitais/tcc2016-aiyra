@@ -17,6 +17,9 @@ public class MusicPlayer : MonoBehaviour {
     #endregion
 
     #region Methods
+
+    #region Enable and Disable Methods
+
     void OnEnable()
     {
         Debug.Log("Music Player active");
@@ -25,6 +28,11 @@ public class MusicPlayer : MonoBehaviour {
     {
         Debug.Log("Music Player desactive");
     }
+
+    #endregion
+
+    #region Awake and Start Methods
+    //Method is run only one and when the gameobject associed with the script awake
     void Awake()
     {
         if (music == null)
@@ -47,6 +55,11 @@ public class MusicPlayer : MonoBehaviour {
         }
 
     }
+
+    #endregion
+
+    #region MusicPlayer Fundamental Methods
+
     public void Restart()
     {
         currentmusicclip = 0;
@@ -77,7 +90,14 @@ public class MusicPlayer : MonoBehaviour {
             if (!music.isPlaying)
             {
                 Restart();
-                StopMusic();
+                if (isreplayable)
+                {
+                    PlayMusic();
+                }
+                else
+                {
+                    StopMusic();
+                }
             }
         }
         if(musicplayerbehaviour == MusicPlayerBehaviour.random)
@@ -107,6 +127,9 @@ public class MusicPlayer : MonoBehaviour {
     {
         endatmusicclip = limit;
     }
+
+    #endregion
+
     #endregion
 
 }

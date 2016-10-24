@@ -15,7 +15,7 @@ public class ActorButton : MonoBehaviour {
     #region Methods
 
     #region Awake And Start Methods
-
+    //Method is run only one and when the gameobject associed with the script awake
     void Awake()
     {
         if (actor != null)

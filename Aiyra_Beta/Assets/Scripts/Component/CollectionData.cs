@@ -34,10 +34,6 @@ public class CollectionData : MonoBehaviour {
 
     #endregion
 
-    #region Awake And Start
-
-    #endregion
-
     #region CollectionData Fundamental Methods
 
     #region SetValueMethod

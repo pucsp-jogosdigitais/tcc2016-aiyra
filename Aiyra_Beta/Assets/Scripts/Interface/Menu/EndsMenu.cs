@@ -6,8 +6,8 @@ public class EndsMenu : MonoBehaviour {
 
     #region Movies Paths and names
 
-    private string enzoendspath = "Videos/Intro/Teste/";
-    private string enzoperfectendname = "TesteGameIntro";
+    //private string enzoendspath = "Videos/Intro/Teste/";
+    //private string enzoperfectendname = "TesteGameIntro";
 
     #endregion
 
@@ -37,7 +37,7 @@ public class EndsMenu : MonoBehaviour {
     #endregion
 
     #region Buttons Methods
-
+    //Method that load Actor CG and play end
     public void LoadActorCGsAndPlay(ActorButton ActorButton)
     {
         /*

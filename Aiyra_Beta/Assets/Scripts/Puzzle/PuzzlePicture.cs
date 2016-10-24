@@ -26,7 +26,7 @@ public class PuzzlePicture : MonoBehaviour
     #endregion
 
     #region Awake and Start
-
+    //Method is run only one and when the gameobject associed with the script awake
     void Awake()
     {
         if (puzzle == null)

@@ -25,6 +25,7 @@ public class GameData : MonoBehaviour {
     private const string currentdialoganswerstatesavekey = "CURRENTDIALOGANSWERSTATE";
 
     private const string gameprogresssavekey = "CURRENTGAMEPROGRESS";
+    private const string currentgameendsavekey = "CURRENTGAMEEND";
     private const string savedatasavekey = "DATA";
     private const string playtimesavekey = "PLAYTIME";
 
@@ -54,6 +55,7 @@ public class GameData : MonoBehaviour {
     public string currentscenestate;
     public string currentdialoganswerstate;
 
+    public int currentgameend;
     public int gameprogress;
 
     public string data;
@@ -126,6 +128,10 @@ public class GameData : MonoBehaviour {
     {
         currentdialoganswerstate = CurrentDialogAnswerState;
     }
+    public void SetGameEnd(int CurrentGameEnd)
+    {
+        currentgameend = CurrentGameEnd;
+    }
     public void SetGameProgress(int CurrentGameProgress)
     {
         gameprogress = CurrentGameProgress;
@@ -153,19 +159,21 @@ public class GameData : MonoBehaviour {
     //Save Methods
 
     #region Save Methods
-
+        //Method that save current load request
     public void SaveLoadRequest()
     {
         issaving = true;
         PlayerPrefs.SetInt(loadrequestsavekey, loadrequest);
         issaving = false;
     }
+    //Method that save current save request
     public void SaveSaveRequest()
     {
         issaving = true;
         PlayerPrefs.SetInt(saverequestsavekey, saverequest);
         issaving = false;
     }
+    //Method that save all player information like name, current actor or patner, affinity with wich actor, data and playtime.
     public void SaveAllPlayerData()
     {
         issaving = true;
@@ -182,6 +190,7 @@ public class GameData : MonoBehaviour {
         PlayerPrefs.SetFloat(playtimesavekey, playtime);
         issaving = false;
     }
+    //Method that save all game information like current scene,text file,dialog line, scene state and current game progress.
     public void SaveAllGameData()
     {
         issaving = true;
@@ -190,21 +199,25 @@ public class GameData : MonoBehaviour {
         PlayerPrefs.SetInt(playercurrentdialoglinesavekey, playercurrentdialogline);
         PlayerPrefs.SetString(currentscenestatesavekey, currentscenestate);
         PlayerPrefs.SetString(currentdialoganswerstate, currentdialoganswerstatesavekey);
+        PlayerPrefs.SetInt(currentgameendsavekey, currentgameend);
         PlayerPrefs.SetInt(gameprogresssavekey, gameprogress);
         issaving = false;
     }
+    //Method that save player name
     public void SavePlayerName()
     {
         issaving = true;
         PlayerPrefs.SetString(playernamesavekey, playername);
         issaving = false;
     }
+    //Method that save player current actor or patner choice
     public void SavePlayerCurrentActor()
     {
         issaving = true;
         PlayerPrefs.SetString(playercurrentactorsavekey, playercurrentactor);
         issaving = false;
     }
+    //Method that save affinity with all actors or partners
     public void SaveAllAffinitys()
     {
         issaving = true;
@@ -215,12 +228,14 @@ public class GameData : MonoBehaviour {
         PlayerPrefs.SetInt(zakiaffinitysavekey, currentzakiaffinity);
         issaving = false;
     }
+    //Method that save data
     public void SaveData()
     {
         issaving = true;
         PlayerPrefs.SetString(savedatasavekey, data);
         issaving = false;
     }
+    //Method that save playtime
     public void SavePlayTime()
     {
         issaving = true;
@@ -232,19 +247,21 @@ public class GameData : MonoBehaviour {
     //Load Methods
 
     #region Load Methods
-
+        //Method that load load request to know it the game will gone save or load now
     public void LoadLoadRequest()
     {
         isloading = true;
         loadrequest = PlayerPrefs.GetInt(loadrequestsavekey);
         isloading = false;
     }
+    //Method that load save request to know it the game will gone save or load now
     public void LoadSaveRequest()
     {
         isloading = true;
         saverequest = PlayerPrefs.GetInt(saverequestsavekey);
         isloading = false;
     }
+    //Method that load all player data like player name, player current actor or patner, etc.
     public void LoadAllPlayerData()
     {
         isloading = true;
@@ -261,6 +278,7 @@ public class GameData : MonoBehaviour {
         playtime = PlayerPrefs.GetFloat(playtimesavekey);
         isloading = false;
     }
+    //Method that load all game data like current scene, current scene state, etc.
     public void LoadAllGameData()
     {
         isloading = true;
@@ -269,6 +287,7 @@ public class GameData : MonoBehaviour {
         playercurrentdialogline = PlayerPrefs.GetInt(playercurrentdialoglinesavekey);
         currentscenestate = PlayerPrefs.GetString(currentscenestatesavekey);
         currentdialoganswerstate = PlayerPrefs.GetString(currentdialoganswerstatesavekey);
+        currentgameend = PlayerPrefs.GetInt(currentgameendsavekey);
         gameprogress = PlayerPrefs.GetInt(gameprogresssavekey);
         isloading = false;
     }

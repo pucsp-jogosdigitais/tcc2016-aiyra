@@ -32,7 +32,7 @@ public class ActorCG : MonoBehaviour {
     #endregion
 
     #region Awake and Start Methods
-
+    //Method is run only one and when the gameobject associed with the script awake
     void Awake()
     {
         if (cgimage == null)

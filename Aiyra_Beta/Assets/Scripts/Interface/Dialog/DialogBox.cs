@@ -47,7 +47,7 @@ public class DialogBox : MonoBehaviour {
     #endregion
 
     #region Awake And Start
-
+    //Method is run only one and when the gameobject associed with the script awake
     void Awake()
     {
         if(gamedata == null)

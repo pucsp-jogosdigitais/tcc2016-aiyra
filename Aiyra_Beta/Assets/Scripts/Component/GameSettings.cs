@@ -20,7 +20,7 @@ public class GameSettings : MonoBehaviour {
     #region Methods
 
     #region Awake And Start
-
+    //Method is run only one and when the gameobject associed with the script awake
     void Start()
     {
         LoadAudioSettings();

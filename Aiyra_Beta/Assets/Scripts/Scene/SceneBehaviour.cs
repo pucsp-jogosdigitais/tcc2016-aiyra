@@ -5,14 +5,11 @@ public class SceneBehaviour : MonoBehaviour {
 
     #region Attributes
 
-    public float timertogo;
-
     public float timertostart;
 
-    /*
-    public int[] possiblenextscenes;
-    public int[] possiblenextgamescenes;
-    */
+    public float timertogo;
+
+    public bool isfinalscene;
 
     #endregion
 
@@ -28,10 +25,6 @@ public class SceneBehaviour : MonoBehaviour {
     {
         Debug.Log("Scene Behaviour " + gameObject.name + " Desactive");
     }
-
-    #endregion
-
-    #region Awake And Start Methods
 
     #endregion
 

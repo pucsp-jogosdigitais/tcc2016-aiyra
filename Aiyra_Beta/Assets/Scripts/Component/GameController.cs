@@ -16,6 +16,10 @@ public class GameController : MonoBehaviour {
 
     private const string enzogalleryreference = "ENZOGALLERY" /* + CGID;*/;
     private const string isisgalleryreference = "ISISGALLERY" /* + CGID;*/;
+    private const string benjamingalleryreference = "BENJAMINGALLERY" /*  + CGID*/;
+
+
+    private const string enzoendreference = "ENZOEND" /*  + CGID*/;
     #endregion
 
     #region Attributes
@@ -36,7 +40,6 @@ public class GameController : MonoBehaviour {
 
     public int currentscene;
     public bool[] answersresultreaded;
-    public int count;
     public bool canprogress;
 
     #endregion
@@ -55,6 +58,7 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region Awake and Start Methods
+    //Method is run only one and when the gameobject associed with the script awake
     void Awake()
     {
         if (gamedata == null)
@@ -170,7 +174,7 @@ public class GameController : MonoBehaviour {
         
         ActiveCurrentSceneAndDisableOthers();
         */
-        ManageScenes();
+        ScenesManager();
 
         #endregion
         #region Game Control
@@ -182,24 +186,7 @@ public class GameController : MonoBehaviour {
         #endregion
         #region Player Control
 
-        if (Input.GetButtonDown("Confirm"))
-            if(canprogress)
-                dialogbox.Processed();
-
-        if (Input.GetButtonDown("Pause"))
-        {
-            if(pausemenu.gameObject.activeInHierarchy)
-            {
-                pausemenu.hideactors = false;
-                pausemenu.affinitybarbox.SetActive(false);
-                pausemenu.helpbox.SetActive(false);
-                pausemenu.gameObject.SetActive(false);
-            }
-            else
-            {
-                pausemenu.OnClickPauseGame();
-            }
-        }
+        PlayerInputs();
 
         #endregion
         #region Player Eye Control
@@ -434,8 +421,7 @@ public class GameController : MonoBehaviour {
 
     //method that adjust next dialog for current dialog not value has the final dialog causing the dialog to end
     void AdjustDialogDisplayBoxToNextDialog()
-    {
-        
+    {    
         //check the current scene to programming next dialog according
         switch (currentscene)
         {
@@ -451,11 +437,9 @@ public class GameController : MonoBehaviour {
                 }
                 else
                 {
-
                     if (CheckAnswersResultReaded() == true)
                     {
                         dialogbox.nextdialog = 4;
-                        count = 0;
                     }
 
                     if (dialogbox.currentdialog == 1)
@@ -474,6 +458,7 @@ public class GameController : MonoBehaviour {
                         else
                         {
                             answersresultreaded[1] = true;
+                            answersresultreaded[2] = false;
                         }
                     }
                     if (dialogbox.currentdialog == 2)
@@ -571,22 +556,32 @@ public class GameController : MonoBehaviour {
     //Method that check if the player has read all the possible results of a dialog questions
     bool CheckAnswersResultReaded()
     {
-        //Check if the player has read all possible answer result
-        if (count >= answersresultreaded.Length)
+        switch (answersresultreaded.Length)
         {
-            return true;
-        }
-        //create a whip of type for that will check all answerresultreaded to know how much results the player has read
-        for (int i = 0; i < answersresultreaded.Length; i ++)
-        {
-            if (answersresultreaded[i] == true)
-            {
-                count++;
-            }
-            else
-            {
-                return false;
-            }
+            case 0:
+                Debug.Log("No Space in the answers readed check array");
+                break;
+            case 1:
+                if (answersresultreaded[0] == true)
+                    return true;
+                break;
+            case 2:
+                if (answersresultreaded[0] == true && answersresultreaded[1] == true)
+                    return true;
+                break;
+            case 3:
+                if (answersresultreaded[0] == true && answersresultreaded[1] == true && answersresultreaded[2] == true)
+                    return true;
+                break;
+            default:
+                for (int i = 0; i < answersresultreaded.Length; i++)
+                    if (answersresultreaded[i] == true)
+                        for (int j = 0; j < answersresultreaded.Length; j++)
+                            if (j != i)
+                                if (answersresultreaded[i] == true && answersresultreaded[j] == true)
+                                    if (j == answersresultreaded.Length)
+                                        return true;
+                break;
         }
 
         return false;
@@ -679,6 +674,10 @@ public class GameController : MonoBehaviour {
                                 case 0:
                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
                                     break;
+                                default:
+                                    Debug.Log("Doing actor Enzo Default motion");
+                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                    break;
                             }
                             break;
                         default:
@@ -723,6 +722,10 @@ public class GameController : MonoBehaviour {
                                             break;
                                     }
                                     break;
+                                default:
+                                    Debug.Log("Doing actor Jurupari Default motion");
+                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                    break;
                             }
                             break;
                         default:
@@ -734,6 +737,7 @@ public class GameController : MonoBehaviour {
             }
         }
     }
+
     #endregion
    
     #region ObjectI Methods
@@ -840,53 +844,33 @@ public class GameController : MonoBehaviour {
             Debug.Log("Scene " + scenes[i].scenename + " Avaliable");
         }
     }
-
-    /*
-    void ActiveCurrentSceneAndDisableOthers()
+    void ScenesManager()
     {
-        for (int i = 0; i < scenes.Length; i++)
-            if (scenes[i].sceneid == currentscene)
-                scenes[i].gameObject.SetActive(true);
-            else { scenes[i].gameObject.SetActive(false); }
-    }
-    */
-    /*
-    void UpdateSceneBehaviours()
-    {
-
-        for (int i = 0; i < scenes.Length; i++)
-            if (scenes[i].gameObject.activeInHierarchy)
-                if(scenes[i].GetComponent<SceneBehaviour>() != null)
-                    scenes[i].GetComponent<SceneBehaviour>().UpdateSceneBehaviour();                
-    }
-    */
-
-    void ManageScenes()
-    {
-        if (currentscene == 0)
-            OnDialogEndGoTo(1);
-
-        if (currentscene == 3)
+        switch (currentscene)
         {
-            if (dialogbox.currentdialog >= 1 && dialogbox.currentdialog <= 2)
-            {
-                OnDialogEndGoTo(4);
-            }
-            if(dialogbox.currentdialog == 3)
-            {
+            case 0:
+                OnDialogEndGoTo(1);
+                break;
+            case 3:
+                if (dialogbox.currentdialog >= 1 && dialogbox.currentdialog <= 2)
+                {
+                    OnDialogEndGoTo(4);
+                }
+                if (dialogbox.currentdialog == 3)
+                {
+                    OnDialogEndGoTo(6);
+                }
+                break;
+            case 5:
+                TimeToSetScene();
                 OnDialogEndGoTo(6);
-            }
-        }
-
-        if (currentscene == 5)
-        {
-            TimeToSetScene();
-            OnDialogEndGoTo(6);
-        }
-
-        if (currentscene == 6)
-        {
-            OnTimeEndGoTo(7);
+                break;
+            case 6:
+                OnTimeEndGoTo(7);
+                break;
+            case 7:
+                OnDialogEndCompleteTheGame();
+                break;
         }
     }
 
@@ -900,57 +884,7 @@ public class GameController : MonoBehaviour {
             dialogbox.StartDialog(0);
             Debug.Log("You has go to scene" + SceneToGo);
         }
-    }
-    void TimeToSetScene()
-    {
-        SceneBehaviour currentscenebehaviour;
-
-       if(scenes[currentscene].GetComponent<SceneBehaviour>() != null)
-            currentscenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
-        else
-        {
-            scenes[currentscene].gameObject.AddComponent<SceneBehaviour>();
-            currentscenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
-            currentscenebehaviour.timertostart = 100;
-        }
-
-        if (currentscenebehaviour != null)
-        {
-            if (currentscenebehaviour.timertostart > 0)
-            {
-                currentscenebehaviour.timertostart--;
-                if (canprogress == true)
-                    canprogress = false;
-                Debug.Log("Tempo para liberar progress�o " + currentscenebehaviour.timertostart);
-            }
-            else
-            {
-                if (canprogress == false)
-                    canprogress = true;
-                Debug.Log("Scene Ready");
-            }
-        }
-        else { Debug.LogError("No SceneBehaviour on scene " + currentscene); }
-    }
-    void OnTimeEndGoTo(int SceneToGo)
-    {
-        SceneBehaviour currentscenebehaviour;
-
-        currentscenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
-
-            if (canprogress && currentscenebehaviour.timertogo > 0)
-            {
-                currentscenebehaviour.timertogo--;
-                Debug.Log("Tempo para acontecer proximo evento " + currentscenebehaviour.timertogo);
-            }
-            else
-            {
-                currentscene = SceneToGo;
-                dialogbox.StartDialog(0);
-                Debug.Log("You has go to Scene " + SceneToGo);
-            }
-
-    }
+    }  
     void OnDialogEndSaveGameProgress()
     {
         if (!dialogbox.gameObject.activeInHierarchy)
@@ -959,6 +893,10 @@ public class GameController : MonoBehaviour {
             gamedata.SaveAllGameData();
             Debug.Log("Game has been save");
         }
+    }
+    void OnDialogEndCompleteTheGame()
+    {
+        CompleteGameCheckAffinityUnlockEndAndPlayGameEnd();
     }
     void OnDialogEndSaveGameAndLoadGameScene(int DialogReference, int DialogLineReference, int GameSceneToGo)
     {
@@ -972,6 +910,32 @@ public class GameController : MonoBehaviour {
     }
 
     #endregion
+
+    #endregion
+
+    #region Player Methods
+
+    void PlayerInputs()
+    {
+        if (Input.GetButtonDown("Confirm"))
+            if (canprogress)
+                dialogbox.Processed();
+
+        if (Input.GetButtonDown("Pause"))
+        {
+            if (pausemenu.gameObject.activeInHierarchy)
+            {
+                pausemenu.hideactors = false;
+                pausemenu.affinitybarbox.SetActive(false);
+                pausemenu.helpbox.SetActive(false);
+                pausemenu.gameObject.SetActive(false);
+            }
+            else
+            {
+                pausemenu.OnClickPauseGame();
+            }
+        }
+    }
 
     #endregion
 
@@ -1026,14 +990,25 @@ public class GameController : MonoBehaviour {
         {
             if (dialogbox.currentdialog == 0)
             {
-                if(dialogbox.dialog.currentdialogline == 6)
+                SceneBehaviour scenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
+
+                if (dialogbox.dialog.currentdialogline == 6)
                 {
                     gamedata.SaveAllPlayerData();
                     gamedata.SaveAllGameData();
                     if (!gamedata.issaving || !gamedata.isloading)
-                    { 
-                        if (player.playername.Length <= 0) 
-                            Application.LoadLevel(9);
+                    {
+                        if (player.playername.Length <= 0)
+                        {
+                            if(scenebehaviour.timertogo > 0)
+                            {
+                                scenebehaviour.timertogo--;
+                                if(canprogress == true)
+                                    canprogress = false;
+                            }
+                            else { Application.LoadLevel(9); }
+                        }
+                        else { scenebehaviour.timertogo = 100; }
                     }
                 }
             }
@@ -1060,10 +1035,79 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region Time Adjust Methods
+    //Method that frezze game on the start of wich new scene so the game not pass direct trougth the scene
+    void TimeToSetScene()
+    {
+        SceneBehaviour currentscenebehaviour;
+
+        if (scenes[currentscene].GetComponent<SceneBehaviour>() != null)
+            currentscenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
+        else
+        {
+            scenes[currentscene].gameObject.AddComponent<SceneBehaviour>();
+            currentscenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
+            currentscenebehaviour.timertostart = 5;
+        }
+
+        if (currentscenebehaviour != null)
+        {
+            CheckTimeToStartScene(currentscenebehaviour);
+        }
+        else { Debug.LogError("No SceneBehaviour on scene " + currentscene); }
+    }
+    //Method that check if is time to go to next scene
+    void OnTimeEndGoTo(int SceneToGo)
+    {
+        SceneBehaviour currentscenebehaviour;
+
+        if (scenes[currentscene].GetComponent<SceneBehaviour>() != null)
+            currentscenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
+        else
+        {
+            scenes[currentscene].gameObject.AddComponent<SceneBehaviour>();
+            currentscenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
+            currentscenebehaviour.timertogo = 200;
+        }
+
+        if(currentscenebehaviour != null)
+        {
+            CheckTimeEndSceneAndGoToNext(currentscenebehaviour, SceneToGo);
+        }
+        else { Debug.LogError("No SceneBehaviour on scene " + currentscene); }
+    }
+
+    #endregion
+
+    #region Complete Game Methods
+
+    void CompleteGameCheckAffinityUnlockEndAndPlayGameEnd()
+    {
+        SceneBehaviour currentscenebehaviour;
+
+        if (scenes[currentscene].GetComponent<SceneBehaviour>() != null)
+            currentscenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
+        else
+        {
+            scenes[currentscene].gameObject.AddComponent<SceneBehaviour>();
+            currentscenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
+            currentscenebehaviour.isfinalscene = CheckIsCurrentSceneAFinalScene();
+        }
+
+        if (currentscenebehaviour != null)
+        {
+            if(CheckIsFinalScene(currentscenebehaviour) == true)
+            {
+               gamedata.currentgameend = CheckFinalAffinityWithCurrentActor();
+            }
+
+        }
+        else { Debug.LogError("No SceneBehaviour on scene " + currentscene); }
+    }
 
     #endregion
 
     #region Check Methods
+    //Method that check if the current game data is diferent for the gamedata data so it can be save;
     bool CheckDataChanges()
     {
         if (player.playercurrentactor != "")
@@ -1159,10 +1203,73 @@ public class GameController : MonoBehaviour {
 
         return false;
     }
-
+    //Method that check the final affinity with current actor or patner so the game can unlock the coresponding end with that actor
+    int CheckFinalAffinityWithCurrentActor()
+    {
+        if (player.currentactoraffinity >= 100)
+            return 2;
+        else if (player.currentactoraffinity >= 50 && player.currentactoraffinity < 100)
+            return 1;
+        else
+        {
+            return 0;
+        }
+    }
+    //Method that check if the current scene is a final scene with pre parameters inside it
+    bool CheckIsCurrentSceneAFinalScene()
+    {
+        if(currentscene == 7)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    //Method that check from the current scene scenebahviour if is final scene
+    bool CheckIsFinalScene(SceneBehaviour CurrentSceneBehaviour)
+    {
+        if (CurrentSceneBehaviour.isfinalscene)
+            return true;
+        else { return false; }
+    }
+    //Method that check if the time to start the current scene is 0 
+    void CheckTimeToStartScene(SceneBehaviour CurrentSceneBehaviour)
+    {
+        if (CurrentSceneBehaviour.timertostart > 0)
+        {
+            CurrentSceneBehaviour.timertostart--;
+            if (canprogress == true)
+                canprogress = false;
+            Debug.Log("Tempo para liberar progressão " + CurrentSceneBehaviour.timertostart);
+        }
+        else
+        {
+            if (canprogress == false)
+                canprogress = true;
+            Debug.Log("Scene Ready");
+        }
+    }
+    //Method that check if is time to go to next scene
+    void CheckTimeEndSceneAndGoToNext(SceneBehaviour CurrentSceneBehaviour,int SceneToGo)
+    {
+        if (canprogress && CurrentSceneBehaviour.timertogo > 0)
+        {
+            CurrentSceneBehaviour.timertogo--;
+            Debug.Log("Tempo para ir para proxima scene " + CurrentSceneBehaviour.timertogo);
+        }
+        else
+        {
+            currentscene = SceneToGo;
+            dialogbox.StartDialog(0);
+            Debug.Log("You are on the Scene " + currentscene);
+        }
+    }
     #endregion
 
     #region SaveData Methods
+    //Method that read all current game data and adjust it to be save the gamedata of the game saving it  in a correct way
     void SaveAllGameAndPlayerDataOfCurrentGame()
     {
         gamedata.issaving = CheckDataChanges();
@@ -1202,6 +1309,7 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region LoadData Methods
+    //Method load all gamedata data and adjust it to the current game
     void LoadAllGameAndPlayerDataToCurrentGame()
     {
         //Load all GameData that as to load
@@ -1238,7 +1346,7 @@ public class GameController : MonoBehaviour {
         }
         else { Debug.LogWarning("The player has no actor history line"); }
 
-        //Put the values of the player current state in the history of the game
+        //Update the game data to the current game play and put the values of the player current state in the history of the game
         currentscene = gamedata.playercurrentscene;
         dialogbox.currentdialog = gamedata.playercurrenttextfile;
         dialogbox.dialog.currentdialogline = gamedata.playercurrentdialogline;

@@ -45,7 +45,7 @@ public class Puzzle : MonoBehaviour {
     #endregion
 
     #region Awake And Start Methods
-
+    //Method is run only one and when the gameobject associed with the script awake
     void Awake()
     {
         if (gamecontroller == null)

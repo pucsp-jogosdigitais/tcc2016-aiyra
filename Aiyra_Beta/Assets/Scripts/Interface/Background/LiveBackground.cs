@@ -25,7 +25,7 @@ public class LiveBackground : MonoBehaviour {
     #region Methods
 
     #region Awake And Start
-
+    //Method is run only one and when the gameobject associed with the script awake
     void Awake()
     {
         movieaudio = GetComponent<AudioSource>();

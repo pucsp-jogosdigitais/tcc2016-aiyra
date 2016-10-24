@@ -16,6 +16,8 @@ public class GalleryMenu : MonoBehaviour {
 
     public int currentpages;
     public int numberofpages;
+
+    public float buttontimer;
     #endregion
 
     #region Methods
@@ -209,35 +211,45 @@ public class GalleryMenu : MonoBehaviour {
 
     public void LoadNextPage()
     {
-        if (currentpages < numberofpages)
+        if (buttontimer <= 0)
         {
-            gofowardbutton.interactable = true;
-            gobackbutton.interactable = true;
-            currentpages++;
-            LoadActorGallery();
-            UploadCGSStatus();
+            if (currentpages < numberofpages)
+            {
+                gofowardbutton.interactable = true;
+                gobackbutton.interactable = true;
+                currentpages++;
+                LoadActorGallery();
+                UploadCGSStatus();
+            }
+            else
+            {
+                gofowardbutton.interactable = false;
+                gobackbutton.interactable = true;
+            }
+            buttontimer = 0.2f;
         }
-        else
-        {
-            gofowardbutton.interactable = false;
-            gobackbutton.interactable = true;
-        }
+        else { buttontimer -= 0.1f; }
     }
     public void LoadBackPage()
     {
-        if (currentpages > 0)
+        if (buttontimer <= 0)
         {
-            gobackbutton.interactable = true;
-            gofowardbutton.interactable = true;
-            currentpages--;
-            LoadActorGallery();
-            UploadCGSStatus();
+            if (currentpages > 0)
+            {
+                gobackbutton.interactable = true;
+                gofowardbutton.interactable = true;
+                currentpages--;
+                LoadActorGallery();
+                UploadCGSStatus();
+            }
+            else
+            {
+                gobackbutton.interactable = false;
+                gofowardbutton.interactable = true;
+            }
+            buttontimer = 0.2f;
         }
-        else
-        {
-            gobackbutton.interactable = false;
-            gofowardbutton.interactable = true;
-        }
+        else { buttontimer -= 0.2f; }
     }
     public void DisplayCGOnCGDisplayer(ActorCG ActorCG)
     {
