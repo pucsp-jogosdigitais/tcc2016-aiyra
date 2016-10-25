@@ -7,8 +7,6 @@ public class CollectionData : MonoBehaviour {
 
     public string currentgallerystatussavekey = "";
 
-    public string currentdiarystatussavekey = "";
-
     public string currentendstatussavekey = "";
 
     #endregion
@@ -42,10 +40,6 @@ public class CollectionData : MonoBehaviour {
     {
         currentgallerystatussavekey = NewGalleryStatusSaveKeyValue;
     }
-    public void SetDiaryStatusSaveKey(string NewDiaryStatusSaveKeyValue)
-    {
-        currentdiarystatussavekey = NewDiaryStatusSaveKeyValue;
-    }
     public void SetEndStatusSaveKey(string NewEndStatusSaveKeyValue)
     {
         currentendstatussavekey = NewEndStatusSaveKeyValue;
@@ -64,6 +58,7 @@ public class CollectionData : MonoBehaviour {
         if (actorcg != null)
         {
             SetGalleryStatusSaveKey(actorcg.name);
+            Debug.Log("Saving on save key: " + actorcg.name);
 
             if (PlayerPrefs.HasKey(actorcg.name) == true)
             {
@@ -79,6 +74,29 @@ public class CollectionData : MonoBehaviour {
         else
         {
             Debug.LogWarning("No CG variable cant generete save key name and save");
+        }
+    }
+    public void SaveActorCGStatusWithCGName(string CGName,bool UnlockStatus)
+    {
+        if(CGName.Length > 0)
+        {
+            SetGalleryStatusSaveKey(CGName);
+            Debug.Log("Saving on save key: " + CGName);
+
+            if (PlayerPrefs.HasKey(CGName) == true)
+            {
+                Debug.Log("CG: " + CGName + " Status been overwriting as " + UnlockStatus.ToString() + " In save key " + CGName);
+            }
+            else
+            {
+                Debug.Log(" Create save key with name " + CGName + " and save cg: " + CGName + " status");
+            }
+
+            PlayerPrefs.SetString(currentgallerystatussavekey, UnlockStatus.ToString());
+        }
+        else
+        {
+            Debug.LogError("The CGName have not a single letter impossible to save");
         }
     }
 
@@ -114,6 +132,36 @@ public class CollectionData : MonoBehaviour {
         else
         {
             Debug.LogError("No ActorCG specficed");
+        }
+    }
+    public void LoadActorCGStatusWithCGName(string CGName)
+    {
+        if (CGName.Length > 0)
+        {
+            SetGalleryStatusSaveKey(CGName);
+            Debug.Log("Loading from save key: " + CGName);
+
+            if (PlayerPrefs.HasKey(currentgallerystatussavekey) == true)
+            {
+                Debug.Log("Save Key Exist Loading save key");
+
+                if (PlayerPrefs.GetString(currentgallerystatussavekey) == "True")
+                {
+                    actorcg.isunlock = true;
+                }
+                else
+                {
+                    actorcg.isunlock = false;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("For the CG: " + currentgallerystatussavekey + " Have no save key");
+            }
+        }
+        else
+        {
+            Debug.LogError("The CGName have not a single letter impossible to load");
         }
     }
 

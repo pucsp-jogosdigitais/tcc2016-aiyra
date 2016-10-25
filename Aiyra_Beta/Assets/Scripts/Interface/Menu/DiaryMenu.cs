@@ -46,6 +46,8 @@ public class DiaryMenu : MonoBehaviour {
     #endregion
 
     #region Diary Fundamental Methods
+
+    #region Diary Fundamental Methods
     //THIS METHOD UPLOAD THE STATUS OF THE Diary Page LIKE IT ID, IT NAME, IF IT IS UNLOCKED
     public void UploadDiaryPagesStatus()
     {
@@ -54,20 +56,20 @@ public class DiaryMenu : MonoBehaviour {
         {
             //change the diary id to it respective place in the whip
             actordiariespage0[i].cgid = i;
-            //check what page is the player for than change the cg name to get it status from the collectiondata
+            //check what page is the player for than change the diary name to get it status from the collectiondata
             switch (currentpages)
             {
                 case 0:
-                    actordiariespage0[i].gameObject.name = "ENZOGALLERY" + actordiariespage0[i].cgid.ToString();
+                    actordiariespage0[i].gameObject.name = "ENZODIARY" + actordiariespage0[i].cgid.ToString();
                     break;
                 case 1:
-                    actordiariespage0[i].gameObject.name = "ISISGALLERY" + actordiariespage0[i].cgid.ToString();
+                    actordiariespage0[i].gameObject.name = "ISISDIARY" + actordiariespage0[i].cgid.ToString();
                     break;
                 case 2:
-                    actordiariespage0[i].gameObject.name = "BENJAMINGALLERY" + actordiariespage0[i].cgid.ToString();
+                    actordiariespage0[i].gameObject.name = "BENJAMINDIARY" + actordiariespage0[i].cgid.ToString();
                     break;
                 case 3:
-                    actordiariespage0[i].gameObject.name = "MALIKAGALLERY" + actordiariespage0[i].cgid.ToString();
+                    actordiariespage0[i].gameObject.name = "MALIKADIARY" + actordiariespage0[i].cgid.ToString();
                     break;
             }
             //Check if player has unlock the diary page in collectiondata and load it from collectiondata
@@ -87,9 +89,28 @@ public class DiaryMenu : MonoBehaviour {
             //If diary page is unlocked update it internal information for the player
             actordiariespage0[i].UpdateCG();
         }
+        //Same as before but to page 1 diary;
         for (int i = 0; i < actordiariespage1.Length; i++)
         {
             actordiariespage1[i].cgid = i;
+            switch (currentpages)
+            {
+                case 0:
+                    actordiariespage1[i].gameObject.name = "ISISDIARY" + actordiariespage1[i].cgid.ToString();
+                    break;
+                case 1:
+                    actordiariespage1[i].gameObject.name = "BENJAMINDIARY" + actordiariespage1[i].cgid.ToString();
+                    break;
+                case 2:
+                    actordiariespage1[i].gameObject.name = "MALIKADIARY" + actordiariespage1[i].cgid.ToString();
+                    break;
+                case 3:
+                    actordiariespage1[i].gameObject.name = "ZAKIDIARY" + actordiariespage1[i].cgid.ToString();
+                    break;
+            }
+            collectiondata.SetActorCG(actordiariespage1[i]);
+            collectiondata.LoadSpecficActorCGStatus();
+
             if (actordiariespage1[i].isunlock)
             {
                 actordiariespage1[i].GetComponent<Button>().interactable = true;
@@ -99,111 +120,86 @@ public class DiaryMenu : MonoBehaviour {
                 actordiariespage1[i].GetComponent<Button>().interactable = false;
             }
         }
-        /*
-        //Inicialize a whip of the type for to run all page 0 cg
-        for (int i = 0; i < actorcgspage0.Length; i++)
-        {
-            //change the cg id to it respective place in the whip
-            actorcgspage0[i].cgid = i;
-            //check what page is the player for than change the cg name to get it status from the collectiondata
-            switch(currentpages)
-            {
-                case 0:
-                    actorcgspage0[i].gameObject.name = "ENZOGALLERY" + actorcgspage0[i].cgid.ToString();
-                    break;
-                case 1:
-                    actorcgspage0[i].gameObject.name = "ISISGALLERY" + actorcgspage0[i].cgid.ToString();
-                    break;
-                case 2:
-                    actorcgspage0[i].gameObject.name = "BENJAMINGALLERY" + actorcgspage0[i].cgid.ToString();
-                    break;
-                case 3:
-                    actorcgspage0[i].gameObject.name = "MALIKAGALLERY" + actorcgspage0[i].cgid.ToString();
-                    break;
-            }
-
-            //Check if player has unlock the cg in collectiondata and load it from collectiondata
-            collectiondata.SetActorCG(actorcgspage0[i]);
-            collectiondata.LoadSpecficActorCGStatus();
-            
-            //check if the current cg is unlocked to provide it for the player
-            if (actorcgspage0[i].isunlock)
-            {
-                actorcgspage0[i].GetComponent<Button>().interactable = true;
-            }
-            else
-            {
-                actorcgspage0[i].GetComponent<Button>().interactable = false;
-            }
-
-            //If cg is unlocked update it internal information for the player
-            actorcgspage0[i].UpdateCG();
-        }
-        //Same thing has the last whip but for page 1
-        for (int i = 0; i < actorcgspage1.Length; i++)
-        {
-            actorcgspage1[i].cgid = i;
-            switch (currentpages)
-            {
-                case 0:
-                    actorcgspage1[i].gameObject.name = "ISISGALLERY" + actorcgspage0[i].cgid.ToString();
-                    break;
-                case 1:
-                    actorcgspage1[i].gameObject.name = "BENJAMINGALLERY" + actorcgspage0[i].cgid.ToString();
-                    break;
-                case 2:
-                    actorcgspage1[i].gameObject.name = "MALIKAGALLERY" + actorcgspage0[i].cgid.ToString();
-                    break;
-                case 3:
-                    actorcgspage1[i].gameObject.name = "ZAKIGALLERY" + actorcgspage0[i].cgid.ToString();
-                    break;
-            }
-
-            collectiondata.SetActorCG(actorcgspage1[i]);
-            collectiondata.LoadSpecficActorCGStatus();
-
-            if (actorcgspage1[i].isunlock)
-            {
-                actorcgspage1[i].GetComponent<Button>().interactable = true;
-            }
-            else
-            {
-                actorcgspage1[i].GetComponent<Button>().interactable = false;
-            }
-
-            actorcgspage1[0].UpdateCG();
-
-        }
-         */
     }
 
     #endregion
 
-    #region Buttons Methods
+    #region Load Diary Methods
+
     public void LoadActorDiary()
     {
         Debug.Log("ActorDiaryLoaded");
-        /*switch (CurrentPage)
+    
+        switch (currentpages)
         {
-            case 0: for(int)
-        }
-        if (ActorButton.actor.actorname == "Enzo")
-        {
-            for (int i = 0; i < actordiaries.Length; i++)
-            {
-                actordiaries[i].SetCGID(i);
-                actordiaries[i].SetCGPath("Backgrounds/Teste/");
-                if (i == 0)
-                    actordiaries[i].isunlock = false;
-                //actorcgs[i].SetCGName("MainMenu");
-                else
+            case 0:
+                for (int i = 0; i < actordiariespage0.Length; i++)
                 {
-                    actordiaries[i].SetCGName("JardimTeste");
+                    actordiariespage0[i].SetCGPath("Backgrounds/Teste/");
+                    switch (i)
+                    {
+                        case 0:
+                            actordiariespage0[i].SetCGName("MainMenu");
+                            break;
+                        case 1:
+                            actordiariespage0[i].SetCGName("CenarioSala");
+                            break;
+                        default:
+                            actordiariespage0[i].SetCGPath("JardimTeste");
+                            break;
+                    }
                 }
-            }
+                for (int i = 0; i < actordiariespage1.Length; i++)
+                {
+                    actordiariespage1[i].SetCGPath("Backgrounds/Teste/");
+                    actordiariespage1[i].SetCGName("JardimTeste");
+                }
+                break;
+            case 1:
+                for (int i = 0; i < actordiariespage0.Length; i++)
+                {
+                    actordiariespage0[i].SetCGPath("Backgrounds/Teste/");
+                    actordiariespage0[i].SetCGName("JardimTeste");
+                }
+                for (int i = 0; i < actordiariespage1.Length; i++)
+                {
+                    actordiariespage1[i].SetCGPath("Backgrounds/Teste/");
+                    actordiariespage1[i].SetCGName("CenarioSala");
+                }
+                break;
+            case 2:
+                for (int i = 0; i < actordiariespage0.Length; i++)
+                {
+                    actordiariespage0[i].SetCGPath("Backgrounds/Teste/");
+                    actordiariespage0[i].SetCGName("CenarioSala");
+                }
+                for (int i = 0; i < actordiariespage1.Length; i++)
+                {
+                    actordiariespage1[i].SetCGPath("Backgrounds/Teste/");
+                    actordiariespage1[i].SetCGName("Quarto1");
+                }
+                break;
+            case 3:
+                for (int i = 0; i < actordiariespage0.Length; i++)
+                {
+                    actordiariespage0[i].SetCGPath("Backgrounds/Teste/");
+                    actordiariespage0[i].SetCGName("Quarto1");
+                }
+                for (int i = 0; i < actordiariespage1.Length; i++)
+                {
+                    actordiariespage1[i].SetCGPath("Backgrounds/Teste/");
+                    actordiariespage1[i].SetCGName("SalaNormal.2");
+                }
+                break;
         }
-        */
     }
+
+    #endregion
+
+    #endregion
+
+    #region Buttons Methods
+
     public void LoadNextPage()
     {
         if (buttontimer <= 0)

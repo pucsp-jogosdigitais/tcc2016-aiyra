@@ -5,6 +5,7 @@ using System.Collections;
 public class DialogBox : MonoBehaviour {
 
     #region attributes
+
     public GameData gamedata;
     public GameController gamecontroller;
     public Scene scene;
@@ -29,6 +30,7 @@ public class DialogBox : MonoBehaviour {
     public bool hasnextdialog;
     public bool hasnextanswers;
     public bool onclickenddialog;
+
     #endregion
 
     #region methods
@@ -235,7 +237,7 @@ public class DialogBox : MonoBehaviour {
     #region methods for answers
 
     #region Main Methods
-
+    //Method that make all the final and essencial action when the answerbutton is unlock like process with the dialog and etc.
     public void OnAnswerContinue()
     {
         if (currentdialoganswers < gamecontroller.scenes[gamecontroller.currentscene].answers.Length - 1)
@@ -247,6 +249,7 @@ public class DialogBox : MonoBehaviour {
         //
         answerbox.SetActive(false);
     }
+    //Method that give to player current affinity with actor the value of the cliked answer
     public void OnAnswerGainAffinity(AnswerButton AnswerButton)
     {
         if (gamecontroller.player.currentactoraffinity < 100)
@@ -256,32 +259,56 @@ public class DialogBox : MonoBehaviour {
         }
         SetAnswerButtonsValue(0, 0, 0);
     }
+    //Method that decide what will be the next dialog based on the clicked answer
     public void OnAnswerChangeNextDialog(AnswerButton AnswerButton)
     {
         lastanswerid = AnswerButton.answerbuttonid;
         Debug.Log("Respondeu " + lastanswerid);
         nextdialog = AnswerButton.nextdialog;
         Debug.Log("NextDialog" + nextdialog);
-        //currentdialog = nextdialog;
-        //RestartDialog();
-        //dialog.ChangeDialogText();
+    }
+    //Method that check the clicked answer and unlock cg based on the choice
+    public void OnAnswerUnlockCG(AnswerButton AnswerButton)
+    {
+        if (AnswerButton.currentcgtounlock != "")
+        {
+            gamecontroller.gamecollection.SaveActorCGStatusWithCGName(AnswerButton.currentcgtounlock, AnswerButton.currentcgtounlockstatus);
+        }
+        else
+        {
+            Debug.Log("This last answer has no cg to unlock");
+        }
     }
 
     #endregion
 
+    //Methods that set the values of the variables of the answer buttons
     #region Methods for answersButtons
     public void SetAnswerButtonsValue(int NewAnswerButton0Value,int NewAnswerButton1Value,int NewAnswerButton2Value)
     {
-        answersbuttons[0].currentvalue = NewAnswerButton0Value;
-        answersbuttons[1].currentvalue = NewAnswerButton1Value;
-        answersbuttons[2].currentvalue = NewAnswerButton2Value;
+        answersbuttons[0].ButtonSetValue(NewAnswerButton0Value);
+        answersbuttons[1].ButtonSetValue(NewAnswerButton1Value);
+        answersbuttons[2].ButtonSetValue(NewAnswerButton2Value);
     }
     public void AnswerButtonsSetNextDialog(int AnswerButton0NextDialog, int AnswerButton1NextDialog, int AnswerButton2NextDialog)
     {
-        answersbuttons[0].nextdialog = AnswerButton0NextDialog;
-        answersbuttons[1].nextdialog = AnswerButton1NextDialog;
-        answersbuttons[2].nextdialog = AnswerButton2NextDialog;
+        answersbuttons[0].ButtonSetNextDialog(AnswerButton0NextDialog);
+        answersbuttons[1].ButtonSetNextDialog(AnswerButton1NextDialog);
+        answersbuttons[2].ButtonSetNextDialog(AnswerButton2NextDialog);
     }
+    public void AnswerButtonsSetNextCG(string AnswerButton0NextCG, string AnswerButton1NextCG, string AnswerButton2NextCG)
+    {
+        answersbuttons[0].ButtonSetNextCG(AnswerButton0NextCG);
+        answersbuttons[1].ButtonSetNextCG(AnswerButton1NextCG);
+        answersbuttons[2].ButtonSetNextCG(AnswerButton2NextCG);
+    }
+    public void AnswerButtonsSetNextCGStatus(bool AnswerButton0NextCGStatus, bool AnswerButton1NextCGStatus, bool AnswerButton2NextCGStatus)
+    {
+        answersbuttons[0].ButtonSetNextCGStatus(AnswerButton0NextCGStatus);
+        answersbuttons[1].ButtonSetNextCGStatus(AnswerButton1NextCGStatus);
+        answersbuttons[2].ButtonSetNextCGStatus(AnswerButton2NextCGStatus);
+    }
+
     #endregion
 
     #endregion

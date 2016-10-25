@@ -28,16 +28,21 @@ public class ActorSelectionMenu : MonoBehaviour {
     #endregion
 
     #region Buttons Methods
+    //Method that on work display the actor on the selected partner menu update it values and change the frame state
     public void DisplayActorDescription(ActorButton ActorToDisplay)
     {
         if (!actordescriptionbox.activeInHierarchy)
         {
+            if (ActorToDisplay.buttonframestates[2] != null && ActorToDisplay.buttonframe != null)
+                ActorToDisplay.buttonframe.sprite = ActorToDisplay.buttonframestates[2];
+
             actordescriptionbox.SetActive(true);
             actorname.text = ActorToDisplay.actor.actorname;
             actorimage.sprite = ActorToDisplay.actor.actorimage;
             actordescription.text = ActorToDisplay.actor.actorbio;
         }
     }
+    //Method that if in work save the current actor selected and load game scene
     public void AcceptButton()
     {
         gamedata.SetPlayerCurrentActor(actorname.text);
@@ -47,6 +52,7 @@ public class ActorSelectionMenu : MonoBehaviour {
         gamedata.SaveSaveRequest();
         Application.LoadLevel(7);
     }
+    //A simple return method that desactive the selected actor menu
     public void ReturnButton()
     {
         actordescriptionbox.SetActive(false);

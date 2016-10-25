@@ -42,7 +42,6 @@ public class AlbumMenu : MonoBehaviour {
     {
         if (!gallerybox.activeInHierarchy)
         {
-            gameObject.SetActive(false);
             gameendsbox.SetActive(false);
             diarybox.SetActive(false);
             gallerybox.SetActive(true);

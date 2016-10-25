@@ -17,13 +17,21 @@ public class GameController : MonoBehaviour {
     private const string enzogalleryreference = "ENZOGALLERY" /* + CGID;*/;
     private const string isisgalleryreference = "ISISGALLERY" /* + CGID;*/;
     private const string benjamingalleryreference = "BENJAMINGALLERY" /*  + CGID*/;
+    private const string malikagalleryreference = "MALIKAGALLERY" /* + CGID;*/;
+    private const string zakigalleryreference = "ZAKIGALLERY" /* + CGID;*/;
 
+    private const string enzodiaryreference = "ENZODIARY" /* + CGID*/;
+    private const string isisdiaryreference = "ISISDIARY" /* + CGID*/;
+    private const string benjamindiaryreference = "BENJAMINDIARY" /* + CGID*/;
+    private const string malikadiaryreference = "MALIKADIARY" /* + CGID*/;
+    private const string zakidiaryreference = "ZAKIDIARY" /* + CGID*/;
 
     private const string enzoendreference = "ENZOEND" /*  + CGID*/;
     #endregion
 
     #region Attributes
 
+    public CollectionData gamecollection;
     public GameData gamedata;
     public GameSettings gamesettings;
     public Player player;
@@ -119,6 +127,8 @@ public class GameController : MonoBehaviour {
         #region Dialog Control
 
         UpdateSpeaker();
+
+        UpdateNextCGToUnlockAndItStatus();
 
         PrepareAnswersMoments();
 
@@ -333,6 +343,8 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region Dialog Answer Methods
+
+    #region Dialog Prepare Answer Methods
     //method that prepare dialog for a answer moment and alert when is the moment of give the object
     void PrepareAnswersMoments()
     {
@@ -393,6 +405,10 @@ public class GameController : MonoBehaviour {
                 break;
         }
     }
+
+    #endregion
+
+    #region Dialog Answer Values Methods
     //method that give the value of affinity the answer buttons will have 
     void UploadAnswersValue()
     {
@@ -414,14 +430,35 @@ public class GameController : MonoBehaviour {
         }
         
     }
+    
+    #endregion
 
+    #region CG To Unlock Methods
+    //Method that update the cg that will unlock on click of it respective answer button
+    void UpdateNextCGToUnlockAndItStatus()
+    {
+        switch (currentscene)
+        {
+            case 0:
+                if (dialogbox.currentdialog == 0)
+                {
+                    dialogbox.AnswerButtonsSetNextCG(enzogalleryreference + 0.ToString(), isisgalleryreference + 0.ToString(), benjamingalleryreference + 0.ToString());
+                    dialogbox.AnswerButtonsSetNextCGStatus(true, true, true);
+                }
+                break;
+            default:
+                dialogbox.AnswerButtonsSetNextCG("","","");
+                dialogbox.AnswerButtonsSetNextCGStatus(false, false, false);
+                break;
+        }
+    }
     #endregion
 
     #region Next Dialog Adjust Methods
 
     //method that adjust next dialog for current dialog not value has the final dialog causing the dialog to end
     void AdjustDialogDisplayBoxToNextDialog()
-    {    
+    {
         //check the current scene to programming next dialog according
         switch (currentscene)
         {
@@ -550,6 +587,8 @@ public class GameController : MonoBehaviour {
     }
 
     #endregion
+    
+    #endregion
 
     #region Check AnswerResultReaded
 
@@ -663,77 +702,80 @@ public class GameController : MonoBehaviour {
     {
         for (int i = 0; i < actors.Length; i++)
         {
-            switch (actors[i].name)
+            if (actors[i].isActiveAndEnabled)
             {
-                case "Enzo":
-                    switch (currentscene)
-                    {
-                        case 7:
-                            switch (dialogbox.dialog.currentdialogline)
-                            {
-                                case 0:
-                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
-                                    break;
-                                default:
-                                    Debug.Log("Doing actor Enzo Default motion");
-                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                    break;
-                            }
-                            break;
-                        default:
-                            Debug.Log("Doing Default of actor Enzo motion");
-                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                           break;
-                    }
-                    break;
-                case "Jurupari":
-                    switch(currentscene)
-                    {
-                        case 0:
-                            switch (dialogbox.currentdialog)
-                            {
-                                case 0:
-                                    switch (dialogbox.dialog.currentdialogline)
-                                    {
-                                        case 0:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 6);
-                                            break;
-                                        case 4:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
-                                            break;
-                                        default:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                            break;
-                                    }
-                                    break;
-                                case 1:
-                                    switch (dialogbox.dialog.currentdialogline)
-                                    {
-                                        case 0:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
-                                            break;
-                                    }
-                                    break;
-                                case 2:
-                                    switch (dialogbox.dialog.currentdialogline)
-                                    {
-                                        case 0:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
-                                            break;
-                                    }
-                                    break;
-                                default:
-                                    Debug.Log("Doing actor Jurupari Default motion");
-                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                    break;
-                            }
-                            break;
-                        default:
-                            Debug.Log("Doing Default of actor Jurupari motion");
-                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                            break;
-                    }
-                    break;
+                switch (actors[i].name)
+                {
+                    case "Enzo":
+                        switch (currentscene)
+                        {
+                            case 7:
+                                switch (dialogbox.dialog.currentdialogline)
+                                {
+                                    case 0:
+                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                        break;
+                                    default:
+                                        Debug.Log("Doing actor Enzo Default motion");
+                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                        break;
+                                }
+                                break;
+                            default:
+                                Debug.Log("Doing Default of actor Enzo motion");
+                                actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                break;
+                        }
+                        break;
+                    case "Jurupari":
+                        switch (currentscene)
+                        {
+                            case 0:
+                                switch (dialogbox.currentdialog)
+                                {
+                                    case 0:
+                                        switch (dialogbox.dialog.currentdialogline)
+                                        {
+                                            case 0:
+                                                actors[i].actoranimator.SetInteger(actors[i].motionreference, 6);
+                                                break;
+                                            case 4:
+                                                actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                                break;
+                                            default:
+                                                actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                break;
+                                        }
+                                        break;
+                                    case 1:
+                                        switch (dialogbox.dialog.currentdialogline)
+                                        {
+                                            case 0:
+                                                actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
+                                                break;
+                                        }
+                                        break;
+                                    case 2:
+                                        switch (dialogbox.dialog.currentdialogline)
+                                        {
+                                            case 0:
+                                                actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
+                                                break;
+                                        }
+                                        break;
+                                    default:
+                                        Debug.Log("Doing actor Jurupari Default motion");
+                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                        break;
+                                }
+                                break;
+                            default:
+                                Debug.Log("Doing Default of actor Jurupari motion");
+                                actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                break;
+                        }
+                        break;
+                }
             }
         }
     }
