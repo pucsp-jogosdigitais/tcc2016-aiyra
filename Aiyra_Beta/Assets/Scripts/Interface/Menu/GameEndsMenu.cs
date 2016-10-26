@@ -48,6 +48,7 @@ public class GameEndsMenu : MonoBehaviour {
                 displaycgmenu.cgdisplayer.movie = Resources.Load<MovieTexture>(enzoendspath + enzoperfectendname);
             }
         }
+        displaycgmenu.SetCGDisplayerTitle("Final " + endstype + " com " + ActorButton.actor.actorname);
         displaycgmenu.lastmenu = gameObject;
     }
     public void PerfectEndsButton()

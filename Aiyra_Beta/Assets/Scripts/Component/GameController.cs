@@ -34,6 +34,7 @@ public class GameController : MonoBehaviour {
     public CollectionData gamecollection;
     public GameData gamedata;
     public GameSettings gamesettings;
+    public LoadingInterface loadinginterface;
     public Player player;
     public CameraEyeEffect playereyesfilter;
     public MotionBlur effectscamerablurfilter;
@@ -41,6 +42,7 @@ public class GameController : MonoBehaviour {
     public Background background;
     public MusicPlayer musicplayer;
     public DialogBox dialogbox;
+    public DialogProcedIcon dialogboxprocedicon;
     public PauseMenu pausemenu;
 
     public Actor[] actors;
@@ -49,6 +51,7 @@ public class GameController : MonoBehaviour {
     public int currentscene;
     public bool[] answersresultreaded;
     public bool canprogress;
+    public bool isloading;
 
     #endregion
 
@@ -73,6 +76,8 @@ public class GameController : MonoBehaviour {
             gamedata = GameObject.Find("GameData").GetComponent<GameData>();
         if (gamesettings == null)
             gamesettings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        if (loadinginterface == null)
+            loadinginterface = GameObject.Find("CanvasLoadingInterface").GetComponent<LoadingInterface>();
         if (player == null)
             player = GameObject.Find("Player Main Camera").GetComponent<Player>();
         if (playereyesfilter == null)
@@ -112,8 +117,14 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region Updates Methods
+    //Method that will upload all scripts, game objects,etc that is in game scene 
     void Update()
     {
+        #region LoadingInterface Control
+
+        LoadingInterfaceManager();
+
+        #endregion
         #region Background Control
 
         BackgroundManager();
@@ -133,6 +144,8 @@ public class GameController : MonoBehaviour {
         PrepareAnswersMoments();
 
         dialogbox.DialogUpdate();
+
+        DialogProcedIconManager();
 
         UploadAnswersValue();
 
@@ -214,6 +227,36 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region GameController Fundamental Methods
+
+    #region LoadingInterface Methods
+
+    void LoadingInterfaceManager()
+    {
+        switch (currentscene)
+        {
+            case 0:
+                if (dialogbox.dialog.currentdialogline == 0)
+                {
+                    if (isloading)
+                    {
+                        loadinginterface.gameObject.SetActive(true);
+                        loadinginterface.UploadLoadingMessage();
+                        loadinginterface.loadingtime -= 1f;
+                        canprogress = false;
+                    }
+                    else
+                    {
+                        loadinginterface.gameObject.SetActive(false);
+                        canprogress = true;
+                    }
+                }
+                break;
+        }
+
+        isloading = CheckLoadingEnd();
+    }
+
+    #endregion
 
     #region Background Methods
 
@@ -342,6 +385,18 @@ public class GameController : MonoBehaviour {
 
     #endregion
 
+    #region DialogProcedIcon Methods
+
+    void DialogProcedIconManager()
+    {
+        if (dialogbox.dialog.currentdialogline < dialogbox.dialog.enddialogatline)
+        {
+            dialogboxprocedicon.procediconanimator.SetBool("isprocedtime", canprogress);
+        }
+    }
+
+    #endregion
+
     #region Dialog Answer Methods
 
     #region Dialog Prepare Answer Methods
@@ -442,8 +497,8 @@ public class GameController : MonoBehaviour {
             case 0:
                 if (dialogbox.currentdialog == 0)
                 {
-                    dialogbox.AnswerButtonsSetNextCG(enzogalleryreference + 0.ToString(), isisgalleryreference + 0.ToString(), benjamingalleryreference + 0.ToString());
-                    dialogbox.AnswerButtonsSetNextCGStatus(true, true, true);
+                    dialogbox.AnswerButtonsSetNextCG(enzodiaryreference + 0.ToString(), isisdiaryreference + 0.ToString(), isisdiaryreference + 1.ToString());
+                    dialogbox.AnswerButtonsSetNextCGStatus(false, false, false);
                 }
                 break;
             default:
@@ -1260,19 +1315,25 @@ public class GameController : MonoBehaviour {
     //Method that check if the current scene is a final scene with pre parameters inside it
     bool CheckIsCurrentSceneAFinalScene()
     {
-        if(currentscene == 7)
+        switch (currentscene)
         {
-            return true;
-        }
-        else
-        {
-            return false;
+            case 7:
+                return true;
+            default:
+                return false;
         }
     }
     //Method that check from the current scene scenebahviour if is final scene
     bool CheckIsFinalScene(SceneBehaviour CurrentSceneBehaviour)
     {
         if (CurrentSceneBehaviour.isfinalscene)
+            return true;
+        else { return false; }
+    }
+    //Method that will check if the time to end loading and it behaviour
+    bool CheckLoadingEnd()
+    {
+        if (loadinginterface.loadingtime > 0)
             return true;
         else { return false; }
     }
@@ -1308,6 +1369,7 @@ public class GameController : MonoBehaviour {
             Debug.Log("You are on the Scene " + currentscene);
         }
     }
+    
     #endregion
 
     #region SaveData Methods

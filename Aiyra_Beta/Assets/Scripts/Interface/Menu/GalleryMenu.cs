@@ -226,7 +226,7 @@ public class GalleryMenu : MonoBehaviour {
                 gofowardbutton.interactable = false;
                 gobackbutton.interactable = true;
             }
-            buttontimer = 0.2f;
+            buttontimer = 0.1f;
         }
         else { buttontimer -= 0.1f; }
     }
@@ -247,7 +247,7 @@ public class GalleryMenu : MonoBehaviour {
                 gobackbutton.interactable = false;
                 gofowardbutton.interactable = true;
             }
-            buttontimer = 0.2f;
+            buttontimer = 0.1f;
         }
         else { buttontimer -= 0.2f; }
     }
@@ -258,6 +258,7 @@ public class GalleryMenu : MonoBehaviour {
             displaycgmenu.lastmenu = gameObject;
             displaycgmenu.gameObject.SetActive(true);
             displaycgmenu.cgdisplayer.cg = ActorCG.cgimage.sprite;
+            displaycgmenu.SetCGDisplayerTitle(ActorCG.cgname);
         }
     }
     public void GalleryButton()

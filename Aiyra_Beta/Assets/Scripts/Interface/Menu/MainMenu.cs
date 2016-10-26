@@ -6,6 +6,7 @@ public class MainMenu : MonoBehaviour {
     #region Attributes
 
     public GameData gamedata;
+    public LoadingInterface loadinginterface;
     public Animator cameraanimator;
 
     public float lastclicktime;
@@ -18,7 +19,7 @@ public class MainMenu : MonoBehaviour {
     #region Methods
 
     #region Awake And Start
-
+    //Method that run when the gameobject is awake get eny component that is necessary to execute of the script
     void Awake()
     {
         if (cameraanimator == null)
@@ -27,6 +28,7 @@ public class MainMenu : MonoBehaviour {
         }
         canclick = true;
     }
+    //Method that run when the first frame with gameobject active 
     void Start()
     {
         gamedata.LoadAllPlayerData();
@@ -38,6 +40,18 @@ public class MainMenu : MonoBehaviour {
 
     #endregion
 
+    #region Update Methods
+    //Method that update the main menu related scripts
+    void Update()
+    {
+        if(loadinginterface != null)
+            loadinginterface.UploadLoadingMessage();
+    }
+
+    #endregion
+
+    #region Check Methods
+
     bool CheckTimeOfAnimator()
     {
         clicktime = Time.time;
@@ -47,6 +61,9 @@ public class MainMenu : MonoBehaviour {
         return false;
     }
 
+    #endregion
+
+    //Methods for buttons that is related with the Main Menu
     #region Buttons Methods
 
     public void NewGameButton()
@@ -70,6 +87,9 @@ public class MainMenu : MonoBehaviour {
             gamedata.playercurrentdialogline = 0;
             gamedata.currentscenestate = Scene.state.dialog.ToString();
             gamedata.SaveAllGameData();
+
+            loadinginterface.gameObject.SetActive(true);
+
             Application.LoadLevel(7);
         }
         else

@@ -39,11 +39,15 @@ public class LoadingGameMenu : MonoBehaviour {
 
     #endregion
 
+    #region LoadingGameMenu Fundamental Methods
+
     public void UpdateSaveSlotsID()
     {
         for (int i = 0; i < savesslots.Length; i++)
             savesslots[i].saveslotid = i;
     }
+
+    #endregion
 
     #endregion
 }

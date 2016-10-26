@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class DisplayCGMenu : MonoBehaviour {
@@ -7,6 +8,7 @@ public class DisplayCGMenu : MonoBehaviour {
 
     public CGDisplayer cgdisplayer;
     public GameObject lastmenu;
+    public Text cgdisplayertitle;
 
     #endregion
 
@@ -22,6 +24,23 @@ public class DisplayCGMenu : MonoBehaviour {
     void OnDisable()
     {
         Debug.Log("Display CG Menu Desactive");
+    }
+
+    #endregion
+
+    #region CGDisplayer Fundamental Methods
+
+    #region Set Values Methods
+
+    public void SetCGDisplayerTitle(string NewTitle)
+    {
+        if(NewTitle.Length > 0 && NewTitle != "")
+            cgdisplayertitle.text = NewTitle;
+        else
+        {
+            cgdisplayertitle.text = "CGDisplayer";
+            Debug.Log("Haven�t pass any value to cgdisplayer so it can change it title");
+        }
     }
 
     #endregion
@@ -74,6 +93,8 @@ public class DisplayCGMenu : MonoBehaviour {
         gameObject.SetActive(false);
         lastmenu.SetActive(true);
     }
+
+    #endregion
 
     #endregion
 

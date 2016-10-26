@@ -40,6 +40,7 @@ public class DiaryMenu : MonoBehaviour {
     void Start()
     {
         Debug.Log("Diary Start and Set CGs");
+        LoadActorDiary();
         UploadDiaryPagesStatus();
     }
 
@@ -47,7 +48,7 @@ public class DiaryMenu : MonoBehaviour {
 
     #region Diary Fundamental Methods
 
-    #region Diary Fundamental Methods
+    #region Upload CGs Methods
     //THIS METHOD UPLOAD THE STATUS OF THE Diary Page LIKE IT ID, IT NAME, IF IT IS UNLOCKED
     public void UploadDiaryPagesStatus()
     {
@@ -119,10 +120,12 @@ public class DiaryMenu : MonoBehaviour {
             {
                 actordiariespage1[i].GetComponent<Button>().interactable = false;
             }
+
+            actordiariespage1[i].UpdateCG();
         }
     }
 
-    #endregion
+    #endregion    
 
     #region Load Diary Methods
 
@@ -210,13 +213,14 @@ public class DiaryMenu : MonoBehaviour {
                 gobackbutton.interactable = true;
                 currentpages++;
                 LoadActorDiary();
+                UploadDiaryPagesStatus();
             }
             else
             {
                 gofowardbutton.interactable = false;
                 gobackbutton.interactable = true;
             }
-            buttontimer = 0.2f;
+            buttontimer = 0.1f;
         }
         else { buttontimer -= 0.1f; }
     }
@@ -230,13 +234,14 @@ public class DiaryMenu : MonoBehaviour {
                 gofowardbutton.interactable = true;
                 currentpages--;
                 LoadActorDiary();
+                UploadDiaryPagesStatus();
             }
             else
             {
                 gobackbutton.interactable = false;
                 gofowardbutton.interactable = true;
             }
-            buttontimer = 0.2f;
+            buttontimer = 0.1f;
         }
         else { buttontimer -= 0.1f; }
     }
@@ -247,6 +252,7 @@ public class DiaryMenu : MonoBehaviour {
             displaycgmenu.lastmenu = gameObject;
             displaycgmenu.gameObject.SetActive(true);
             displaycgmenu.cgdisplayer.cg = ActorCG.cgimage.sprite;
+            displaycgmenu.SetCGDisplayerTitle(ActorCG.cgname);
         }
     }
     public void GalleryButton()

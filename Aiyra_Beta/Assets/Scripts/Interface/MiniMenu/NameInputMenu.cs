@@ -54,7 +54,7 @@ public class NameInputMenu : MonoBehaviour {
                     currentletter += 1;
                 else { currentletter += 0.5f; }
             }
-            buttontimer = 0.2f;
+            buttontimer = 0.1f;
         }
         else { buttontimer -= 0.1f; Debug.Log("Timer to libere button function: " + buttontimer); }
     }
@@ -73,7 +73,7 @@ public class NameInputMenu : MonoBehaviour {
                 namecomplete = " ";
                 nametext.text = namecomplete;
             }
-            buttontimer = 0.2f;
+            buttontimer = 0.1f;
         }
         else { buttontimer -= 0.1f; Debug.Log("Timer to libere button function: " + buttontimer); }
     }
@@ -91,7 +91,7 @@ public class NameInputMenu : MonoBehaviour {
             {
                 Debug.LogWarning("Write a letter for have a name");
             }
-            buttontimer = 0.2f;
+            buttontimer = 0.1f;
         }
         else { buttontimer -= 0.1f; Debug.Log("Timer to libere button function: " + buttontimer); }
     }
