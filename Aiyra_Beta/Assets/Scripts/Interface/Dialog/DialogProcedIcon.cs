@@ -11,6 +11,7 @@ public class DialogProcedIcon : MonoBehaviour {
     public Sprite[] procedstatesicon;
 
     public Animator procediconanimator;
+    public AnimationClip procediconflashanimation;
 
     public int currentstate;
 
@@ -44,6 +45,8 @@ public class DialogProcedIcon : MonoBehaviour {
     }
     void Start ()
     {
+        SetFlashAnimationSpeed(0.5f);
+
         UploadDialogProcedIcon();
 	}
 
@@ -56,6 +59,10 @@ public class DialogProcedIcon : MonoBehaviour {
     public void SetIconCurrentState(int NewCurrentState)
     {
         currentstate = NewCurrentState;
+    }
+    public void SetFlashAnimationSpeed(float NewFlashAnimationSpeed)
+    {
+        procediconflashanimation.frameRate = NewFlashAnimationSpeed;
     }
 
     #endregion

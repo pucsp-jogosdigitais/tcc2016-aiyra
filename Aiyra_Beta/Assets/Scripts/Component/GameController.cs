@@ -235,25 +235,41 @@ public class GameController : MonoBehaviour {
         switch (currentscene)
         {
             case 0:
-                if (dialogbox.dialog.currentdialogline == 0)
+                switch (dialogbox.currentdialog)
                 {
-                    if (isloading)
-                    {
-                        loadinginterface.gameObject.SetActive(true);
-                        loadinginterface.UploadLoadingMessage();
-                        loadinginterface.loadingtime -= 1f;
-                        canprogress = false;
-                    }
-                    else
-                    {
-                        loadinginterface.gameObject.SetActive(false);
-                        canprogress = true;
-                    }
+                    case 0:
+                        switch(dialogbox.dialog.currentdialogline)
+                        {
+                            case 0:
+                                if (loadinginterface.loadingtimescount <= 0)
+                                {
+                                    loadinginterface.loadingmessegestext = new string[1] { "Como Jogar" };
+                                    loadinginterface.loadingtext.text = loadinginterface.loadingmessegestext[loadinginterface.counterofloops];
+                                    loadinginterface.tutorial.sprite = Resources.Load<Sprite>("");
+                                    loadinginterface.gameObject.SetActive(true);
+                                    canprogress = false;
+                                    if (loadinginterface.loadingtime > 0)
+                                    {
+                                        loadinginterface.UploadLoadingMessage();
+                                        loadinginterface.loadingtime -= 1f;
+                                    }
+                                    else
+                                    {
+                                        loadinginterface.loadingtimescount++;
+                                        loadinginterface.loadingtime = 200f;
+                                    }
+                                }
+                                else
+                                {
+                                    loadinginterface.gameObject.SetActive(false);
+                                    canprogress = true;
+                                }
+                                break;
+                        }
+                        break;
                 }
                 break;
         }
-
-        isloading = CheckLoadingEnd();
     }
 
     #endregion
@@ -704,9 +720,29 @@ public class GameController : MonoBehaviour {
         {
             switch (actors[i].name)
             {
+                #region Benjamin lines
+                case "Benjamin":
+                    switch (currentscene)
+                    {
+                        //test
+                        case 0:
+                            if (dialogbox.currentdialog == 0)
+                                actors[i].dialoglines = new int[5] { 0, 1, 2, 3, 4 };
+                            break;
+                            //
+                    }
+                    break;
+                #endregion
+                #region Enzo Lines
                 case "Enzo":
                     switch (currentscene)
                     {
+                        //
+                        case 0:
+                            if (dialogbox.currentdialog == 0)
+                                actors[i].dialoglines = new int[5] { 0, 1, 2, 3, 4 };
+                            break;
+                        //
                         case 7:
                             if (dialogbox.currentdialog == 0)
                                 actors[i].dialoglines = new int[5] { 0, 1, 2, 3, 4 };
@@ -718,6 +754,8 @@ public class GameController : MonoBehaviour {
                             break;
                     }
                     break;
+                #endregion
+                #region Jurupari Lines
                 case "Jurupari":
                     switch (currentscene)
                     {
@@ -750,6 +788,24 @@ public class GameController : MonoBehaviour {
                             break;
                     }
                     break;
+                #endregion
+                #region Mae da Luna Lines
+                case "MaedaLuna":
+                    switch (currentscene)
+                    {
+                        //test
+                        case 0:
+                            switch (dialogbox.currentdialog)
+                            {
+                                case 0:
+                                    actors[i].dialoglines = new int[5] { 0, 1, 2, 3, 4 };
+                                    break;
+                            }
+                            break;
+                            //
+                    }
+                    break;
+                #endregion
             }
         }
     }

@@ -17,6 +17,8 @@ public class LoadingInterface : MonoBehaviour {
     public float loadingtextmessagetimer;
     public float loadingtime;
 
+    public int loadingtimescount;
+
     #endregion
 
     #region Methods
