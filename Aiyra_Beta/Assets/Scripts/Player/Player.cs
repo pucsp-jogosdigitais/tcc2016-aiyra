@@ -7,7 +7,7 @@ public class Player : MonoBehaviour {
     #region Attributes
 
     public string playername;
-    public List<string> inventary;
+    public string[] inventary;
     public string playercurrentactor;
 
     public int currentactoraffinity;

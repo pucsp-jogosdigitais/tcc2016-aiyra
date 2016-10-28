@@ -10,6 +10,9 @@ public class GameData : MonoBehaviour {
     private const string saverequestsavekey = "SAVEREQUEST";
 
     private const string playernamesavekey = "PLAYERNAME";
+    private const string playercurrentinventorylengthsavekey = "PLAYERCURRENTINVENTORYLENGTH";
+    public string playercurrentinventoryobjectsavekey;
+
 
     private const string playercurrentactorsavekey = "PLAYERCURRENTACTOR";
     private const string enzoaffinitysavekey = "ENZOAFFINITY";
@@ -41,6 +44,8 @@ public class GameData : MonoBehaviour {
     public bool issaving;
 
     public string playername;
+    public string[] playercurrentinventoryobjects;
+
     public string playercurrentactor;
 
     public int currentenzoaffinity;
@@ -76,6 +81,10 @@ public class GameData : MonoBehaviour {
         currentbenjaminaffinity = 0;
         currentmalikaaffinity = 0;
         currentzakiaffinity = 0;
+    }
+    public void ResetInventoryObjects()
+    {
+        playercurrentinventoryobjects = new string[0];
     }
     public void ResetDialogAnswerState()
     {
@@ -128,6 +137,20 @@ public class GameData : MonoBehaviour {
     {
         currentdialoganswerstate = CurrentDialogAnswerState;
     }
+    public void SetPlayerInventoryLength(int CurrentInventoryLength)
+    {
+        if (CurrentInventoryLength > playercurrentinventoryobjects.Length)
+        {
+            string[] tempinventory = playercurrentinventoryobjects;
+
+            playercurrentinventoryobjects = new string[CurrentInventoryLength];
+            for (int i = 0; i < tempinventory.Length; i++)
+            {
+                playercurrentinventoryobjects[i] = tempinventory[i];
+            }
+        }
+        else { Debug.LogWarning("You set a value of length lower than the current player intentory, \n for you not loss any object reference that is in the inventory no method has not let you make the change"); }
+    }
     public void SetGameEnd(int CurrentGameEnd)
     {
         currentgameend = CurrentGameEnd;
@@ -178,6 +201,13 @@ public class GameData : MonoBehaviour {
     {
         issaving = true;
         PlayerPrefs.SetString(playernamesavekey, playername);
+        PlayerPrefs.SetInt(playercurrentinventorylengthsavekey, playercurrentinventoryobjects.Length);
+        for (int i = 0; i < playercurrentinventoryobjects.Length; i++)
+        {
+            playercurrentinventoryobjectsavekey = "INVENTORYOBJECT" + i.ToString();
+            PlayerPrefs.SetString(playercurrentinventoryobjectsavekey, playercurrentinventoryobjects[i]);
+        }
+
         PlayerPrefs.SetString(playercurrentactorsavekey, playercurrentactor);
 
         PlayerPrefs.SetInt(enzoaffinitysavekey, currentenzoaffinity);
@@ -266,6 +296,13 @@ public class GameData : MonoBehaviour {
     {
         isloading = true;
         playername = PlayerPrefs.GetString(playernamesavekey);
+        playercurrentinventoryobjects = new string[PlayerPrefs.GetInt(playercurrentinventorylengthsavekey)];
+        for (int i = 0; i < playercurrentinventoryobjects.Length; i++)
+        {
+            playercurrentinventoryobjectsavekey = "INVENTORYOBJECT" + i.ToString();
+            playercurrentinventoryobjects[i] = PlayerPrefs.GetString(playercurrentinventoryobjectsavekey);
+        }
+
         playercurrentactor = PlayerPrefs.GetString(playercurrentactorsavekey);
 
         currentenzoaffinity = PlayerPrefs.GetInt(enzoaffinitysavekey);

@@ -78,7 +78,8 @@ public class MainMenu : MonoBehaviour {
 
             gamedata.SetPlayerName("");
             gamedata.SetPlayerCurrentActor("");
-            gamedata.SetAffinityPoints(0, 0, 0, 0, 0);
+            gamedata.ResetAffinitys();
+            gamedata.ResetInventoryObjects();
             gamedata.SetPlayTime(gamedata.playtime);
             gamedata.SaveAllPlayerData();
 

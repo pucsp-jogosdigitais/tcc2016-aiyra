@@ -64,19 +64,6 @@ public class Puzzle : MonoBehaviour {
 
     #endregion
 
-    #region Updates Methods
-
-    /*
-    void Update()
-    {
-        resolved = CheckPuzzleResolution();
-
-        //ManipulatePicture();
-    }
-    */
-
-    #endregion
-
     #region MouseOver And Interaction Methods
 
     //Method that check if the mouse is over the trigger of the puzzle and if the player has interacted with it
@@ -89,6 +76,7 @@ public class Puzzle : MonoBehaviour {
                 Debug.Log("Player start puzzle" + gameObject.name);
                 gamecontroller.canprogress = false;
                 active = true;
+                RewardPlayerWithObject();
             }
             /*
             else
@@ -118,13 +106,10 @@ public class Puzzle : MonoBehaviour {
 
     bool CheckPuzzleResolution()
     {
-        /*
         if (gameObject.name == "PuzzlePhoto")
             if (puzzletransform.rotation.z >= 0)
                 return true;
 
-        return false;
-        */
         return false;
     }
 
@@ -159,7 +144,22 @@ public class Puzzle : MonoBehaviour {
     void RewardPlayerWithObject()
     {
         if (GetComponent<PuzzlePicture>() != null)
-            gamecontroller.player.inventary.Add(gameObject.name);
+        {
+            if (gamecontroller.player.inventary.Length > 0)
+            {
+                string[] temp = gamecontroller.player.inventary;
+                gamecontroller.player.inventary = new string[gamecontroller.player.inventary.Length + 1];
+                for (int i = 0; i < temp.Length; i++)
+                {
+                    gamecontroller.player.inventary[i] = temp[i];
+                }
+                gamecontroller.player.inventary[gamecontroller.player.inventary.Length] = gameObject.name;
+            }
+            else
+            {
+                gamecontroller.player.inventary = new string[1] { gameObject.name };
+            }
+        }
     }
 
     #endregion

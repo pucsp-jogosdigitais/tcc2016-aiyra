@@ -106,8 +106,6 @@ public class GameController : MonoBehaviour {
 
         LoadAllGameAndPlayerDataToCurrentGame();
 
-        player.inventary = new System.Collections.Generic.List<string>();
-
         musicplayer.PlayMusic();
 
         dialogbox.scene = scenes[currentscene];
@@ -1268,6 +1266,8 @@ public class GameController : MonoBehaviour {
             if (player.playercurrentactor == "Enzo")
             {
                 if (gamedata.playername != player.playername
+                    || gamedata.playercurrentinventoryobjects != player.inventary
+
                     || gamedata.playercurrentactor != player.playercurrentactor
 
                     || gamedata.currentenzoaffinity != player.currentactoraffinity
@@ -1283,10 +1283,12 @@ public class GameController : MonoBehaviour {
             if (player.playercurrentactor == "Isis")
             {
                 if (gamedata.playername != player.playername
+                    || gamedata.playercurrentinventoryobjects != player.inventary
+                    
                     || gamedata.playercurrentactor != player.playercurrentactor
 
                     || gamedata.currentisisaffinity != player.currentactoraffinity
-
+                    
                     || gamedata.playercurrentscene != currentscene
                     || gamedata.playercurrenttextfile != dialogbox.currentdialog
                     || gamedata.playercurrentdialogline != dialogbox.dialog.currentdialogline
@@ -1298,10 +1300,12 @@ public class GameController : MonoBehaviour {
             if (player.playercurrentactor == "Benjamin")
             {
                 if (gamedata.playername != player.playername
+                    || gamedata.playercurrentinventoryobjects != player.inventary
+                    
                     || gamedata.playercurrentactor != player.playercurrentactor
-
+                    
                     || gamedata.currentbenjaminaffinity != player.currentactoraffinity
-
+                    
                     || gamedata.playercurrentscene != currentscene
                     || gamedata.playercurrenttextfile != dialogbox.currentdialog
                     || gamedata.playercurrentdialogline != dialogbox.dialog.currentdialogline
@@ -1313,10 +1317,12 @@ public class GameController : MonoBehaviour {
             if (player.playercurrentactor == "Malika")
             {
                 if (gamedata.playername != player.playername
+                    || gamedata.playercurrentinventoryobjects != player.inventary
+                    
                     || gamedata.playercurrentactor != player.playercurrentactor
-
+                    
                     || gamedata.currentmalikaaffinity != player.currentactoraffinity
-
+                    
                     || gamedata.playercurrentscene != currentscene
                     || gamedata.playercurrenttextfile != dialogbox.currentdialog
                     || gamedata.playercurrentdialogline != dialogbox.dialog.currentdialogline
@@ -1328,8 +1334,10 @@ public class GameController : MonoBehaviour {
             if (player.playercurrentactor == "Zaki")
             {
                 if (gamedata.playername != player.playername
-                    || gamedata.playercurrentactor != player.playercurrentactor
+                    || gamedata.playercurrentinventoryobjects != player.inventary
 
+                    || gamedata.playercurrentactor != player.playercurrentactor
+                    
                     || gamedata.currentzakiaffinity != player.currentactoraffinity
 
                     || gamedata.playercurrentscene != currentscene
@@ -1344,6 +1352,8 @@ public class GameController : MonoBehaviour {
         else
         {
             if (gamedata.playername != player.playername
+                || gamedata.playercurrentinventoryobjects != player.inventary
+
                 || gamedata.playercurrentactor != player.playercurrentactor
 
                 || gamedata.playercurrentscene != currentscene
@@ -1436,6 +1446,8 @@ public class GameController : MonoBehaviour {
         if(gamedata.issaving)
         {
             gamedata.playername = player.playername;
+            gamedata.playercurrentinventoryobjects = player.inventary;
+
             gamedata.playercurrentactor = player.playercurrentactor;
 
             if (player.playercurrentactor != "")
@@ -1486,6 +1498,14 @@ public class GameController : MonoBehaviour {
             player.playername = gamedata.playername;
         }
         else { Debug.LogWarning("The player has no nome"); }
+
+        //Check the game data player inventory has object in it and case as load it to the current game if not leave a message to developer
+        if (gamedata.playercurrentinventoryobjects.Length > 0)
+        {
+            player.inventary = gamedata.playercurrentinventoryobjects;
+        }
+        else { Debug.LogWarning("The player has no object in inventory"); }
+
         if (gamedata.playercurrentactor != "")
         {
             //update player current actor
