@@ -159,6 +159,7 @@
     <None Include="Assets\Resources\Texts\Dialogs\Prologo\Dreamscene\osonho_resposta03.txt" />
     <None Include="Assets\Resources\Texts\Dialogs\Prologo\Dreamscene\osonho_texto0(refeito).txt" />
     <None Include="Assets\Resources\Texts\Dialogs\Prologo\Dreamscene\osonho_texto1(refeito).txt" />
+    <None Include="Assets\Resources\Texts\GuideActorsExpressions.txt" />
     <None Include="Assets\Resources\Texts\Test\AnswerResultTest1.txt" />
     <None Include="Assets\Resources\Texts\Test\AnswerResultTest2.txt" />
     <None Include="Assets\Resources\Texts\Test\AnswerResultTest3.txt" />

@@ -7,7 +7,6 @@ public class ConfigurationMenu : MonoBehaviour {
 
     public GameData gamedata;
     public GameSettings gamesettings;
-    public GameObject configaudiobox;
     public GameObject configwindowsbox;
     public GameObject howtoplaybox;
     public GameObject speakwithusbox;
@@ -20,7 +19,6 @@ public class ConfigurationMenu : MonoBehaviour {
 
     void Start()
     {
-        configaudiobox.SetActive(false);
         configwindowsbox.SetActive(false);
         howtoplaybox.SetActive(false);
         speakwithusbox.SetActive(false);
@@ -45,11 +43,6 @@ public class ConfigurationMenu : MonoBehaviour {
 
     #region Buttons Methods
 
-    public void DisplayConfigAudio()
-    {
-        if (!configaudiobox.activeInHierarchy)
-            configaudiobox.SetActive(true);
-    }
     public void DisplayConfigWindowsText()
     {
         if (!configwindowsbox.activeInHierarchy)

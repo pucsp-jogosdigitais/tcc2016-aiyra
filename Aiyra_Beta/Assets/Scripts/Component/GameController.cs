@@ -49,9 +49,11 @@ public class GameController : MonoBehaviour {
     public Scene[] scenes;
 
     public int currentscene;
+    public int currentgameend;
     public bool[] answersresultreaded;
     public bool canprogress;
     public bool isloading;
+    public bool isgamefinal;
 
     #endregion
 
@@ -104,6 +106,8 @@ public class GameController : MonoBehaviour {
 
         SetScenesName();
 
+        SetFinalScenes();
+
         LoadAllGameAndPlayerDataToCurrentGame();
 
         musicplayer.PlayMusic();
@@ -111,6 +115,8 @@ public class GameController : MonoBehaviour {
         dialogbox.scene = scenes[currentscene];
 
         canprogress = true;
+
+        isgamefinal = false;
     }
     #endregion
 
@@ -203,6 +209,15 @@ public class GameController : MonoBehaviour {
         GoToGameSceneWhen();
 
         SaveAllGameAndPlayerDataOfCurrentGame();
+
+        isgamefinal = CheckIsFinalScene(scenes[currentscene].GetComponent<SceneBehaviour>());
+
+        currentgameend = CheckFinalAffinityWithCurrentActor();
+
+        if (isgamefinal)
+        {
+            CompleteGameCheckAffinityUnlockEndAndPlayGameEnd();
+        }
 
         #endregion
         #region Player Control
@@ -995,6 +1010,24 @@ public class GameController : MonoBehaviour {
             Debug.Log("Scene " + scenes[i].scenename + " Avaliable");
         }
     }
+    void SetFinalScenes()
+    {
+        for (int i = 0; i < scenes.Length; i++)
+        {
+            switch (i)
+            {
+                case 0: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 1: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 2: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 3: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 4: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 5: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 6: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 7: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = true; break;
+            }
+            Debug.Log("Scene " + scenes[i].scenename + " is a final scene?: " + scenes[i].GetComponent<SceneBehaviour>().isfinalscene);
+        }
+    }
     void ScenesManager()
     {
         switch (currentscene)
@@ -1233,6 +1266,8 @@ public class GameController : MonoBehaviour {
 
     void CompleteGameCheckAffinityUnlockEndAndPlayGameEnd()
     {
+        Debug.Log("Current game has ended");
+       /*
         SceneBehaviour currentscenebehaviour;
 
         if (scenes[currentscene].GetComponent<SceneBehaviour>() != null)
@@ -1243,7 +1278,7 @@ public class GameController : MonoBehaviour {
             currentscenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
             currentscenebehaviour.isfinalscene = CheckIsCurrentSceneAFinalScene();
         }
-
+        
         if (currentscenebehaviour != null)
         {
             if(CheckIsFinalScene(currentscenebehaviour) == true)
@@ -1253,6 +1288,7 @@ public class GameController : MonoBehaviour {
 
         }
         else { Debug.LogError("No SceneBehaviour on scene " + currentscene); }
+    */
     }
 
     #endregion
@@ -1378,17 +1414,6 @@ public class GameController : MonoBehaviour {
             return 0;
         }
     }
-    //Method that check if the current scene is a final scene with pre parameters inside it
-    bool CheckIsCurrentSceneAFinalScene()
-    {
-        switch (currentscene)
-        {
-            case 7:
-                return true;
-            default:
-                return false;
-        }
-    }
     //Method that check from the current scene scenebahviour if is final scene
     bool CheckIsFinalScene(SceneBehaviour CurrentSceneBehaviour)
     {
@@ -1470,6 +1495,8 @@ public class GameController : MonoBehaviour {
             gamedata.currentscenestate = scenes[currentscene].scenestate.ToString();
             gamedata.currentdialoganswerstate = dialogbox.hasanswered.ToString();
 
+            gamedata.currentgameend = currentgameend;
+
             gamedata.gameprogress = currentscene+1;
             gamedata.SetData();
             gamedata.playtime = Time.time;
@@ -1540,6 +1567,8 @@ public class GameController : MonoBehaviour {
             dialogbox.hasanswered = true;
         if (gamedata.currentdialoganswerstate == "False")
             dialogbox.hasanswered = false;
+        //Get back the last gameend
+        currentgameend = gamedata.currentgameend;
 
     }
     #endregion

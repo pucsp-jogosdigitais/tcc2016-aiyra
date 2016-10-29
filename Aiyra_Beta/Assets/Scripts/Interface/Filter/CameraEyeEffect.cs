@@ -6,10 +6,10 @@ public class CameraEyeEffect : MonoBehaviour {
 
     #region Attributes
 
+    public PlayerEyes playereyes;
+
     public enum effectstate { Open, Blink, Close };
     public effectstate state;
-
-    public PlayerEyes playereyes;
 
     public int[] moments;
     public bool hasaction;
