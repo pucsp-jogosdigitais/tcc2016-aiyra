@@ -21,6 +21,8 @@ public class Puzzle : MonoBehaviour {
 
     public bool active;
     public bool resolved;
+    public bool isreplayabel;
+    public bool hasbeenloaded;
     #endregion
 
     #region Methods
@@ -61,6 +63,11 @@ public class Puzzle : MonoBehaviour {
 
         puzzlecollider.size = new Vector2(puzzletransform.sizeDelta.x, puzzletransform.sizeDelta.y);
     }
+    void Start()
+    {
+        if (gameObject.name == "PuzzlePhoto")
+            isreplayabel = true;
+    }
 
     #endregion
 
@@ -77,6 +84,12 @@ public class Puzzle : MonoBehaviour {
                 gamecontroller.canprogress = false;
                 active = true;
                 RewardPlayerWithObject();
+            }
+            else
+            {
+                Debug.Log("Player Put back puzzle" + gameObject.name);
+                gamecontroller.canprogress = true;
+                active = false;
             }
             /*
             else
@@ -97,7 +110,7 @@ public class Puzzle : MonoBehaviour {
 
     public void UploadPuzzleSaveKey()
     {
-        puzzlestatussavekey = "PUZZLE" + gameObject + "SAVEKEY";
+        puzzlestatussavekey = "PUZZLE" + gameObject.name + "SAVEKEY";
     }
 
     #endregion
@@ -143,6 +156,11 @@ public class Puzzle : MonoBehaviour {
 
     void RewardPlayerWithObject()
     {
+        if (gamecontroller.player.inventary.Length > 0)
+        {
+            gamecontroller.player.inventary[0] = gameObject.name;
+        }
+        /*
         if (GetComponent<PuzzlePicture>() != null)
         {
             if (gamecontroller.player.inventary.Length > 0)
@@ -160,6 +178,7 @@ public class Puzzle : MonoBehaviour {
                 gamecontroller.player.inventary = new string[1] { gameObject.name };
             }
         }
+        */
     }
 
     #endregion
@@ -188,7 +207,7 @@ public class Puzzle : MonoBehaviour {
 
     public void LoadPuzzleStatus()
     {
-        if (PlayerPrefs.GetString(puzzlestatussavekey) == "TRUE")
+        if (PlayerPrefs.GetString(puzzlestatussavekey) == "True")
             resolved = true;
         else
         {

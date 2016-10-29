@@ -192,8 +192,6 @@ public class GameController : MonoBehaviour {
 
         UpdatePuzzleIVolume();
 
-        CheckIfPlayerHasResolvedPuzzle();
-
         #endregion
         #region Scene Control
         /*
@@ -223,6 +221,8 @@ public class GameController : MonoBehaviour {
         #region Player Control
 
         PlayerInputs();
+
+        PlayerInventaryAdjust();
 
         #endregion
         #region Player Eye Control
@@ -937,22 +937,13 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region Puzzle Methods
-
+    //Method that update the scene variable of the puzzle script
     void UpdatePuzzleScene()
     {
         foreach (Puzzle puzzle in scenes[currentscene].puzzles)
         {
             if (puzzle != null)
                 puzzle.scene = scenes[currentscene];
-        }
-    }
-    void UpdatePuzzle()
-    {
-        foreach (Puzzle puzzlei in scenes[currentscene].puzzles)
-        {
-            if (!puzzlei.resolved && puzzlei.gameObject.activeInHierarchy)
-                if (puzzlei.GetComponent<PuzzlePicture>() != null)
-                    puzzlei.GetComponent<PuzzlePicture>().UpdatePicuteStatus();
         }
     }
     void LoadPuzzleInCurrentScene()
@@ -966,18 +957,40 @@ public class GameController : MonoBehaviour {
             if (!puzzle.resolved)
                 puzzle.gameObject.SetActive(true);
     }
+    //Method that update puzzle volume if it is active
     void UpdatePuzzleIVolume()
     {
         foreach (Puzzle puzzle in scenes[currentscene].puzzles)
-            if (puzzle.puzzlesound.volume != gamesettings.effectsvolume)
-                puzzle.puzzlesound.volume = gamesettings.effectsvolume;
+            if (puzzle.gameObject.activeInHierarchy)
+                if (puzzle.puzzlesound.volume != gamesettings.effectsvolume)
+                    puzzle.puzzlesound.volume = gamesettings.effectsvolume;
     }
-    void CheckIfPlayerHasResolvedPuzzle()
+    //Method that update puzzle status and behaviour
+    void UpdatePuzzle()
     {
-        foreach (string puzzle in player.inventary)
-            foreach (Puzzle puzzleinscene in scenes[currentscene].puzzles)
-                if (puzzle == puzzleinscene.gameObject.name)
-                    puzzleinscene.resolved = true;
+        foreach (Puzzle puzzlei in scenes[currentscene].puzzles)
+        {
+            //Check if the puzzle status save key has any letter in it to save the puzzle status
+            if(puzzlei.puzzlestatussavekey.Length <= 0)
+                puzzlei.UploadPuzzleSaveKey();
+
+            //Check if puzzle has not be loaded to load it
+            if (!puzzlei.hasbeenloaded)
+            {
+                puzzlei.LoadPuzzleStatus();
+                puzzlei.hasbeenloaded = true;
+            }
+            //Check if puzzle has been resolved to save it status
+            if (puzzlei.resolved && puzzlei.isreplayabel == false)
+                puzzlei.SavePuzzleStatus();
+            
+            //Check if is puzzle is not resolve so the method can try to get it puzzlepicture script to update picture status
+            if (!puzzlei.resolved && puzzlei.gameObject.activeInHierarchy)
+            {
+                if (puzzlei.GetComponent<PuzzlePicture>() != null)
+                    puzzlei.GetComponent<PuzzlePicture>().UpdatePicuteStatus();
+            }
+        }
     }
 
     #endregion
@@ -1119,6 +1132,11 @@ public class GameController : MonoBehaviour {
                 pausemenu.OnClickPauseGame();
             }
         }
+    }
+    void PlayerInventaryAdjust()
+    {
+        if (player.inventary.Length <= 0)
+            player.inventary = new string[1];
     }
 
     #endregion
