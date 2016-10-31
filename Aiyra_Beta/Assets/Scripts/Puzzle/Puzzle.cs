@@ -82,8 +82,8 @@ public class Puzzle : MonoBehaviour {
             {
                 Debug.Log("Player start puzzle" + gameObject.name);
                 gamecontroller.canprogress = false;
-                active = true;
                 RewardPlayerWithObject();
+                active = true;
             }
             else
             {

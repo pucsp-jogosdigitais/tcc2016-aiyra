@@ -6,8 +6,6 @@ public class Player : MonoBehaviour {
 
     #region Attributes
 
-    public CrossHeir playercrossheir;
-
     public string playername;
     public string[] inventary;
     public string playercurrentactor;

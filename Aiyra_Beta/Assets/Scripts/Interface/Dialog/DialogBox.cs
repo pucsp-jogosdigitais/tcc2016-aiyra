@@ -244,9 +244,7 @@ public class DialogBox : MonoBehaviour {
             currentdialoganswers++;
         hasanswered = true;
         dialog.isanswermoment = false;
-        //test
         Processed();
-        //
         answerbox.SetActive(false);
     }
     //Method that give to player current affinity with actor the value of the cliked answer
