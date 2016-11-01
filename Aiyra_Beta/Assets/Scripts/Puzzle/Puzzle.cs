@@ -31,6 +31,7 @@ public class Puzzle : MonoBehaviour {
 
     void OnEnable()
     {
+        Debug.Log("Puzzle " + gameObject.name + " active");
         //if(scene != null)
         //scene.scenestate = Scene.state.puzzle;
 
@@ -38,6 +39,7 @@ public class Puzzle : MonoBehaviour {
     }
     void OnDisable()
     {
+        Debug.Log("Puzzle " + gameObject.name + " desactive");
         //if(scene != null)
         //scene.scenestate = Scene.state.interaction;
 
@@ -80,14 +82,13 @@ public class Puzzle : MonoBehaviour {
         {
             if(!active)
             {
-                Debug.Log("Player start puzzle" + gameObject.name);
+                Debug.Log("Player start puzzle " + gameObject.name);
                 gamecontroller.canprogress = false;
-                RewardPlayerWithObject();
                 active = true;
             }
             else
             {
-                Debug.Log("Player Put back puzzle" + gameObject.name);
+                Debug.Log("Player Put back puzzle " + gameObject.name);
                 gamecontroller.canprogress = true;
                 active = false;
             }
@@ -105,6 +106,16 @@ public class Puzzle : MonoBehaviour {
     #endregion
 
     #region Puzzle Fundamental Methods
+
+    #region Set Puzzle
+    
+    public void SetPuzzle()
+    {
+        if (gameObject.name == "PuzzlePhoto")
+            isreplayabel = true;
+    }
+
+    #endregion
 
     #region Update CG Status And Values
 

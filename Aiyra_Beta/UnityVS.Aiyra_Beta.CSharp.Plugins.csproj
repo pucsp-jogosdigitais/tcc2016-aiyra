@@ -135,6 +135,9 @@
     <None Include="Assets\Resources\Texts\Dialogs\Prologo\A new awakeing\umnovodespertar_texto02.txt" />
     <None Include="Assets\Resources\Texts\Dialogs\Prologo\A new awakeing\umnovodespertar_texto03.txt" />
     <None Include="Assets\Resources\Texts\Dialogs\Prologo\A new awakeing\umnovodespertar_texto04.txt" />
+    <None Include="Assets\Resources\Texts\Dialogs\Prologo\Dreamscene\osonho_alternativadimensões.txt" />
+    <None Include="Assets\Resources\Texts\Dialogs\Prologo\Dreamscene\osonho_alternativajurupari.txt" />
+    <None Include="Assets\Resources\Texts\Dialogs\Prologo\Dreamscene\osonho_alternativaondeestou.txt" />
     <None Include="Assets\Resources\Texts\Dialogs\Prologo\Dreamscene\osonho_alternativas00.txt" />
     <None Include="Assets\Resources\Texts\Dialogs\Prologo\Dreamscene\osonho_resposta01.txt" />
     <None Include="Assets\Resources\Texts\Dialogs\Prologo\Dreamscene\osonho_resposta02.txt" />

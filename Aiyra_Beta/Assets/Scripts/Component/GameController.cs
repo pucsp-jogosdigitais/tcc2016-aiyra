@@ -110,6 +110,8 @@ public class GameController : MonoBehaviour {
 
         LoadAllGameAndPlayerDataToCurrentGame();
 
+        ResetPuzzleStatus();
+
         musicplayer.PlayMusic();
 
         dialogbox.scene = scenes[currentscene];
@@ -194,20 +196,17 @@ public class GameController : MonoBehaviour {
 
         #endregion
         #region Scene Control
-        /*
-        UpdateSceneBehaviours();
-        
-        ActiveCurrentSceneAndDisableOthers();
-        */
+
         ScenesManager();
 
         #endregion
         #region Game Control
 
-        GoToGameSceneWhen();
+        //GoToGameSceneWhen();
 
         SaveAllGameAndPlayerDataOfCurrentGame();
 
+        /*
         isgamefinal = CheckIsFinalScene(scenes[currentscene].GetComponent<SceneBehaviour>());
 
         currentgameend = CheckFinalAffinityWithCurrentActor();
@@ -216,6 +215,7 @@ public class GameController : MonoBehaviour {
         {
             CompleteGameCheckAffinityUnlockEndAndPlayGameEnd();
         }
+        */
 
         #endregion
         #region Player Control
@@ -453,40 +453,48 @@ public class GameController : MonoBehaviour {
             case 0:
                 if (dialogbox.currentdialog == 0)
                 {
-                    if (dialogbox.dialog.currentdialogline == 9)
+                    dialogbox.currentdialoganswers = 0;
+                    if (dialogbox.dialog.currentdialogline == 12)
+                    {
                         if (!dialogbox.hasanswered)
                             dialogbox.dialog.isanswermoment = true;
-                    if (dialogbox.dialog.currentdialogline == 10)
-                        dialogbox.hasanswered = false;
-                }
-                else
-                {
-                    if (dialogbox.nextdialog != 4)
+                    }
+                    else
                     {
-                        if (dialogbox.currentdialog != 4)
-                        {
-                            if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
-                            {
-                                if (!dialogbox.hasanswered)
-                                    dialogbox.dialog.isanswermoment = true;
-                            }
-                            else
-                            {
-                                dialogbox.hasanswered = false;
-                            }
-                        }
-                        else
-                        {
-                            if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
-                                dialogbox.nextdialog = dialogbox.currentdialog;
-                        }
+                        dialogbox.hasanswered = false;
+                    }
+                }
+                else if(dialogbox.currentdialog == 1)
+                {
+                    dialogbox.currentdialoganswers = 1;
+                    if (dialogbox.dialog.currentdialogline == 8)
+                    {
+                        if (!dialogbox.hasanswered)
+                            dialogbox.dialog.isanswermoment = true;
+                    }
+                    else
+                    {
+                        dialogbox.hasanswered = false;
+                    }
+                }
+                else if(dialogbox.currentdialog == 2)
+                {
+                    dialogbox.currentdialoganswers = 2;
+                    if (dialogbox.dialog.currentdialogline == 4)
+                    {
+                        if (!dialogbox.hasanswered)
+                            dialogbox.dialog.isanswermoment = true;
+                    }
+                    else
+                    {
+                        dialogbox.hasanswered = false;
                     }
                 }
                 break;
             case 1:
                 if (dialogbox.currentdialog == 0)
                 {
-                    if (dialogbox.dialog.currentdialogline == 3)
+                    if (dialogbox.dialog.currentdialogline == 4)
                     {
                         if (!dialogbox.hasanswered)
                             dialogbox.dialog.isanswermoment = true;
@@ -583,13 +591,48 @@ public class GameController : MonoBehaviour {
             case 0:
                 if (dialogbox.currentdialog == 0)
                 {
-                    answersresultreaded = new bool[3];
+                    // not usuing answersresultreaded = new bool[3];
                     dialogbox.AnswerButtonsSetNextDialog(1, 2, 3);
                     if (dialogbox.lastanswerid < 0)
                     {
                         dialogbox.nextdialog = 5;
                     }
                 }
+                else if(dialogbox.currentdialog == 1)
+                {
+                    dialogbox.AnswerButtonsSetNextDialog(2, 1, 3);
+                    if(dialogbox.lastanswerid < 0)
+                    {
+                        dialogbox.nextdialog = 5;
+                    }
+                }
+                else if(dialogbox.currentdialog == 2)
+                {
+                    dialogbox.AnswerButtonsSetNextDialog(3, 2, 1);
+                    if(dialogbox.lastanswerid < 0)
+                    {
+                        dialogbox.nextdialog = 5;
+                    }
+                }
+                else if(dialogbox.currentdialog == 3)
+                {
+                    dialogbox.AnswerButtonsSetNextDialog(0, 0, 0);
+                    dialogbox.nextdialog = 4;
+
+                }
+                else
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                    {
+                        dialogbox.nextdialog = 5;
+                    }
+                    else
+                    {
+                        dialogbox.nextdialog = dialogbox.currentdialog;
+                    }
+                }
+                #region Obslety
+                /*
                 else
                 {
                     if (CheckAnswersResultReaded() == true)
@@ -629,6 +672,8 @@ public class GameController : MonoBehaviour {
                     if (dialogbox.nextdialog == dialogbox.currentdialog)
                         dialogbox.nextdialog++;
                 }
+                */
+                #endregion
                 break;
             case 1:
                 if (dialogbox.currentdialog == 0)
@@ -759,7 +804,7 @@ public class GameController : MonoBehaviour {
     bool CheckActorDialogLines(Actor ActorI)
     {
         foreach (int actordialogline in ActorI.dialoglines)
-            if (!pausemenu.hideactors)
+            if (!pausemenu.hideactors /* Need to watch the second condition*/&& dialogbox.gameObject.activeInHierarchy)
             {
                 if (actordialogline == dialogbox.dialog.currentdialogline)
                     return true;
@@ -831,19 +876,19 @@ public class GameController : MonoBehaviour {
                             switch (dialogbox.currentdialog)
                             {
                                 case 0:
-                                    actors[i].dialoglines = new int[12] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+                                    actors[i].dialoglines = new int[13] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
                                     break;
                                 case 1:
-                                    actors[i].dialoglines = new int[8] { 0, 1, 2, 3, 4, 5, 6, 7 };
+                                    actors[i].dialoglines = new int[9] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
                                     break;
                                 case 2:
-                                    actors[i].dialoglines = new int[4] { 0, 1, 2, 3 };
+                                    actors[i].dialoglines = new int[5] { 0, 1, 2, 3, 4 };
                                     break;
                                 case 3:
-                                    actors[i].dialoglines = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
+                                    actors[i].dialoglines = new int[8] { 0, 1, 2, 3, 4, 5, 6, 8 };
                                     break;
                                 case 4:
-                                    actors[i].dialoglines = new int[3] { 0, 1, 2 };
+                                    actors[i].dialoglines = new int[4] { 0, 1, 2, 4 };
                                     break;
                                 default:
                                     actors[i].dialoglines = new int[0];
@@ -869,6 +914,10 @@ public class GameController : MonoBehaviour {
                             {
                                 case 0:
                                     actors[i].dialoglines = new int[4] { 0, 1, 2, 3 };
+                                    break;
+                                default:
+                                    Debug.Log("Doing Default of Mae da Personagem lines");
+                                    actors[i].dialoglines = new int[0];
                                     break;
                             }
                             break;
@@ -1092,6 +1141,24 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region Puzzle Methods
+    //Method that reset the puzzle status for a new gameplay
+    void ResetPuzzleStatus()
+    {
+        //Check if the player has start a new scene
+        if (player.playername.Length <= 0 && player.playercurrentactor.Length <= 0)
+        {
+            for (int i = 0; i < scenes.Length; i++)
+                foreach (Puzzle puzzle in scenes[i].puzzles)
+                {
+                    //Check if the puzzle status save key has any letter in it to save the puzzle status
+                    if (puzzle.puzzlestatussavekey.Length <= 0)
+                        puzzle.UploadPuzzleSaveKey();
+
+                    puzzle.resolved = false;
+                    puzzle.SavePuzzleStatus();
+                }
+        }
+    }
     //Method that update the scene variable of the puzzle script
     void UpdatePuzzleScene()
     {
@@ -1194,7 +1261,6 @@ public class GameController : MonoBehaviour {
                 case 4: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
                 case 5: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
                 case 6: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
-                case 7: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = true; break;
             }
             Debug.Log("Scene " + scenes[i].scenename + " is a final scene?: " + scenes[i].GetComponent<SceneBehaviour>().isfinalscene);
         }
@@ -1204,6 +1270,34 @@ public class GameController : MonoBehaviour {
         switch (currentscene)
         {
             case 0:
+                //Check if the current dialog is 0 and current line 6 so the game can guide player to game scene 9
+                if (dialogbox.currentdialog == 0)
+                {
+                    SceneBehaviour scenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
+
+                    if (dialogbox.dialog.currentdialogline == 6)
+                    {
+                        gamedata.SaveAllPlayerData();
+                        gamedata.SaveAllGameData();
+                        if (!gamedata.issaving || !gamedata.isloading)
+                        {
+                            if (player.playername.Length <= 0)
+                            {
+                                if (scenebehaviour.timertogo <= 0)
+                                {
+                                    Application.LoadLevel(9);
+                                }
+                                else
+                                {
+                                    scenebehaviour.timertogo--;
+                                    if (canprogress == true)
+                                        canprogress = false;
+                                }
+                            }
+                            else { scenebehaviour.timertogo = 100; }
+                        }
+                    }
+                }
                 OnDialogEndGoTo(1);
                 break;
             case 3:
@@ -1221,7 +1315,36 @@ public class GameController : MonoBehaviour {
                 OnDialogEndGoTo(6);
                 break;
             case 6:
-                OnTimeEndGoTo(7);
+                TimeToSetScene();
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline >= 0)
+                    {
+                        //check if player has a actor selected so the game can put him the portal and in the scene were the player can select the actor
+                        if (gamedata.playercurrentactor.Length <= 0)
+                        {
+                            gamedata.SaveAllPlayerData();
+                            gamedata.SaveAllGameData();
+                            if (!gamedata.issaving || !gamedata.isloading)
+                            {
+                                Debug.Log("Test not load level 8");
+                                //Application.LoadLevel(8);
+                            }
+                        }
+                    }
+                }
+                //fazer
+                /*
+                if (scenes[currentscene].backgrounds.Length > 1)
+                {
+                    if (scenes[currentscene].GetComponent<SceneBehaviour>().timertogo < 120)
+                        background.currentbackground = 1;
+                    else if(scenes[currentscene].GetComponent<SceneBehaviour>().timertogo < 80)
+                        background.currentbackground = 2;
+
+                }
+                */
+                OnTimeEndGoTo(8);
                 break;
         }
     }
@@ -1294,6 +1417,18 @@ public class GameController : MonoBehaviour {
         {
             player.inventary = new string[1];
         }
+        /*
+        else if(player.inventary[player.inventary.Length] != null || player.inventary[player.inventary.Length] != "")
+        {
+            string[] temp = player.inventary;
+            player.inventary = new string[player.inventary.Length + 1];
+            for (int i =0;i < temp.Length;i ++)
+            {
+                player.inventary[i] = temp[i];
+                Debug.Log("Create a empty slot on player inventary");
+            }
+        }
+        */
     }
 
     #endregion
@@ -1311,10 +1446,16 @@ public class GameController : MonoBehaviour {
 
     void UpdateCameraEyeMoments()
     {
-        if (currentscene == 0)
+        if (dialogbox.gameObject.activeInHierarchy)
         {
-            if (dialogbox.currentdialog == 0)
-               playereyesfilter.moments = new int[1] { 2 };
+            if (currentscene == 1)
+            {
+                if (dialogbox.currentdialog == 0)
+                    playereyesfilter.moments = new int[1] { 0 };
+                if (dialogbox.currentdialog == 1)
+                    playereyesfilter.moments = new int[5] { 0, 1, 2, 3, 4 };
+            }
+            else { playereyesfilter.moments = new int[0]; }
         }
         else { playereyesfilter.moments = new int[0]; }
 
@@ -1322,7 +1463,7 @@ public class GameController : MonoBehaviour {
 
     void UpdateCameraEyeEffect()
     {
-        if(currentscene == 0)
+        if(currentscene == 1)
         {
             if(dialogbox.currentdialog == 0)
             {
@@ -1334,6 +1475,15 @@ public class GameController : MonoBehaviour {
                 {
                     playereyesfilter.state = CameraEyeEffect.effectstate.Close;
                 }
+            }
+            else if(dialogbox.currentdialog == 1)
+            {
+                playereyesfilter.state = CameraEyeEffect.effectstate.Close;
+            }
+            else
+            {
+                if (playereyesfilter.moments.Length <= 0)
+                    playereyesfilter.state = CameraEyeEffect.effectstate.Open;
             }
         }
     }
@@ -1348,30 +1498,7 @@ public class GameController : MonoBehaviour {
         switch (currentscene)
         {
             case 0:
-                if (dialogbox.currentdialog == 0)
-                {
-                    SceneBehaviour scenebehaviour = scenes[currentscene].GetComponent<SceneBehaviour>();
-
-                    if (dialogbox.dialog.currentdialogline == 6)
-                    {
-                        gamedata.SaveAllPlayerData();
-                        gamedata.SaveAllGameData();
-                        if (!gamedata.issaving || !gamedata.isloading)
-                        {
-                            if (player.playername.Length <= 0)
-                            {
-                                if (scenebehaviour.timertogo > 0)
-                                {
-                                    scenebehaviour.timertogo--;
-                                    if (canprogress == true)
-                                        canprogress = false;
-                                }
-                                else { Application.LoadLevel(9); }
-                            }
-                            else { scenebehaviour.timertogo = 100; }
-                        }
-                    }
-                }
+               
                 break;
             case 6:
                 if (dialogbox.currentdialog == 0)
@@ -1379,40 +1506,43 @@ public class GameController : MonoBehaviour {
                     if (dialogbox.dialog.currentdialogline >= 0)
                     {
                         //check if player has a actor selected so the game can put him the portal and in the scene were the player can select the actor
-                        if (gamedata.playercurrentactor == "")
+                        if (gamedata.playercurrentactor.Length <= 0)
                         {
                             gamedata.SaveAllPlayerData();
                             gamedata.SaveAllGameData();
                             if (!gamedata.issaving || !gamedata.isloading)
                             {
-                                Application.LoadLevel(8);
+                                Debug.Log("Test not load level 8");
+                                //Application.LoadLevel(8);
                             }
                         }
+                        /*
                         //this are the checks that will guide the player to the scene of his actor
                         else if(gamedata.playercurrentactor == "Benjamin")
                         {
-                            currentscene = 1;
+                            currentscene = 7;
                         }
                         else if(gamedata.playercurrentactor == "Enzo")
                         {
-                            currentscene = 2;
+                            currentscene = 8;
                         }
                         else if(gamedata.playercurrentactor == "Isis")
                         {
-                            currentscene = 3;
+                            currentscene = 9;
                         }
                         else if(gamedata.playercurrentactor == "Malika")
                         {
-                            currentscene = 4;
+                            currentscene = 10;
                         }
                         else if(gamedata.playercurrentactor == "Zaki")
                         {
-                            currentscene = 5;
+                            currentscene = 11;
                         }
                         else
                         {
                             Debug.Log("The game can´t guide the player on this scene: " + currentscene + scenes[currentscene].scenename);
                         }
+                        */
                     }
                 }
                 break;

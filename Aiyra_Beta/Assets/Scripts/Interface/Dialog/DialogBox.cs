@@ -31,6 +31,8 @@ public class DialogBox : MonoBehaviour {
     public bool hasnextanswers;
     public bool onclickenddialog;
 
+    public float processtimer;
+
     #endregion
 
     #region methods
@@ -214,7 +216,7 @@ public class DialogBox : MonoBehaviour {
                 }
                 if (!hasnextdialog)
                 {
-                    if(!dialog.isanswermoment)
+                    if (!dialog.isanswermoment)
                         if (dialog.currentdialogline == dialog.enddialogatline)
                             onclickenddialog = true;
                 }
