@@ -24,6 +24,19 @@ public class LiveBackground : MonoBehaviour {
 
     #region Methods
 
+    #region Enable And Disable Methods
+
+    void OnEnable()
+    {
+        Debug.Log("Live Background active");
+    }
+    void OnDisable()
+    {
+        Debug.Log("Live Background desactive");
+    }
+
+    #endregion
+
     #region Awake And Start
     //Method is run only one and when the gameobject associed with the script awake
     void Awake()
@@ -45,11 +58,23 @@ public class LiveBackground : MonoBehaviour {
                 movies[currentmovie].loop = false;
                 movieaudio.loop = false;
             }
-            if (playautomatic)
+            if(livebackgroundbehaviour == LiveBackgroundBehaviour.justone)
             {
-                movies[currentmovie].Play();
-                movieaudio.Play();
+                if (playautomatic)
+                {
+                    movies[currentmovie].Play();
+                    movieaudio.Play();
+                }
             }
+            if(livebackgroundbehaviour == LiveBackgroundBehaviour.inorder)
+            {
+                if(playautomatic)
+                {
+                    movies[currentmovie].Play();
+                    movieaudio.Play();
+                }
+            }
+            
         }
     }
 

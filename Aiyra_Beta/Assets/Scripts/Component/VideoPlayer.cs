@@ -30,7 +30,8 @@ public class VideoPlayer : MonoBehaviour {
     {
         GetComponent<RawImage>().texture = movie as MovieTexture;
         movieaudio = GetComponent<AudioSource>();
-        movieaudio.clip = movie.audioClip;
+        if (movie != null)
+            movieaudio.clip = movie.audioClip;
     }
     void Start()
     {
@@ -44,8 +45,11 @@ public class VideoPlayer : MonoBehaviour {
         }
         if (playautomatic)
         {
-            movie.Play();
-            movieaudio.Play();
+            if (movie != null)
+            {
+                movie.Play();
+                movieaudio.Play();
+            }
         }
     }
 
@@ -58,8 +62,12 @@ public class VideoPlayer : MonoBehaviour {
         if(!replayable)
             hasended = CheckMovieEnd();
         if (hasended)
+        {
             if (videotype == videoType.intro)
                 Application.LoadLevel(nextlevel);
+            if (videotype == videoType.gameend)
+                Application.LoadLevel(2);
+        }
         PlayerInput();
     }
 
@@ -84,8 +92,12 @@ public class VideoPlayer : MonoBehaviour {
     void PlayerInput()
     {
         if (Input.GetButtonDown("Confirm"))
+        {
             if (videotype == videoType.intro)
                 Application.LoadLevel(nextlevel);
+            if (videotype == videoType.gameend)
+                Application.LoadLevel(2);
+        }
     }
 
     #endregion

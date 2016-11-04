@@ -144,11 +144,11 @@ public class GalleryMenu : MonoBehaviour {
             case 0:
                 for (int i = 0; i < actorcgspage0.Length; i++)
                 {
-                    actorcgspage0[i].SetCGPath("Backgrounds/Teste/");
+                    actorcgspage0[i].SetCGPath("CGs/");
                     switch (i)
                     {
                         case 0:
-                            actorcgspage0[i].SetCGName("MainMenu");
+                            actorcgspage0[i].SetCGName("PuzzlePatio1.2");
                             break;
                         case 1:
                             actorcgspage0[i].SetCGName("CenarioSala");
@@ -160,44 +160,44 @@ public class GalleryMenu : MonoBehaviour {
                 }
                 for (int i = 0; i < actorcgspage1.Length; i++)
                 {
-                    actorcgspage1[i].SetCGPath("Backgrounds/Teste/");
-                    actorcgspage1[i].SetCGName("JardimTeste");
+                    actorcgspage1[i].SetCGPath("CGs/");
+                    actorcgspage1[i].SetCGName("PuzzlePatio1.2");
                 }
                 break;
             case 1:
                 for (int i = 0; i < actorcgspage0.Length; i++)
                 {
-                    actorcgspage0[i].SetCGPath("Backgrounds/Teste/");
-                    actorcgspage0[i].SetCGName("JardimTeste");
+                    actorcgspage0[i].SetCGPath("CGs/");
+                    actorcgspage0[i].SetCGName("PuzzlePatio1.2");
                 }
                 for (int i = 0; i < actorcgspage1.Length; i++)
                 {
-                    actorcgspage1[i].SetCGPath("Backgrounds/Teste/");
-                    actorcgspage1[i].SetCGName("CenarioSala");
+                    actorcgspage1[i].SetCGPath("CGs/");
+                    actorcgspage1[i].SetCGName("PuzzlePatio1.2");
                 }
                 break;
             case 2:
                 for (int i = 0; i < actorcgspage0.Length; i++)
                 {
-                    actorcgspage0[i].SetCGPath("Backgrounds/Teste/");
-                    actorcgspage0[i].SetCGName("CenarioSala");
+                    actorcgspage0[i].SetCGPath("CGs/");
+                    actorcgspage0[i].SetCGName("PuzzlePatio1.2");
                 }
                 for (int i = 0; i < actorcgspage1.Length; i++)
                 {
-                    actorcgspage1[i].SetCGPath("Backgrounds/Teste/");
-                    actorcgspage1[i].SetCGName("Quarto1");
+                    actorcgspage1[i].SetCGPath("CGs/");
+                    actorcgspage1[i].SetCGName("PuzzlePatio1.2");
                 }
                 break;
             case 3:
                 for (int i = 0; i < actorcgspage0.Length; i++)
                 {
-                    actorcgspage0[i].SetCGPath("Backgrounds/Teste/");
-                    actorcgspage0[i].SetCGName("Quarto1");
+                    actorcgspage0[i].SetCGPath("CGs/");
+                    actorcgspage0[i].SetCGName("PuzzlePatio1.2");
                 }
                 for (int i = 0; i < actorcgspage1.Length; i++)
                 {
-                    actorcgspage1[i].SetCGPath("Backgrounds/Teste/");
-                    actorcgspage1[i].SetCGName("SalaNormal.2");
+                    actorcgspage1[i].SetCGPath("CGs/");
+                    actorcgspage1[i].SetCGName("PuzzlePatio1.2");
                 }
                 break;
         }

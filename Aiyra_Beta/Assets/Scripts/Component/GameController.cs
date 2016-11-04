@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour {
     private const string zakidiaryreference = "ZAKIDIARY" /* + CGID*/;
 
     private const string enzoendreference = "ENZOEND" /*  + CGID*/;
+    private const string isisendreference = "ISISEND" /*  + CGID*/;
+    private const string benjaminendreference = "BENJAMINEND" /*  + CGID*/;
     #endregion
 
     #region Attributes
@@ -126,11 +128,6 @@ public class GameController : MonoBehaviour {
     //Method that will upload all scripts, game objects,etc that is in game scene 
     void Update()
     {
-        #region LoadingInterface Control
-
-        LoadingInterfaceManager();
-
-        #endregion
         #region Background Control
 
         BackgroundManager();
@@ -206,6 +203,10 @@ public class GameController : MonoBehaviour {
 
         SaveAllGameAndPlayerDataOfCurrentGame();
 
+        if(isgamefinal)
+        {
+            CompleteGameCheckAffinityUnlockEndAndPlayGameEnd();
+        }
         /*
         isgamefinal = CheckIsFinalScene(scenes[currentscene].GetComponent<SceneBehaviour>());
 
@@ -236,56 +237,20 @@ public class GameController : MonoBehaviour {
         playereyesfilter.CameraEyesUpdate();
 
         #endregion
+        #region Effect Camera Control
+
+        AdjustEffectCameraToGameInterface();
+
+        #endregion
+        #region LoadingInterface Control
+
+        LoadingInterfaceManager();
+
+        #endregion
     }
     #endregion
 
     #region GameController Fundamental Methods
-
-    #region LoadingInterface Methods
-
-    void LoadingInterfaceManager()
-    {
-        switch (currentscene)
-        {
-            case 0:
-                switch (dialogbox.currentdialog)
-                {
-                    case 0:
-                        switch(dialogbox.dialog.currentdialogline)
-                        {
-                            case 0:
-                                if (loadinginterface.loadingtimescount <= 0)
-                                {
-                                    loadinginterface.loadingmessegestext = new string[1] { "Como Jogar" };
-                                    loadinginterface.loadingtext.text = loadinginterface.loadingmessegestext[loadinginterface.counterofloops];
-                                    loadinginterface.tutorial.sprite = Resources.Load<Sprite>("");
-                                    loadinginterface.gameObject.SetActive(true);
-                                    canprogress = false;
-                                    if (loadinginterface.loadingtime > 0)
-                                    {
-                                        loadinginterface.UploadLoadingMessage();
-                                        loadinginterface.loadingtime -= 1f;
-                                    }
-                                    else
-                                    {
-                                        loadinginterface.loadingtimescount++;
-                                        loadinginterface.loadingtime = 200f;
-                                    }
-                                }
-                                else
-                                {
-                                    loadinginterface.gameObject.SetActive(false);
-                                    canprogress = true;
-                                }
-                                break;
-                        }
-                        break;
-                }
-                break;
-        }
-    }
-
-    #endregion
 
     #region Background Methods
 
@@ -315,6 +280,8 @@ public class GameController : MonoBehaviour {
         else
         {
             background.gameObject.SetActive(true);
+            if (background.currentbackground > scenes[currentscene].backgrounds.Length)
+                background.currentbackground = 0;
             background.backgroundimage.sprite = scenes[currentscene].backgrounds[background.currentbackground];
         }
     }
@@ -820,6 +787,7 @@ public class GameController : MonoBehaviour {
             switch (actors[i].name)
             {
                 #region Benjamin lines
+                /*
                 case "Benjamin":
                     switch (currentscene)
                     {
@@ -832,16 +800,13 @@ public class GameController : MonoBehaviour {
                             break;
                     }
                     break;
+                    */
                 #endregion
                 #region Enzo Lines
+                    /*
                 case "Enzo":
                     switch (currentscene)
                     {
-                        case 7:
-                            if (dialogbox.currentdialog == 0)
-                                actors[i].dialoglines = new int[5] { 0, 1, 2, 3, 4 };
-                            else { actors[i].dialoglines = new int[0]; }
-                            break;
                         default:
                             if (actors[i].dialoglines.Length > 0)
                             {
@@ -851,9 +816,9 @@ public class GameController : MonoBehaviour {
                             break;
                     }
                     break;
+                    */
                 #endregion
                 #region Isis Lines
-                    /*
                 case "Isis":
                     switch (currentscene)
                     {
@@ -866,7 +831,6 @@ public class GameController : MonoBehaviour {
                             break;
                     }
                     break;
-                    */
                 #endregion
                 #region Jurupari Lines
                 case "Jurupari":
@@ -905,6 +869,20 @@ public class GameController : MonoBehaviour {
                     }
                     break;
                 #endregion
+                #region Klaus Lines
+                case "Klaus":
+                    switch (currentscene)
+                    {
+                        default:
+                            if(actors[i].dialoglines.Length > 0)
+                            {
+                                Debug.Log("Doing Default of Isis lines");
+                                actors[i].dialoglines = new int[0];
+                            }
+                            break;
+                    }
+                    break;
+                #endregion
                 #region Mae do jogador Lines
                 case "MaedaLuna":
                     switch (currentscene)
@@ -914,6 +892,15 @@ public class GameController : MonoBehaviour {
                             {
                                 case 0:
                                     actors[i].dialoglines = new int[4] { 0, 1, 2, 3 };
+                                    break;
+                                case 1:
+                                    actors[i].dialoglines = new int[10]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                                    break;
+                                case 2:
+                                    actors[i].dialoglines = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
+                                    break;
+                                case 3:
+                                    actors[i].dialoglines = new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                                     break;
                                 default:
                                     Debug.Log("Doing Default of Mae da Personagem lines");
@@ -925,6 +912,28 @@ public class GameController : MonoBehaviour {
                             if (actors[i].dialoglines.Length > 0)
                             {
                                 Debug.Log("Doing Default of Mae da Personagem lines");
+                                actors[i].dialoglines = new int[0];
+                            }
+                            break;
+                    }
+                    break;
+                #endregion
+                #region Teacher Lines
+                case "Teacher":
+                    switch(currentscene)
+                    {
+                        case 4:
+                            switch (dialogbox.currentdialog)
+                            {
+                                case 0:
+                                    actors[i].dialoglines = new int[5] { 1, 2, 3, 4, 5 };
+                                    break;
+                            }
+                            break;
+                        default:
+                            if(actors[i].dialoglines.Length > 0)
+                            {
+                                Debug.Log("DOing Default Of Isis lines");
                                 actors[i].dialoglines = new int[0];
                             }
                             break;
@@ -973,7 +982,7 @@ public class GameController : MonoBehaviour {
                         {
                             Debug.Log("Actor " + actors[i].actorname + " Not Active gamecontroller will not set it animation");
                         }
-                            break;
+                        break;
                     #endregion
                     #region Enzo Emotions
                     case "Enzo":
@@ -1009,10 +1018,25 @@ public class GameController : MonoBehaviour {
                         break;
                     #endregion
                     #region Isis Emotions
-                    /*
-                case "Isis":
-                    break;
-                    */
+                    case "Isis":
+                        if (actors[i].gameObject.activeInHierarchy)
+                        {
+                            switch (currentscene)
+                            {
+                                default:
+                                    if (actors[i].actoranimator.GetInteger(actors[i].motionreference) != 0)
+                                    {
+                                        Debug.Log("Doing Default of actor Enzo motion");
+                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                    }
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Actor " + actors[i].actorname + "Not Active gamecontroller will not set it animation");
+                        }
+                        break;
                     #endregion
                     #region Jurupari Emotions
                     case "Jurupari":
@@ -1074,6 +1098,27 @@ public class GameController : MonoBehaviour {
                         }
                         break;
                     #endregion
+                    #region Klaus Emotions
+                    case "Klaus":
+                        if (actors[i].gameObject.activeInHierarchy)
+                        {
+                            switch (currentscene)
+                            {
+                                default:
+                                    if (actors[i].actoranimator.GetInteger(actors[i].motionreference) != 0)
+                                    {
+                                        Debug.Log("Doing Default of actor Enzo motion");
+                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                    }
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Actor " + actors[i].actorname + "Not Active gamecontroller will not set it animation");
+                        }
+                        break;
+                    #endregion
                     #region Mae Do Personagem Emotions
                     case "MaedaLuna":
                         if (actors[i].gameObject.activeInHierarchy)
@@ -1102,7 +1147,28 @@ public class GameController : MonoBehaviour {
                             Debug.Log("Actor " + actors[i].actorname + " Not Active gamecontroller will not set it animation");
                         }
                         break;
-                        #endregion
+                    #endregion
+                    #region Teacher Emotions
+                    case "Teacher":
+                        if (actors[i].gameObject.activeInHierarchy)
+                        {
+                            switch (currentscene)
+                            {
+                                default:
+                                    if (actors[i].actoranimator.GetInteger(actors[i].motionreference) != 0)
+                                    {
+                                        Debug.Log("Doing Default of actor Enzo motion");
+                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                    }
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Actor " + actors[i].actorname + "Not Active gamecontroller will not set it animation");
+                        }
+                        break;
+                    #endregion
                 }
             }
         }
@@ -1212,6 +1278,8 @@ public class GameController : MonoBehaviour {
             //Check if is puzzle is not resolve so the method can try to get it puzzlepicture script to update picture status
             if (!puzzlei.resolved && puzzlei.gameObject.activeInHierarchy)
             {
+                if (puzzlei.GetComponent<PuzzlePortalFall>() != null)
+                    puzzlei.GetComponent<PuzzlePortalFall>().UpdateStunStatus();
                 if (puzzlei.GetComponent<PuzzlePicture>() != null)
                     puzzlei.GetComponent<PuzzlePicture>().UpdatePicuteStatus();
             }
@@ -1243,7 +1311,7 @@ public class GameController : MonoBehaviour {
                 case 4: scenes[i].scenename = "Sala de Aula"; break;
                 case 5: scenes[i].scenename = "Rua da Escola"; break;
                 case 6: scenes[i].scenename = "Jardim da Casa Abandonada"; break;
-                case 7: scenes[i].scenename = "Sala de Aula Magica"; break;
+                case 7: scenes[i].scenename = "Portal"; break;
             }
             Debug.Log("Scene " + scenes[i].scenename + " Avaliable");
         }
@@ -1261,6 +1329,7 @@ public class GameController : MonoBehaviour {
                 case 4: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
                 case 5: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
                 case 6: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 7: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
             }
             Debug.Log("Scene " + scenes[i].scenename + " is a final scene?: " + scenes[i].GetComponent<SceneBehaviour>().isfinalscene);
         }
@@ -1316,35 +1385,160 @@ public class GameController : MonoBehaviour {
                 break;
             case 6:
                 TimeToSetScene();
-                if (dialogbox.currentdialog == 0)
-                {
-                    if (dialogbox.dialog.currentdialogline >= 0)
-                    {
-                        //check if player has a actor selected so the game can put him the portal and in the scene were the player can select the actor
-                        if (gamedata.playercurrentactor.Length <= 0)
-                        {
-                            gamedata.SaveAllPlayerData();
-                            gamedata.SaveAllGameData();
-                            if (!gamedata.issaving || !gamedata.isloading)
-                            {
-                                Debug.Log("Test not load level 8");
-                                //Application.LoadLevel(8);
-                            }
-                        }
-                    }
-                }
-                //fazer
-                /*
                 if (scenes[currentscene].backgrounds.Length > 1)
                 {
-                    if (scenes[currentscene].GetComponent<SceneBehaviour>().timertogo < 120)
+                    if (scenes[currentscene].GetComponent<SceneBehaviour>().timertogo < 170)
                         background.currentbackground = 1;
-                    else if(scenes[currentscene].GetComponent<SceneBehaviour>().timertogo < 80)
+                    else if (scenes[currentscene].GetComponent<SceneBehaviour>().timertogo < 120)
                         background.currentbackground = 2;
 
                 }
-                */
-                OnTimeEndGoTo(8);
+                if (dialogbox.dialog.currentdialogline >= 0)
+                {
+                    //check if player has a actor selected so the game can put him the portal and in the scene were the player can select the actor
+                    if (gamedata.playercurrentactor.Length <= 0)
+                    {
+                        //Check if game game is not saving or loading to go to next scene
+                        if (!gamedata.issaving || !gamedata.isloading)
+                        {
+                            if (scenes[currentscene].GetComponent<SceneBehaviour>().timertogo < 0)
+                            {
+                                //Save Game Status to load it to another scene
+                                gamedata.SaveAllPlayerData();
+                                gamedata.SaveAllGameData();
+                                //Load Actor selection scene
+                                Application.LoadLevel(8);
+                            }
+                            else
+                            {
+                                scenes[currentscene].GetComponent<SceneBehaviour>().timertogo--;
+                                Debug.Log("Tempo para proceguir: " + scenes[currentscene].GetComponent<SceneBehaviour>().timertogo);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        currentscene = 7;
+                    }
+                }
+                break;
+                //Testando
+            case 7:
+                scenes[currentscene].scenestate = Scene.state.interaction;
+                //Check if the timer is lower than 0 to go to next scene
+                if (scenes[currentscene].GetComponent<SceneBehaviour>().timertogo < 0)
+                {
+                    if (gamedata.playercurrentactor == "Benjamin")
+                    {
+                        //Check if game game is not saving or loading to go to next scene
+                        if (!gamedata.issaving || !gamedata.isloading)
+                        {
+                            //Load Actor selection scene
+                            currentscene = 8;
+                        }
+                    }
+                    else if (gamedata.playercurrentactor == "Enzo")
+                    {
+                        if (!gamedata.issaving || !gamedata.isloading)
+                        {
+                            //Load Actor selection scene
+                            currentscene = 9;
+                        }
+                    }
+                    else if(gamedata.playercurrentactor == "Isis")
+                    {
+                        if (!gamedata.issaving || !gamedata.isloading)
+                        {
+                            //Load Actor selection scene
+                            currentscene = 10;
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Player has no actor history line to follow");
+                    }
+                }
+                else
+                {
+                    scenes[currentscene].GetComponent<SceneBehaviour>().timertogo--;
+                    Debug.Log("Tempo para proceguir: " + scenes[currentscene].GetComponent<SceneBehaviour>().timertogo);
+                }
+                break;
+                //testando
+            case 8:
+                if (!scenes[currentscene].puzzles[0].resolved)
+                {
+                    if (!scenes[currentscene].puzzles[0].active)
+                    {
+                        scenes[currentscene].puzzles[0].GetComponent<PuzzlePortalFall>().transform.Rotate(0, 0, 180);
+                        int x, y;
+                        x = Random.Range(-30, 30);
+                        y = Random.Range(-30, 30);
+                        scenes[currentscene].puzzles[0].GetComponent<PuzzlePortalFall>().transform.Translate(x,y,0);
+                    }
+                    scenes[currentscene].puzzles[0].active = true;
+                    scenes[currentscene].scenestate = Scene.state.puzzle;
+                }
+                else if (scenes[currentscene].puzzles[0].resolved)
+                {
+                    //fazer o desbloqueio de cgs 0 de cada actor
+                    string[] CGsToUnlock = new string[5] { benjamingalleryreference + 0.ToString(), enzogalleryreference + 0.ToString(), isisgalleryreference + 0.ToString(), malikagalleryreference + 0.ToString(), zakigalleryreference + 0.ToString() };
+                    UnlockCGs(CGsToUnlock);
+
+                    dialogbox.currentdialog = 0;
+                    dialogbox.dialog.currentdialogline = 0;
+                    if (dialogbox.currentdialog == 0)
+                        if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                            scenes[currentscene].scenestate = Scene.state.dialog;
+                }
+                break;
+            case 9:
+                if (!scenes[currentscene].puzzles[0].resolved)
+                {
+                    if (!scenes[currentscene].puzzles[0].active)
+                    {
+                        scenes[currentscene].puzzles[0].GetComponent<PuzzlePortalFall>().transform.Rotate(0, 0, 180);
+                        int x, y;
+                        x = Random.Range(-30, 30);
+                        y = Random.Range(-30, 30);
+                        scenes[currentscene].puzzles[0].GetComponent<PuzzlePortalFall>().transform.Translate(x, y, 0);
+                    }
+                    scenes[currentscene].puzzles[0].active = true;
+                    scenes[currentscene].scenestate = Scene.state.puzzle;
+                }
+                else if (scenes[currentscene].puzzles[0].resolved)
+                {
+                    //fazer o desbloqueio de cgs 0 de cada actor
+                    string[] CGsToUnlock = new string[5] { benjamingalleryreference + 0.ToString(), enzogalleryreference + 0.ToString(), isisgalleryreference + 0.ToString(), malikagalleryreference + 0.ToString(), zakigalleryreference + 0.ToString() };
+                    UnlockCGs(CGsToUnlock);
+
+                    dialogbox.currentdialog = 0;
+                    dialogbox.dialog.currentdialogline = 0;
+                    if (dialogbox.currentdialog == 0)
+                        if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                            scenes[currentscene].scenestate = Scene.state.dialog;
+                }
+                break;
+            case 10:
+                if (!scenes[currentscene].puzzles[0].resolved)
+                {
+                    if (!scenes[currentscene].puzzles[0].active)
+                        scenes[currentscene].puzzles[0].GetComponent<PuzzlePortalFall>().transform.Rotate(0, 0, 180);
+                    scenes[currentscene].puzzles[0].active = true;
+                    scenes[currentscene].scenestate = Scene.state.puzzle;
+                }
+                else if (scenes[currentscene].puzzles[0].resolved)
+                {
+                    //fazer o desbloqueio de cgs 0 de cada actor
+                    string[] CGsToUnlock = new string[5] { benjamingalleryreference + 0.ToString(), enzogalleryreference + 0.ToString(), isisgalleryreference + 0.ToString(), malikagalleryreference + 0.ToString(), zakigalleryreference + 0.ToString() };
+                    UnlockCGs(CGsToUnlock);
+
+                    dialogbox.currentdialog = 0;
+                    dialogbox.dialog.currentdialogline = 0;
+                    if (dialogbox.currentdialog == 0)
+                        if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                            scenes[currentscene].scenestate = Scene.state.dialog;
+                }
                 break;
         }
     }
@@ -1415,20 +1609,8 @@ public class GameController : MonoBehaviour {
     {
         if (player.inventary.Length <= 0)
         {
-            player.inventary = new string[1];
+            player.inventary = new string[8];
         }
-        /*
-        else if(player.inventary[player.inventary.Length] != null || player.inventary[player.inventary.Length] != "")
-        {
-            string[] temp = player.inventary;
-            player.inventary = new string[player.inventary.Length + 1];
-            for (int i =0;i < temp.Length;i ++)
-            {
-                player.inventary[i] = temp[i];
-                Debug.Log("Create a empty slot on player inventary");
-            }
-        }
-        */
     }
 
     #endregion
@@ -1454,6 +1636,8 @@ public class GameController : MonoBehaviour {
                     playereyesfilter.moments = new int[1] { 0 };
                 if (dialogbox.currentdialog == 1)
                     playereyesfilter.moments = new int[5] { 0, 1, 2, 3, 4 };
+                if (dialogbox.currentdialog == 2)
+                    playereyesfilter.moments = new int[8] { 0, 1, 2, 3, 4, 5, 6, 7 };
             }
             else { playereyesfilter.moments = new int[0]; }
         }
@@ -1492,62 +1676,17 @@ public class GameController : MonoBehaviour {
 
     #region Game Methods
 
-    #region Navegation Methods
-    void GoToGameSceneWhen()
+    #region RewardPlayerMethods
+
+    void UnlockCGs(string[] CGsThatWillUnlockArray)
     {
-        switch (currentscene)
+        bool NewCGSStatus = true;
+        for(int i = 0; i < CGsThatWillUnlockArray.Length; i++)
         {
-            case 0:
-               
-                break;
-            case 6:
-                if (dialogbox.currentdialog == 0)
-                {
-                    if (dialogbox.dialog.currentdialogline >= 0)
-                    {
-                        //check if player has a actor selected so the game can put him the portal and in the scene were the player can select the actor
-                        if (gamedata.playercurrentactor.Length <= 0)
-                        {
-                            gamedata.SaveAllPlayerData();
-                            gamedata.SaveAllGameData();
-                            if (!gamedata.issaving || !gamedata.isloading)
-                            {
-                                Debug.Log("Test not load level 8");
-                                //Application.LoadLevel(8);
-                            }
-                        }
-                        /*
-                        //this are the checks that will guide the player to the scene of his actor
-                        else if(gamedata.playercurrentactor == "Benjamin")
-                        {
-                            currentscene = 7;
-                        }
-                        else if(gamedata.playercurrentactor == "Enzo")
-                        {
-                            currentscene = 8;
-                        }
-                        else if(gamedata.playercurrentactor == "Isis")
-                        {
-                            currentscene = 9;
-                        }
-                        else if(gamedata.playercurrentactor == "Malika")
-                        {
-                            currentscene = 10;
-                        }
-                        else if(gamedata.playercurrentactor == "Zaki")
-                        {
-                            currentscene = 11;
-                        }
-                        else
-                        {
-                            Debug.Log("The game can´t guide the player on this scene: " + currentscene + scenes[currentscene].scenename);
-                        }
-                        */
-                    }
-                }
-                break;
+            gamecollection.SaveActorCGStatusWithCGName(CGsThatWillUnlockArray[i], NewCGSStatus);
         }
     }
+
     #endregion
 
     #region Time Adjust Methods
@@ -1598,7 +1737,13 @@ public class GameController : MonoBehaviour {
 
     void CompleteGameCheckAffinityUnlockEndAndPlayGameEnd()
     {
+        canprogress = false;
+
+        gamedata.currentgameend = CheckFinalAffinityWithCurrentActor();
+
         Debug.Log("Current game has ended");
+
+        Application.LoadLevel(10);
        /*
         SceneBehaviour currentscenebehaviour;
 
@@ -1904,6 +2049,71 @@ public class GameController : MonoBehaviour {
 
     }
     #endregion
+
+    #endregion
+
+    #region LoadingInterface Methods
+
+    void LoadingInterfaceManager()
+    {
+        switch (currentscene)
+        {
+            case 0:
+                switch (dialogbox.currentdialog)
+                {
+                    case 0:
+                        switch (dialogbox.dialog.currentdialogline)
+                        {
+                            case 0:
+                                if (loadinginterface.loadingtimescount <= 0)
+                                {
+                                    loadinginterface.loadingmessegestext = new string[1] { "Como Jogar" };
+                                    loadinginterface.loadingtext.text = loadinginterface.loadingmessegestext[loadinginterface.counterofloops];
+                                    loadinginterface.tutorial.sprite = Resources.Load<Sprite>("");
+                                    loadinginterface.gameObject.SetActive(true);
+                                    canprogress = false;
+                                    if (loadinginterface.loadingtime > 0)
+                                    {
+                                        loadinginterface.UploadLoadingMessage();
+                                        loadinginterface.loadingtime -= 1f;
+                                    }
+                                    else
+                                    {
+                                        loadinginterface.loadingtimescount++;
+                                        loadinginterface.loadingtime = 200f;
+                                    }
+                                }
+                                else
+                                {
+                                    loadinginterface.gameObject.SetActive(false);
+                                    canprogress = true;
+                                }
+                                break;
+                        }
+                        break;
+                }
+                break;
+        }
+    }
+
+    #endregion
+
+    #region Effect Camera Methods
+
+    void AdjustEffectCameraToGameInterface()
+    {
+        Rect newrect;
+        if (pausemenu.gameObject.activeInHierarchy)
+        {
+            newrect = new Rect(0, -0.06f, 1, 1);
+            effectscamerablurfilter.GetComponent<Camera>().rect = newrect;
+        }
+        else
+        {
+            newrect = new Rect(0, 0, 1, 1);
+            effectscamerablurfilter.GetComponent<Camera>().rect = newrect;
+        }
+    }
 
     #endregion
 
