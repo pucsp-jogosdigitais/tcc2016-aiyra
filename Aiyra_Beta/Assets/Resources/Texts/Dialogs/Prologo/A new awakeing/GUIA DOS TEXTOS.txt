@@ -1,0 +1,26 @@
+GUIA DOS TEXTOS
+
+* Cena 00 - Quarto escuro
+* alternativa01_cena00
+* resposta01_alternativa01_cena00_desligar o despertador e levantar
+* resposta02_alternativa01_cena00_acionar a fun��o soneca e dormir
+* cena01_texto01_sala de estar
+* alternativa02_cena01
+* resposta03_alternativa02_cena01_Claro T� super animada
+* resposta04_alternativa02_cena01_Hm... n�o tenho certeza
+* resposta05_alternativa02_cena01_� s� um dia como qualquer outro
+* cena01_texto02_sala de estar
+* alternativa03_cena01
+* resposta06_alternativa03_cena01_Avisar a m�e que encontrou o presente
+* resposta07_alternativa03_cena01_Abrir o embrulho do presente
+* cena01_texto03_sala de estar
+* cena02_texto01_rua1_casa1
+* alternativa04_cena02
+* resposta08_alternativa04_cena02_seguir o jurupari
+* resposta09_alternativa04_cena02_n�o seguir jurupari
+* cena03_texto01_sala de aula normal
+* resposta09-1_alternativa04_cena02_n�o seguir jurupari
+* alternativa05_cena02
+* resposta10_alternativa05_entrar no portal
+* resposta11_alternativa05_ nao entrar no portal
+* cena05_texto01_explos�o portal

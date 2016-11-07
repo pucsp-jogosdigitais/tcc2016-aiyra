@@ -145,7 +145,7 @@ public class ObjectI : MonoBehaviour {
                     else if(gameObject.name == "LivingroomDiaryBox")
                     {
                         PlayInteractionSound();
-                        GoToDialog(7, 0);
+                        GoToDialog(5, 0);
                     }
                     /*
                     if (gameObject.name == "MainRoomPicture")

@@ -288,6 +288,16 @@ public class GameController : MonoBehaviour {
                 background.currentbackground = 0;
             background.backgroundimage.sprite = scenes[currentscene].backgrounds[background.currentbackground];
         }
+
+        #region Background change lines
+        if (currentscene == 3)
+        {
+            if (dialogbox.currentdialog == 0 && dialogbox.dialog.currentdialogline == 10)
+            {
+                background.currentbackground = 1;
+            }
+        }
+        #endregion
     }
 
     #endregion
@@ -425,7 +435,7 @@ public class GameController : MonoBehaviour {
                 if (dialogbox.currentdialog == 0)
                 {
                     dialogbox.currentdialoganswers = 0;
-                    if (dialogbox.dialog.currentdialogline == 12)
+                    if (dialogbox.dialog.currentdialogline == 13)
                     {
                         if (!dialogbox.hasanswered)
                             dialogbox.dialog.isanswermoment = true;
@@ -438,7 +448,7 @@ public class GameController : MonoBehaviour {
                 else if(dialogbox.currentdialog == 1)
                 {
                     dialogbox.currentdialoganswers = 1;
-                    if (dialogbox.dialog.currentdialogline == 8)
+                    if (dialogbox.dialog.currentdialogline == 12)
                     {
                         if (!dialogbox.hasanswered)
                             dialogbox.dialog.isanswermoment = true;
@@ -451,7 +461,7 @@ public class GameController : MonoBehaviour {
                 else if(dialogbox.currentdialog == 2)
                 {
                     dialogbox.currentdialoganswers = 2;
-                    if (dialogbox.dialog.currentdialogline == 4)
+                    if (dialogbox.dialog.currentdialogline == 5)
                     {
                         if (!dialogbox.hasanswered)
                             dialogbox.dialog.isanswermoment = true;
@@ -465,7 +475,7 @@ public class GameController : MonoBehaviour {
             case 1:
                 if (dialogbox.currentdialog == 0)
                 {
-                    if (dialogbox.dialog.currentdialogline == 4)
+                    if (dialogbox.dialog.currentdialogline == 3)
                     {
                         if (!dialogbox.hasanswered)
                             dialogbox.dialog.isanswermoment = true;
@@ -479,7 +489,7 @@ public class GameController : MonoBehaviour {
             case 2:
                 if (dialogbox.currentdialog == 0)
                 {
-                    if (dialogbox.dialog.currentdialogline == 3)
+                    if (dialogbox.dialog.currentdialogline == 4)
                     {
                         if (!dialogbox.hasanswered)
                             dialogbox.dialog.isanswermoment = true;
@@ -489,10 +499,42 @@ public class GameController : MonoBehaviour {
                         dialogbox.hasanswered = false;
                     }
                 }
+                else if(dialogbox.currentdialog == 5)
+                {
+                    if (dialogbox.dialog.currentdialogline == 0)
+                    {
+                        dialogbox.currentdialoganswers = 1;
+                        if (!dialogbox.hasanswered)
+                            dialogbox.dialog.isanswermoment = true;
+                    }
+                    else
+                    {
+                        dialogbox.hasanswered = false;
+                    }
+                }
+                #region obsolety
+                /*
                 else if (dialogbox.currentdialog == 7)
                 {
-                    if(dialogbox.dialog.currentdialogline == 90)
+                    if(dialogbox.dialog.currentdialogline == 49)
                     {
+                        if (!dialogbox.hasanswered)
+                            dialogbox.dialog.isanswermoment = true;
+                    }
+                    else
+                    {
+                        dialogbox.hasanswered = false;
+                    }
+                }
+                */
+                #endregion
+                break;
+            case 3:
+                if(dialogbox.currentdialog == 0)
+                {
+                    if(dialogbox.dialog.currentdialogline == 25)
+                    {
+                        dialogbox.currentdialoganswers = 0;
                         if (!dialogbox.hasanswered)
                             dialogbox.dialog.isanswermoment = true;
                     }
@@ -679,19 +721,24 @@ public class GameController : MonoBehaviour {
                     if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
                         dialogbox.nextdialog = dialogbox.endatdialog;
                 }
-                if(dialogbox.currentdialog == 1 || dialogbox.currentdialog == 2 || dialogbox.currentdialog == 3)
+                else if(dialogbox.currentdialog == 1 || dialogbox.currentdialog == 2 || dialogbox.currentdialog == 3)
                 {
                     dialogbox.nextdialog = 4;
                 }
-                if(dialogbox.currentdialog == 7)
+                else if(dialogbox.currentdialog == 5)
                 {
-                    dialogbox.AnswerButtonsSetNextDialog(5,6,8);
-                    if(dialogbox.dialog.currentdialogline != 89)
+                    dialogbox.AnswerButtonsSetNextDialog(6, 7, 8);
+                    if (dialogbox.dialog.currentdialogline == 0)
                         dialogbox.nextdialog = 8;
                 }
-                if(dialogbox.currentdialog == 5 || dialogbox.currentdialog == 6)
+                else if (dialogbox.currentdialog == 6 || dialogbox.currentdialog == 7)
                 {
-                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                    dialogbox.nextdialog = 7;
+                }
+                else if(dialogbox.currentdialog == 7)
+                {
+                    //dialogbox.AnswerButtonsSetNextDialog(5,6,8);
+                    if(dialogbox.dialog.currentdialogline != 49)
                         dialogbox.nextdialog = 8;
                     else
                     {
@@ -705,7 +752,6 @@ public class GameController : MonoBehaviour {
                     dialogbox.AnswerButtonsSetNextDialog(1, 2, 3);
                     if (dialogbox.lastanswerid < 0)
                         dialogbox.nextdialog = 1;
-
                 }
                 break;
             case 4:
@@ -2156,7 +2202,7 @@ public class GameController : MonoBehaviour {
                                 {
                                     loadinginterface.loadingmessegestext = new string[1] { "Como Jogar" };
                                     loadinginterface.loadingtext.text = loadinginterface.loadingmessegestext[loadinginterface.counterofloops];
-                                    loadinginterface.tutorial.sprite = Resources.Load<Sprite>("");
+                                    //loadinginterface.tutorial.sprite = Resources.Load<Sprite>("");
                                     loadinginterface.gameObject.SetActive(true);
                                     canprogress = false;
                                     if (loadinginterface.loadingtime > 0)
