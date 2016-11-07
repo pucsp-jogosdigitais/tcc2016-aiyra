@@ -32,18 +32,10 @@ public class Puzzle : MonoBehaviour {
     void OnEnable()
     {
         Debug.Log("Puzzle " + gameObject.name + " active");
-        //if(scene != null)
-        //scene.scenestate = Scene.state.puzzle;
-
-        //gamecontroller.canprogress = false;
     }
     void OnDisable()
     {
         Debug.Log("Puzzle " + gameObject.name + " desactive");
-        //if(scene != null)
-        //scene.scenestate = Scene.state.interaction;
-
-        //gamecontroller.canprogress = true;
     }
 
     #endregion
@@ -92,14 +84,6 @@ public class Puzzle : MonoBehaviour {
                 gamecontroller.canprogress = true;
                 active = false;
             }
-            /*
-            else
-            {
-                Debug.Log("Player end puzzle" + gameObject.name);
-                gamecontroller.canprogress = true;
-                RewardPlayerWithObject();
-                ExitPuzzle();
-            }*/
         }
     }
 
@@ -117,7 +101,7 @@ public class Puzzle : MonoBehaviour {
 
     #endregion
 
-    #region Update CG Status And Values
+    #region Update Puzzle Status And Values
 
     public void UploadPuzzleSaveKey()
     {

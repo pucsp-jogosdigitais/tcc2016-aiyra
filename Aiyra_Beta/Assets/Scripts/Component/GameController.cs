@@ -112,6 +112,8 @@ public class GameController : MonoBehaviour {
 
         LoadAllGameAndPlayerDataToCurrentGame();
 
+        ResetObjectIStatus();
+
         ResetPuzzleStatus();
 
         musicplayer.PlayMusic();
@@ -175,6 +177,8 @@ public class GameController : MonoBehaviour {
         #region ObjectsI Control
 
         UpdateObjectIScene();
+
+        UpdateObjectI();
 
         LoadObjectsIInCurrentScene();
 
@@ -485,6 +489,18 @@ public class GameController : MonoBehaviour {
                         dialogbox.hasanswered = false;
                     }
                 }
+                else if (dialogbox.currentdialog == 7)
+                {
+                    if(dialogbox.dialog.currentdialogline == 90)
+                    {
+                        if (!dialogbox.hasanswered)
+                            dialogbox.dialog.isanswermoment = true;
+                    }
+                    else
+                    {
+                        dialogbox.hasanswered = false;
+                    }
+                }
                 break;
             case 7:
                 if (dialogbox.currentdialog == 0)
@@ -666,6 +682,21 @@ public class GameController : MonoBehaviour {
                 if(dialogbox.currentdialog == 1 || dialogbox.currentdialog == 2 || dialogbox.currentdialog == 3)
                 {
                     dialogbox.nextdialog = 4;
+                }
+                if(dialogbox.currentdialog == 7)
+                {
+                    dialogbox.AnswerButtonsSetNextDialog(5,6,8);
+                    if(dialogbox.dialog.currentdialogline != 89)
+                        dialogbox.nextdialog = 8;
+                }
+                if(dialogbox.currentdialog == 5 || dialogbox.currentdialog == 6)
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = 8;
+                    else
+                    {
+                        dialogbox.nextdialog = dialogbox.currentdialog;
+                    }
                 }
                 break;
             case 3:
@@ -1177,7 +1208,31 @@ public class GameController : MonoBehaviour {
     #endregion
    
     #region ObjectI Methods
-
+    void ResetObjectIStatus()
+    {
+        //Check if the player has start a new game
+        if(player.playername.Length <= 0 && player.playercurrentactor.Length <= 0)
+        {
+            //If the player has start a new game start a whip of type for to run all scenes and another of type forreach to run througth all objects in the scene
+            for(int i = 0; i < scenes.Length; i++)
+                foreach(GameObject objecti in scenes[i].objects)
+                {
+                    //Check if the object status save key has any letter in it to save the object status
+                    if (objecti.GetComponent<ObjectI>().objectinventarystatussavekey.Length <= 0)
+                        objecti.GetComponent<ObjectI>().UploadObjectISaveKey();
+                    //Reset the value of object based on it name and save it
+                    if (objecti.gameObject.name == "Broche")
+                    {
+                        objecti.GetComponent<ObjectI>().isininventary = 0;
+                    }
+                    else
+                    {
+                        objecti.GetComponent<ObjectI>().isininventary = 0;
+                    }
+                    objecti.GetComponent<ObjectI>().SaveObjectStatus();
+                }
+        }
+    }
     void UpdateObjectIScene()
     {
         foreach (GameObject objecti in scenes[currentscene].objects)
@@ -1203,23 +1258,43 @@ public class GameController : MonoBehaviour {
             if (objecti.GetComponent<ObjectI>().objectsound.volume != gamesettings.effectsvolume)
                 objecti.GetComponent<ObjectI>().objectsound.volume = gamesettings.effectsvolume;
     }
+    void UpdateObjectI()
+    {
+        foreach (GameObject objecti in scenes[currentscene].objects)
+        {
+            //Check if the objecti status save key has any letter in it to save the objecti status
+            if (objecti.GetComponent<ObjectI>().objectinventarystatussavekey.Length <= 0)
+                objecti.GetComponent<ObjectI>().UploadObjectISaveKey();
 
+            //Check if puzzle has not be loaded to load it
+            if (!objecti.GetComponent<ObjectI>().hasbeenloaded)
+            {
+                objecti.GetComponent<ObjectI>().LoadObjectStatus();
+                objecti.GetComponent<ObjectI>().hasbeenloaded = true;
+            }
+            //Check if puzzle has been resolved to save it status
+            if (objecti.GetComponent<ObjectI>().isininventary < 0)
+                objecti.GetComponent<ObjectI>().SaveObjectStatus();
+        }
+    }
     #endregion
 
     #region Puzzle Methods
     //Method that reset the puzzle status for a new gameplay
     void ResetPuzzleStatus()
     {
-        //Check if the player has start a new scene
+        //Check if the player has start a new game
         if (player.playername.Length <= 0 && player.playercurrentactor.Length <= 0)
         {
+
+            //If the player has start a new game start a whip of type for to run all scenes and another of type forreach to run througth all puzzle in the scene
             for (int i = 0; i < scenes.Length; i++)
                 foreach (Puzzle puzzle in scenes[i].puzzles)
                 {
                     //Check if the puzzle status save key has any letter in it to save the puzzle status
                     if (puzzle.puzzlestatussavekey.Length <= 0)
                         puzzle.UploadPuzzleSaveKey();
-
+                    //Reset the resolution of the puzzle and save
                     puzzle.resolved = false;
                     puzzle.SavePuzzleStatus();
                 }
@@ -1363,7 +1438,11 @@ public class GameController : MonoBehaviour {
                                         canprogress = false;
                                 }
                             }
-                            else { scenebehaviour.timertogo = 100; }
+                            else
+                            {
+                                dialogbox.dialog.currentdialogline += 1;
+                                scenebehaviour.timertogo = 100;
+                            }
                         }
                     }
                 }
@@ -1419,6 +1498,7 @@ public class GameController : MonoBehaviour {
                     else
                     {
                         currentscene = 7;
+                        dialogbox.StartDialog(0);
                     }
                 }
                 break;
@@ -1435,6 +1515,7 @@ public class GameController : MonoBehaviour {
                         {
                             //Load Actor selection scene
                             currentscene = 8;
+                            dialogbox.StartDialog(0);
                         }
                     }
                     else if (gamedata.playercurrentactor == "Enzo")
@@ -1443,6 +1524,7 @@ public class GameController : MonoBehaviour {
                         {
                             //Load Actor selection scene
                             currentscene = 9;
+                            dialogbox.StartDialog(0);
                         }
                     }
                     else if(gamedata.playercurrentactor == "Isis")
@@ -1451,6 +1533,7 @@ public class GameController : MonoBehaviour {
                         {
                             //Load Actor selection scene
                             currentscene = 10;
+                            dialogbox.StartDialog(0);
                         }
                     }
                     else
@@ -1607,9 +1690,13 @@ public class GameController : MonoBehaviour {
     }
     void PlayerInventaryAdjust()
     {
-        if (player.inventary.Length <= 0)
+        if(gamedata.playername.Length <= 0 && gamedata.playercurrentactor.Length <= 0)
         {
-            player.inventary = new string[8];
+            player.inventary = new string[0];
+        }
+        if(currentscene == 1 && player.inventary.Length <= 0)
+        {
+            player.inventary = new string[6];
         }
     }
 
@@ -2103,15 +2190,18 @@ public class GameController : MonoBehaviour {
     void AdjustEffectCameraToGameInterface()
     {
         Rect newrect;
-        if (pausemenu.gameObject.activeInHierarchy)
+        if (currentscene > 8 && currentscene < 11)
         {
-            newrect = new Rect(0, -0.06f, 1, 1);
-            effectscamerablurfilter.GetComponent<Camera>().rect = newrect;
-        }
-        else
-        {
-            newrect = new Rect(0, 0, 1, 1);
-            effectscamerablurfilter.GetComponent<Camera>().rect = newrect;
+            if (pausemenu.gameObject.activeInHierarchy)
+            {
+                newrect = new Rect(0, -0.06f, 1, 1);
+                effectscamerablurfilter.GetComponent<Camera>().rect = newrect;
+            }
+            else
+            {
+                newrect = new Rect(0, 0, 1, 1);
+                effectscamerablurfilter.GetComponent<Camera>().rect = newrect;
+            }
         }
     }
 
