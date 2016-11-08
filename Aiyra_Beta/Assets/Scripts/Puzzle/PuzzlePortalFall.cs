@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class PuzzlePortalFall : MonoBehaviour {
 
@@ -43,23 +44,14 @@ public class PuzzlePortalFall : MonoBehaviour {
             if (!puzzle.resolved && puzzle.active)
             {
                 if (Input.GetKey(KeyCode.A))
-                    transform.Translate(-1, 0, 0);
+                    transform.Rotate(0, 0, 1f);
                 if (Input.GetKey(KeyCode.D))
-                    transform.Translate(1, 0, 0);
+                    transform.Rotate(0, 0, -1f);
 
-                if (transform.position.x > 1)
-                {
-                    puzzle.gamecontroller.effectscamerablurfilter.blurAmount = transform.position.x;
-                }
-                else
-                {
-                    puzzle.gamecontroller.effectscamerablurfilter.blurAmount = transform.position.x * -1;
-                }
+                puzzle.gamecontroller.effectscamerablurfilter.blurAmount = transform.rotation.z;
 
-                if(transform.position.x < 15 && transform.position.x > -15)
-                {
+                if (transform.rotation.eulerAngles.z >= 350 || transform.rotation.eulerAngles.z <= 10)
                     puzzle.resolved = true;
-                }
             }
         }
         else

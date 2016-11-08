@@ -17,6 +17,7 @@ public class DialogBox : MonoBehaviour {
     public GameObject answerbox;
     public AnswerButton[] answersbuttons;
 
+    public int lastdialog;
     public int currentdialog;
     public int nextdialog;
     public int endatdialog;
