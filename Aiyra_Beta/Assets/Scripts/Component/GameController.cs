@@ -293,12 +293,27 @@ public class GameController : MonoBehaviour
         }
 
         #region Background change lines
-        if (currentscene == 3)
+        switch(currentscene)
         {
-            if (dialogbox.currentdialog == 0 && dialogbox.dialog.currentdialogline == 10)
-            {
-                background.currentbackground = 1;
-            }
+            case 3:
+                if (dialogbox.currentdialog == 0 && dialogbox.dialog.currentdialogline == 10)
+                {
+                    background.currentbackground = 1;
+                }
+                break;
+            case 6:
+                if(dialogbox.currentdialog == 0 && dialogbox.dialog.currentdialogline == 45)
+                {
+                    background.currentbackground = 1;
+                }
+                if(dialogbox.currentdialog == 1 && dialogbox.dialog.currentdialogline == 20)
+                {
+                    background.currentbackground = 1;
+                }
+                break;
+            default:
+                background.currentbackground = 0;
+                break;
         }
         #endregion
     }
@@ -612,7 +627,7 @@ public class GameController : MonoBehaviour
             case 6:
                 if (dialogbox.currentdialog == 0 || dialogbox.currentdialog == 1)
                 {
-                    if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
+                    if (dialogbox.dialog.currentdialogline == 54)
                     {
                         dialogbox.currentdialoganswers = 0;
                         if (!dialogbox.hasanswered)
@@ -801,25 +816,25 @@ public class GameController : MonoBehaviour
                     if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
                         dialogbox.nextdialog = dialogbox.endatdialog;
                 }
-                else if (dialogbox.currentdialog == 1 || dialogbox.currentdialog == 2 || dialogbox.currentdialog == 3)
+                if (dialogbox.currentdialog == 1 || dialogbox.currentdialog == 2 || dialogbox.currentdialog == 3)
                 {
                     dialogbox.nextdialog = 4;
                 }
-                else if (dialogbox.currentdialog == 5)
+                if (dialogbox.currentdialog == 5)
                 {
                     dialogbox.AnswerButtonsSetNextDialog(6, 7, 8);
                     if (dialogbox.dialog.currentdialogline == 0)
                         dialogbox.nextdialog = 8;
                 }
-                else if (dialogbox.currentdialog == 6 || dialogbox.currentdialog == 7)
+                if (dialogbox.currentdialog == 6 || dialogbox.currentdialog == 7)
                 {
-                    dialogbox.nextdialog = 7;
+                    dialogbox.nextdialog = 8;
                 }
-                else if (dialogbox.currentdialog == 7)
+                if (dialogbox.currentdialog == 8)
                 {
                     //dialogbox.AnswerButtonsSetNextDialog(5,6,8);
-                    if (dialogbox.dialog.currentdialogline != 49)
-                        dialogbox.nextdialog = 8;
+                    if (dialogbox.dialog.currentdialogline != 51)
+                        dialogbox.nextdialog = 9;
                     else
                     {
                         dialogbox.nextdialog = dialogbox.currentdialog;
@@ -832,6 +847,18 @@ public class GameController : MonoBehaviour
                     dialogbox.AnswerButtonsSetNextDialog(1, 2, 3);
                     if (dialogbox.lastanswerid < 0)
                         dialogbox.nextdialog = 1;
+                }
+                if(dialogbox.currentdialog == 1)
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = dialogbox.endatdialog;
+                    else { dialogbox.nextdialog = dialogbox.currentdialog; }
+                }
+                if (dialogbox.currentdialog == 2)
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = dialogbox.endatdialog;
+                    else { dialogbox.nextdialog = dialogbox.currentdialog; }
                 }
                 break;
             case 4:
@@ -853,12 +880,38 @@ public class GameController : MonoBehaviour
             case 6:
                 if (dialogbox.currentdialog == 0)
                 {
-                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                    dialogbox.AnswerButtonsSetNextDialog(2, 3, 4);
+                    if (dialogbox.lastanswerid < 0)
                         dialogbox.nextdialog = 1;
+                }
+                if(dialogbox.currentdialog == 1)
+                {
+                    dialogbox.AnswerButtonsSetNextDialog(2, 3, 4);
+                    if (dialogbox.lastanswerid < 0)
+                        dialogbox.nextdialog = 1;
+                }
+                if(dialogbox.currentdialog == 2)
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = dialogbox.endatdialog;
+                    else { dialogbox.nextdialog = dialogbox.currentdialog; }
+                }
+                if(dialogbox.currentdialog == 3)
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = dialogbox.endatdialog;
                     else { dialogbox.nextdialog = dialogbox.currentdialog; }
                 }
                 break;
             case 7:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline != 3)
+                        dialogbox.nextdialog = 1;
+                    else { dialogbox.nextdialog = dialogbox.currentdialog; }
+                }
+                break;
+            case 8:
                 if (dialogbox.currentdialog == 0)
                 {
                     if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
@@ -866,7 +919,15 @@ public class GameController : MonoBehaviour
                     else { dialogbox.nextdialog = dialogbox.currentdialog; }
                 }
                 break;
-            case 8:
+            case 9:
+                if (dialogbox.currentdialog == 0)
+                {
+                    if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
+                        dialogbox.nextdialog = 1;
+                    else { dialogbox.nextdialog = dialogbox.currentdialog; }
+                }
+                break;
+            case 10:
                 if (dialogbox.currentdialog == 0)
                 {
                     if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
@@ -1614,14 +1675,22 @@ public class GameController : MonoBehaviour
                 if(dialogbox.lastdialog == 1)
                 {
                     dialogbox.StartDialog(0);
+                    dialogbox.lastdialog = -1;
                 }
                 if(dialogbox.lastdialog == 2)
                 {
                     dialogbox.StartDialog(1);
+                    dialogbox.lastdialog = -1;
                 }
                 if(dialogbox.currentdialog == 2 || dialogbox.currentdialog == 3)
                 {
-                    OnDialogEndGoTo(7);
+                    if (gamedata.playercurrentactor.Length <= 0)
+                    {
+                        if (dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
+                            if (!gamedata.issaving || !gamedata.isloading)
+                                Application.LoadLevel(8);
+                    }
+                    else { OnDialogEndGoTo(7); }
                 }
                 #region Obsolety
                 /*
@@ -1667,6 +1736,34 @@ public class GameController : MonoBehaviour
                 break;
             case 7:
                 TimeToSetScene();
+                //Check wich actor the player has choice to start the actor history line
+                if (gamedata.playercurrentactor == "Benjamin")
+                {
+                    //Check if game game is not saving or loading to go to next scene
+                    if (!gamedata.issaving || !gamedata.isloading)
+                    {
+                        //Load Actor selection scene
+                        OnDialogEndGoTo(8);
+                    }
+                }
+                if (gamedata.playercurrentactor == "Enzo")
+                {
+                    //Check if game game is not saving or loading to go to next scene
+                    if (!gamedata.issaving || !gamedata.isloading)
+                    {
+                        //Load Actor selection scene
+                        OnDialogEndGoTo(9);
+                    }
+                }
+                if (gamedata.playercurrentactor == "Isis")
+                {
+                    //Check if game game is not saving or loading to go to next scene
+                    if (!gamedata.issaving || !gamedata.isloading)
+                    {
+                        //Load Actor selection scene
+                        OnDialogEndGoTo(10);
+                    }
+                }
                 #region Obsolety
                 /*
                 scenes[currentscene].scenestate = Scene.state.interaction;
@@ -1726,7 +1823,7 @@ public class GameController : MonoBehaviour
                     scenes[currentscene].puzzles[0].active = true;
                     scenes[currentscene].scenestate = Scene.state.puzzle;
                 }
-                else if (scenes[currentscene].puzzles[0].resolved)
+                else if (scenes[currentscene].puzzles[0].resolved && scenes[currentscene].puzzles[0].active)
                 {
                     //fazer o desbloqueio de cgs 0 de cada actor
                     string[] CGsToUnlock = new string[5] { benjamingalleryreference + 0.ToString(), enzogalleryreference + 0.ToString(), isisgalleryreference + 0.ToString(), malikagalleryreference + 0.ToString(), zakigalleryreference + 0.ToString() };
@@ -1737,6 +1834,7 @@ public class GameController : MonoBehaviour
                     if (dialogbox.currentdialog == 0)
                         if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
                             scenes[currentscene].scenestate = Scene.state.dialog;
+                    scenes[currentscene].puzzles[0].active = false;
                 }
                 break;
             case 9:
@@ -1749,7 +1847,7 @@ public class GameController : MonoBehaviour
                     scenes[currentscene].puzzles[0].active = true;
                     scenes[currentscene].scenestate = Scene.state.puzzle;
                 }
-                else if (scenes[currentscene].puzzles[0].resolved)
+                else if (scenes[currentscene].puzzles[0].resolved && scenes[currentscene].puzzles[0].active)
                 {
                     //fazer o desbloqueio de cgs 0 de cada actor
                     string[] CGsToUnlock = new string[5] { benjamingalleryreference + 0.ToString(), enzogalleryreference + 0.ToString(), isisgalleryreference + 0.ToString(), malikagalleryreference + 0.ToString(), zakigalleryreference + 0.ToString() };
@@ -1760,6 +1858,7 @@ public class GameController : MonoBehaviour
                     if (dialogbox.currentdialog == 0)
                         if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
                             scenes[currentscene].scenestate = Scene.state.dialog;
+                    scenes[currentscene].puzzles[0].active = false;
                 }
                 break;
             case 10:
@@ -1772,7 +1871,7 @@ public class GameController : MonoBehaviour
                     scenes[currentscene].puzzles[0].active = true;
                     scenes[currentscene].scenestate = Scene.state.puzzle;
                 }
-                else if (scenes[currentscene].puzzles[0].resolved)
+                else if (scenes[currentscene].puzzles[0].resolved && scenes[currentscene].puzzles[0].active)
                 {
                     //fazer o desbloqueio de cgs 0 de cada actor
                     string[] CGsToUnlock = new string[5] { benjamingalleryreference + 0.ToString(), enzogalleryreference + 0.ToString(), isisgalleryreference + 0.ToString(), malikagalleryreference + 0.ToString(), zakigalleryreference + 0.ToString() };
@@ -1783,6 +1882,8 @@ public class GameController : MonoBehaviour
                     if (dialogbox.currentdialog == 0)
                         if (dialogbox.dialog.currentdialogline != dialogbox.dialog.enddialogatline)
                             scenes[currentscene].scenestate = Scene.state.dialog;
+
+                    scenes[currentscene].puzzles[0].active = false;
                 }
                 break;
         }
