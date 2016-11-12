@@ -78,14 +78,6 @@ public class ObjectI : MonoBehaviour {
             objectname = gameObject.name;
 
         UploadObjectISaveKey();
-
-        if(gamecontroller.currentscene == 1)
-        {
-            foreach (GameObject objecti in gamecontroller.scenes[gamecontroller.currentscene].objects)
-            {
-                objecti.GetComponent<ObjectI>().objectimage.color = new Color(60,60,60);
-            }
-        }
     }
     void Start()
     {
@@ -97,170 +89,190 @@ public class ObjectI : MonoBehaviour {
 
     void OnMouseOver()
     {
-        if (objecthighlighted != null)
-            objectimage.sprite = objecthighlighted;
+        if (!gamecontroller.pausemenu.gameObject.activeInHierarchy)
+        {
+            if(scene != null)
+                if (scene.scenestate == Scene.state.interaction)
+                        if (objecthighlighted != null)
+                            objectimage.sprite = objecthighlighted;
+        }
 
         if (Input.GetButtonDown("Interaction"))
         {
             if (scene.scenestate == Scene.state.interaction)
             {
-                #region Doors
-
-                if (gamecontroller.canprogress)
+                if (!gamecontroller.pausemenu.gameObject.activeInHierarchy)
                 {
+
+                    #region Doors
+
+                    if (gamecontroller.canprogress)
+                    {
+                        if (isavailable)
+                        {
+                            if (gameObject.name == "BedroomDoor")
+                            {
+                                PlayInteractionSound();
+                                if (gamecontroller.player.inventary[0] == "Broche")
+                                {
+                                    gamecontroller.currentscene = 2;
+                                    gamecontroller.dialogbox.StartDialog(0);
+                                }
+                                else
+                                {
+                                    Debug.Log("Catch the broche first");
+                                }
+                            }
+                            if (gameObject.name == "HouseDoor")
+                            {
+                                PlayInteractionSound();
+                                gamecontroller.currentscene = 3;
+                                gamecontroller.dialogbox.StartDialog(0);
+                            }
+                            if (gameObject.name == "NormalClassroomDoor")
+                            {
+                                PlayInteractionSound();
+                                gamecontroller.currentscene = 5;
+                                gamecontroller.dialogbox.StartDialog(0);
+                            }
+                        }
+                    }
+
+                    #endregion
+
+                    #region Pickable Objetcs
+
                     if (isavailable)
                     {
-                        if (gameObject.name == "BedroomDoor")
+                        if (gameObject.name == "Broche")
                         {
                             PlayInteractionSound();
-                            gamecontroller.currentscene = 2;
-                            gamecontroller.dialogbox.StartDialog(0);
+                            OnClickRewardPlayerWithObject();
                         }
-                        if (gameObject.name == "HouseDoor")
+                        else if (gameObject.name == "LivingroomDiaryBox")
                         {
                             PlayInteractionSound();
-                            gamecontroller.currentscene = 3;
-                            gamecontroller.dialogbox.StartDialog(0);
+                            GoToDialog(5, 0);
                         }
-                        if(gameObject.name == "NormalClassroomDoor")
+                        /*
+                        if (gameObject.name == "MainRoomPicture")
                         {
-                            PlayInteractionSound();
-                            gamecontroller.currentscene = 5;
-                            gamecontroller.dialogbox.StartDialog(0);
+                            OnClickPickUpObjectAndDisplay();
                         }
-                    }
-                }
-
-                #endregion
-
-                #region Pickable Objetcs
-
-                if (isavailable)
-                {
-                    if (gameObject.name == "Broche")
-                    {
-                        PlayInteractionSound();
-                        OnClickRewardPlayerWithObject();
-                    }
-                    else if(gameObject.name == "LivingroomDiaryBox")
-                    {
-                        PlayInteractionSound();
-                        GoToDialog(5, 0);
-                    }
-                    /*
-                    if (gameObject.name == "MainRoomPicture")
-                    {
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    if (gameObject.name == "")
-                    {
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    */
-                }
-
-                #endregion
-
-                #region Objects
-
-                if (isavailable)
-                {
-                    #region Bedroom Objects
-
-                    if (gameObject.name == "BedroomLightSwitch")
-                    {
-                        PlayInteractionSound();
-                        ChangeBackground(1, 0);
-                    }
-                    else if (gameObject.name == "BedroomAlarm")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if(gameObject.name == "BedroomBox")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if(gameObject.name == "BedroomDoorpicture")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if(gameObject.name == "BedroomManga")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if(gameObject.name == "BedroomMythologyBook")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if(gameObject.name == "BedroomComputer")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if(gameObject.name == "BedroomPoster1")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if (gameObject.name == "BedroomPoster2")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if (gameObject.name == "BedroomPoster3")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if (gameObject.name == "BedroomPoster4")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if (gameObject.name == "BedroomPoster5")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
+                        if (gameObject.name == "")
+                        {
+                            OnClickPickUpObjectAndDisplay();
+                        }
+                        */
                     }
 
                     #endregion
 
-                    #region Livingroom Objects
+                    #region Objects
 
-                    else if (gameObject.name == "LivingroomLawsBooks")
+                    if (gamecontroller.canprogress)
                     {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if(gameObject.name == "LivingroomNursingBooks")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
-                    }
-                    else if(gameObject.name == "LivingroomDoorPicture")
-                    {
-                        PlayInteractionSound();
-                        OnClickPickUpObjectAndDisplay();
+                        if (isavailable)
+                        {
+                            #region Bedroom Objects
+
+                            if (gameObject.name == "BedroomLightSwitch")
+                            {
+                                PlayInteractionSound();
+                                ChangeBackground(1, 0);
+                            }
+                            else if (gameObject.name == "BedroomAlarm")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "BedroomBox")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "BedroomDoorpicture")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "BedroomManga")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "BedroomMythologyBook")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "BedroomComputer")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "BedroomPoster1")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "BedroomPoster2")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "BedroomPoster3")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "BedroomPoster4")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "BedroomPoster5")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+
+                        }
+
+                        #endregion
+
+                        #region Livingroom Objects
+
+                        else if (gameObject.name == "LivingroomLawsBooks")
+                        {
+                            PlayInteractionSound();
+                            OnClickPickUpObjectAndDisplay();
+                        }
+                        else if (gameObject.name == "LivingroomNursingBooks")
+                        {
+                            PlayInteractionSound();
+                            OnClickPickUpObjectAndDisplay();
+                        }
+                        else if (gameObject.name == "LivingroomDoorPicture")
+                        {
+                            PlayInteractionSound();
+                            OnClickPickUpObjectAndDisplay();
+                        }
+
+                        #endregion
                     }
 
                     #endregion
+
+                    if (objectclicked != null)
+                        objectimage.sprite = objectclicked;
+
+                    #region Especial Cases
+                    //Need to check if the player has the broche on it inventory to the game can processes
+                    #endregion
+
+                    Debug.Log("Vocé clicou no objeto " + gameObject.name);
                 }
-
-                #endregion
-
-                if (objectclicked != null)
-                    objectimage.sprite = objectclicked;
-
-                #region Especial Cases
-                //Need to check if the player has the broche on it inventory to the game can processes
-                #endregion
-
-                Debug.Log("Vocé clicou no objeto " + gameObject.name);
             }
             else { Debug.Log("Scene not in interaction"); }
         }
@@ -295,19 +307,26 @@ public class ObjectI : MonoBehaviour {
         if(gamecontroller.background.currentbackground == NormalStateBackground)
         {
             gamecontroller.background.currentbackground = NewBackground;
-            gamecontroller.canprogress = false;
+            //gamecontroller.canprogress = false;
             foreach (GameObject objecti in gamecontroller.scenes[gamecontroller.currentscene].objects)
             {
-                objecti.GetComponent<ObjectI>().objectimage.color = new Color(60,60,60,255);
+                if (objecti.GetComponent<ObjectI>().objectimage != null)
+                {
+                    objecti.GetComponent<ObjectI>().objectimage.color = new Color(0.1f, 0.1f, 0.1f, 1f); /*new Color(0.6f, 0.6f, 0.6f);*/
+                }
             }
         }
-        else
+
+        if(gamecontroller.background.currentbackground == NewBackground)
         {
             gamecontroller.background.currentbackground = NormalStateBackground;
-            gamecontroller.canprogress = true;
+            //gamecontroller.canprogress = true;
             foreach (GameObject objecti in gamecontroller.scenes[gamecontroller.currentscene].objects)
             {
-                objecti.GetComponent<ObjectI>().objectimage.color = new Color(255, 255, 255, 255);
+                if (objecti.GetComponent<ObjectI>().objectimage != null)
+                {
+                    objecti.GetComponent<ObjectI>().objectimage.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+                }
             }
         }
     }
@@ -321,23 +340,30 @@ public class ObjectI : MonoBehaviour {
                 conectedobject.SetActive(true);
                 gamecontroller.canprogress = false;
             }
-            else
-            {
-                conectedobject.SetActive(false);
-                gamecontroller.canprogress = true;
-            }
         }
     }
     //Method that reward player with the gameobject that this script is associeted
     public void OnClickRewardPlayerWithObject()
     {
-        if (isininventary > 0)
+        if (isininventary >= 0)
         {
-            for (int i = 0; i < gamecontroller.player.inventary.Length; i++)
-                if (gamecontroller.player.inventary[i].Length <= 0)
-                    gamecontroller.player.inventary[i] = gameObject.name;
-            isininventary = -1;
-            SaveObjectStatus();
+            if (gameObject.name == "Broche")
+            {
+                if (gamecontroller.player.inventary[0].Length <= 0)
+                    gamecontroller.player.inventary[0] = gameObject.name;
+
+                isininventary = -1;
+                SaveObjectStatus();
+                Destroy(gameObject);
+            }
+            if(gameObject.name == "")
+            {
+                if (gamecontroller.player.inventary[1].Length <= 0)
+                    gamecontroller.player.inventary[1] = gameObject.name;
+
+                isininventary = -1;
+                SaveObjectStatus();
+            }
         }
     }
     //Method that force the player to go back to dialog
