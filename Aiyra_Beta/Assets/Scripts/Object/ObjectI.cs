@@ -120,14 +120,23 @@ public class ObjectI : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    Debug.Log("Catch the broche first");
+                                    //testing
+                                    gamecontroller.messagebox.gameObject.SetActive(true);
                                 }
                             }
                             if (gameObject.name == "HouseDoor")
                             {
                                 PlayInteractionSound();
-                                gamecontroller.currentscene = 3;
-                                gamecontroller.dialogbox.StartDialog(0);
+                                if (gamecontroller.player.inventary[1] == "LivingroomDiaryBox")
+                                {
+                                    gamecontroller.currentscene = 3;
+                                    gamecontroller.dialogbox.StartDialog(0);
+                                }
+                                else
+                                {
+                                    //testing
+                                    gamecontroller.messagebox.gameObject.SetActive(true);
+                                }
                             }
                             if (gameObject.name == "NormalClassroomDoor")
                             {
@@ -152,6 +161,8 @@ public class ObjectI : MonoBehaviour {
                         else if (gameObject.name == "LivingroomDiaryBox")
                         {
                             PlayInteractionSound();
+                            OnClickPickUpObjectAndDisplay();
+                            OnClickRewardPlayerWithObject();
                             GoToDialog(5, 0);
                         }
                         /*
@@ -241,25 +252,25 @@ public class ObjectI : MonoBehaviour {
 
                         #endregion
 
-                        #region Livingroom Objects
+                            #region Livingroom Objects
 
-                        else if (gameObject.name == "LivingroomLawsBooks")
-                        {
-                            PlayInteractionSound();
-                            OnClickPickUpObjectAndDisplay();
-                        }
-                        else if (gameObject.name == "LivingroomNursingBooks")
-                        {
-                            PlayInteractionSound();
-                            OnClickPickUpObjectAndDisplay();
-                        }
-                        else if (gameObject.name == "LivingroomDoorPicture")
-                        {
-                            PlayInteractionSound();
-                            OnClickPickUpObjectAndDisplay();
-                        }
+                            else if (gameObject.name == "LivingroomLawsBooks")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "LivingroomNursingBooks")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
+                            else if (gameObject.name == "LivingroomDoorPicture")
+                            {
+                                PlayInteractionSound();
+                                OnClickPickUpObjectAndDisplay();
+                            }
 
-                        #endregion
+                            #endregion
                     }
 
                     #endregion
@@ -354,15 +365,16 @@ public class ObjectI : MonoBehaviour {
 
                 isininventary = -1;
                 SaveObjectStatus();
-                Destroy(gameObject);
+                //destroy but need test Destroy(gameObject);
             }
-            if(gameObject.name == "")
+            if(gameObject.name == "LivingroomDiaryBox")
             {
                 if (gamecontroller.player.inventary[1].Length <= 0)
                     gamecontroller.player.inventary[1] = gameObject.name;
 
                 isininventary = -1;
                 SaveObjectStatus();
+                //Destroy(gameObject);
             }
         }
     }

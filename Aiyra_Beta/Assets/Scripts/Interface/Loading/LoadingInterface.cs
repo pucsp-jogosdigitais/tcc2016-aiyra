@@ -18,6 +18,7 @@ public class LoadingInterface : MonoBehaviour {
     public float loadingtime;
 
     public int loadingtimescount;
+    public bool hasbeendisplayed;
 
     #endregion
 
@@ -50,7 +51,7 @@ public class LoadingInterface : MonoBehaviour {
     {
         if (loadingtextmessagetimer == 0)
         {
-            loadingtextmessagetimer = 50f;
+            loadingtextmessagetimer = 25f;
         }
     }
 
@@ -68,7 +69,7 @@ public class LoadingInterface : MonoBehaviour {
             {
                 counterofloops = 0;
             }
-            loadingtextmessagetimer = 50f;
+            loadingtextmessagetimer = 25f;
         }
         else
         {
