@@ -91,10 +91,19 @@ public class ObjectI : MonoBehaviour {
     {
         if (!gamecontroller.pausemenu.gameObject.activeInHierarchy)
         {
-            if(scene != null)
+            if (scene != null)
                 if (scene.scenestate == Scene.state.interaction)
+                    if (gameObject.name != "Broche")
+                    {
+                        if (gamecontroller.canprogress)
+                            if (objecthighlighted != null)
+                                objectimage.sprite = objecthighlighted;
+                    }
+                    else
+                    {
                         if (objecthighlighted != null)
                             objectimage.sprite = objecthighlighted;
+                    }
         }
 
         if (Input.GetButtonDown("Interaction"))
@@ -165,16 +174,6 @@ public class ObjectI : MonoBehaviour {
                             OnClickRewardPlayerWithObject();
                             GoToDialog(5, 0);
                         }
-                        /*
-                        if (gameObject.name == "MainRoomPicture")
-                        {
-                            OnClickPickUpObjectAndDisplay();
-                        }
-                        if (gameObject.name == "")
-                        {
-                            OnClickPickUpObjectAndDisplay();
-                        }
-                        */
                     }
 
                     #endregion
@@ -248,8 +247,6 @@ public class ObjectI : MonoBehaviour {
                                 OnClickPickUpObjectAndDisplay();
                             }
 
-                        }
-
                         #endregion
 
                             #region Livingroom Objects
@@ -271,6 +268,7 @@ public class ObjectI : MonoBehaviour {
                             }
 
                             #endregion
+                        }
                     }
 
                     #endregion
@@ -303,10 +301,21 @@ public class ObjectI : MonoBehaviour {
     {
         objectinventarystatussavekey = "OBJECT" + gameObject.name + "SAVEKEY";
     }
+    public void UpdateObjectIShelfLife()
+    {
+        if(isininventary >= 0)
+        {
+            isavailable = true;
+        }
+        else
+        {
+            isavailable = false;
+        }
+    }
 
     #endregion
 
-    #region Feedback
+    #region Feedback Methods
 
     public void Changebackground(Color NewBackgroundColor)
     {
@@ -349,13 +358,41 @@ public class ObjectI : MonoBehaviour {
             if (!conectedobject.activeInHierarchy)
             {
                 conectedobject.SetActive(true);
-                gamecontroller.canprogress = false;
+                if (gameObject.name != "LivingroomDiaryBox")
+                {
+                    gamecontroller.canprogress = false;
+                }
+                else
+                {
+                    gamecontroller.canprogress = true;
+                }
             }
         }
     }
     //Method that reward player with the gameobject that this script is associeted
     public void OnClickRewardPlayerWithObject()
     {
+        if (gameObject.name == "Broche")
+        {
+            if (gamecontroller.player.inventary[0].Length <= 0)
+                gamecontroller.player.inventary[0] = gameObject.name;
+
+            isininventary = -1;
+            SaveObjectStatus();
+            //destroy but need test 
+            //Destroy(gameObject);
+        }
+        if (gameObject.name == "LivingroomDiaryBox")
+        {
+            if (gamecontroller.player.inventary[1].Length <= 0)
+                gamecontroller.player.inventary[1] = gameObject.name;
+
+            isininventary = -1;
+            SaveObjectStatus();
+            //Destroy(gameObject);
+        }
+        #region Obsolety
+        /*
         if (isininventary >= 0)
         {
             if (gameObject.name == "Broche")
@@ -377,6 +414,8 @@ public class ObjectI : MonoBehaviour {
                 //Destroy(gameObject);
             }
         }
+        */
+        #endregion
     }
     //Method that force the player to go back to dialog
     public void GoToDialog(int DialogToGo,int DialogLineToGo)

@@ -81,6 +81,7 @@
     <Compile Include="Assets\Scripts\Interface\Background\LiveBackground.cs" />
     <Compile Include="Assets\Scripts\Interface\Button\ActorButton.cs" />
     <Compile Include="Assets\Scripts\Interface\Button\AnswerButton.cs" />
+    <Compile Include="Assets\Scripts\Interface\Button\MainMenuButton.cs" />
     <Compile Include="Assets\Scripts\Interface\Dialog\Dialog.cs" />
     <Compile Include="Assets\Scripts\Interface\Dialog\DialogBox.cs" />
     <Compile Include="Assets\Scripts\Interface\Dialog\DialogProcedIcon.cs" />
