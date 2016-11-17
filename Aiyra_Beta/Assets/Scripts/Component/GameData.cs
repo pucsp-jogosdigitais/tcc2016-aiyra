@@ -22,6 +22,7 @@ public class GameData : MonoBehaviour {
     private const string zakiaffinitysavekey = "ZAKIAFFINITY";
 
     private const string playercurrentscenesavekey = "PLAYERCURRENTSCENE";
+    private const string playerlasttextfilesavekey = "PLAYERLASTTEXTFILE";
     private const string playercurrenttextfilesavekey = "PLAYERCURRENTTEXTFILE";
     private const string playercurrentdialoglinesavekey = "PLAYERCURRENTDIALOGLINE";
     private const string currentscenestatesavekey = "CURRENTSCENESTATE";
@@ -55,6 +56,7 @@ public class GameData : MonoBehaviour {
     public int currentzakiaffinity;
 
     public int playercurrentscene;
+    public int playerlasttextfile;
     public int playercurrenttextfile;
     public int playercurrentdialogline;
     public string currentscenestate;
@@ -123,7 +125,11 @@ public class GameData : MonoBehaviour {
         currentmalikaaffinity = CurrentMalikaAffinity;
         currentzakiaffinity = CurrentZakiAffinity;
     }
-    public void SetGameData(int CurrentScene, int CurrentTextFile, int CurrentDialogLine)
+    public void SetLastDialog(int CurrentlastDialog)
+    {
+        playerlasttextfile = CurrentlastDialog;
+    }
+    public void SetGameData(int CurrentScene,int CurrentTextFile, int CurrentDialogLine)
     {
         playercurrentscene = CurrentScene;
         playercurrenttextfile = CurrentTextFile;
@@ -225,6 +231,7 @@ public class GameData : MonoBehaviour {
     {
         issaving = true;
         PlayerPrefs.SetInt(playercurrentscenesavekey, playercurrentscene);
+        /* testing */PlayerPrefs.SetInt(playerlasttextfilesavekey, playerlasttextfile);
         PlayerPrefs.SetInt(playercurrenttextfilesavekey, playercurrenttextfile);
         PlayerPrefs.SetInt(playercurrentdialoglinesavekey, playercurrentdialogline);
         PlayerPrefs.SetString(currentscenestatesavekey, currentscenestate);
@@ -320,6 +327,7 @@ public class GameData : MonoBehaviour {
     {
         isloading = true;
         playercurrentscene = PlayerPrefs.GetInt(playercurrentscenesavekey);
+        /* testing*/playerlasttextfile = PlayerPrefs.GetInt(playerlasttextfilesavekey);
         playercurrenttextfile = PlayerPrefs.GetInt(playercurrenttextfilesavekey);
         playercurrentdialogline = PlayerPrefs.GetInt(playercurrentdialoglinesavekey);
         currentscenestate = PlayerPrefs.GetString(currentscenestatesavekey);

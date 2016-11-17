@@ -144,6 +144,7 @@ public class GalleryMenu : MonoBehaviour {
             case 0:
                 for (int i = 0; i < actorcgspage0.Length; i++)
                 {
+                    //Benjamin
                     actorcgspage0[i].SetCGPath("CGs/");
                     switch (i)
                     {
@@ -151,29 +152,66 @@ public class GalleryMenu : MonoBehaviour {
                             actorcgspage0[i].SetCGName("PuzzlePatio1.2");
                             break;
                         case 1:
-                            actorcgspage0[i].SetCGName("CenarioSala");
+                            actorcgspage0[i].SetCGName("Benjamin e protagonista 1");
                             break;
                         default:
-                            actorcgspage0[i].SetCGPath("JardimTeste");
+                            actorcgspage0[i].SetCGName("PuzzlePatio1.2");
                             break;
                     }
                 }
                 for (int i = 0; i < actorcgspage1.Length; i++)
                 {
+                    //Enzo
                     actorcgspage1[i].SetCGPath("CGs/");
-                    actorcgspage1[i].SetCGName("PuzzlePatio1.2");
+                    switch (i)
+                    {
+                        case 0:
+                            actorcgspage1[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                        case 1:
+                            actorcgspage1[i].SetCGName("Enzo e protagonista 1");
+                            break;
+                        default:
+                            actorcgspage1[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                    }
                 }
                 break;
             case 1:
                 for (int i = 0; i < actorcgspage0.Length; i++)
                 {
+                    //Enzo
                     actorcgspage0[i].SetCGPath("CGs/");
-                    actorcgspage0[i].SetCGName("PuzzlePatio1.2");
+                    switch(i)
+                    {
+                        case 0:
+                            actorcgspage0[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                        case 1:
+                            actorcgspage0[i].SetCGName("Enzo e protagonista 1");
+                            break;
+                        default:
+                            actorcgspage0[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                    }
                 }
                 for (int i = 0; i < actorcgspage1.Length; i++)
                 {
+                    //Isis
                     actorcgspage1[i].SetCGPath("CGs/");
-                    actorcgspage1[i].SetCGName("PuzzlePatio1.2");
+                    switch (i)
+                    {
+                        case 0:
+                            actorcgspage1[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                        case 1:
+                            actorcgspage0[i].SetCGName("Isis e protagonista 1");
+                            break;
+                        default:
+                            actorcgspage1[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                    }
+                    
                 }
                 break;
             case 2:

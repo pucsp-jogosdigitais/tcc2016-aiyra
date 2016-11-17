@@ -14,6 +14,7 @@ public class SaveSlot : MonoBehaviour {
     public string saveslotplayeractoraffinitysavekey;
 
     public string saveslotcurrentscenesavekey;
+    public string saveslotcurrentlastdialogsavekey;
     public string saveslotcurrentdialogsavekey;
     public string saveslotcurrentdialoglinesavekey;
     public string saveslotcurrentscenestatesavekey;
@@ -31,6 +32,7 @@ public class SaveSlot : MonoBehaviour {
     public int saveslotplayeractoraffinity;
 
     public int saveslotcurrentscene;
+    public int saveslotcurrentlasttextfile;
     public int saveslotcurrenttextfile;
     public int saveslotcurrentdialogline;
     public string saveslotcurrentscenestate;
@@ -81,6 +83,7 @@ public class SaveSlot : MonoBehaviour {
         saveslotplayeractoraffinitysavekey = "SAVESLOT" + saveslotid.ToString() + "ACTORAFFINITY";
 
         saveslotcurrentscenesavekey = "SAVESLOT" + saveslotid.ToString() + "CURRENTSCENE";
+        saveslotcurrentlastdialogsavekey = "SAVESLOT" + saveslotid.ToString() + "CURRENTLASTDIALOG";
         saveslotcurrentdialogsavekey = "SAVESLOT" + saveslotid.ToString() + "CURRENTDIALOG";
         saveslotcurrentdialoglinesavekey = "SAVESLOT" + saveslotid.ToString() + "CURRENTDIALOGLINE";
         saveslotcurrentscenestatesavekey = "SAVESLOT" + saveslotid.ToString() + "CURRENTSCENESTATE";
@@ -101,7 +104,14 @@ public class SaveSlot : MonoBehaviour {
         PlayerPrefs.SetString(saveslotchaptersavekey, saveslotchaptertext.text);
         PlayerPrefs.SetString(saveslotactorsavekey, saveslotactorimage.name);
         if (saveslotactorimage.name == "Enzo")
-            saveslotactorimage.sprite = Resources.Load<Actor>("Prefabs/Actor/Enzo").actorimage;
+            saveslotactorimage.sprite = Resources.Load<Sprite>("Actors/Enzo/Enzo_Save");
+        if (saveslotactorimage.name == "Benjamin")
+            saveslotactorimage.sprite = Resources.Load<Sprite>("Actors/Benjamin/Ben_Save");
+        if (saveslotactorimage.name == "Isis")
+            saveslotactorimage.sprite = Resources.Load<Sprite>("Actors/Isis/Isis_Save");
+            #region Obsolety
+            //saveslotactorimage.sprite = Resources.Load<Actor>("Prefabs/Actor/Enzo").actorimage;
+            #endregion
         PlayerPrefs.SetString(saveslotdatasavekey, saveslotdatatext.text);
         saveslottime += gamedata.playtime;
         PlayerPrefs.SetFloat(saveslottimesavekey, saveslottime);
@@ -110,6 +120,7 @@ public class SaveSlot : MonoBehaviour {
         PlayerPrefs.SetInt(saveslotplayeractoraffinitysavekey, saveslotplayeractoraffinity);
 
         PlayerPrefs.SetInt(saveslotcurrentscenesavekey, saveslotcurrentscene);
+        PlayerPrefs.SetInt(saveslotcurrentlastdialogsavekey, saveslotcurrentlasttextfile);
         PlayerPrefs.SetInt(saveslotcurrentdialogsavekey, saveslotcurrenttextfile);
         PlayerPrefs.SetInt(saveslotcurrentdialoglinesavekey, saveslotcurrentdialogline);
         PlayerPrefs.SetString(saveslotcurrentscenestatesavekey, saveslotcurrentscenestate);
@@ -124,7 +135,14 @@ public class SaveSlot : MonoBehaviour {
         saveslotchaptertext.text = PlayerPrefs.GetString(saveslotchaptersavekey);
         saveslotactorimage.name = PlayerPrefs.GetString(saveslotactorsavekey);
         if (saveslotactorimage.name == "Enzo")
-            saveslotactorimage.sprite = Resources.Load<Actor>("Prefabs/Actor/Enzo").actorimage;
+            saveslotactorimage.sprite = Resources.Load<Sprite>("Actors/Enzo/Enzo_Save");
+        if (saveslotactorimage.name == "Benjamin")
+            saveslotactorimage.sprite = Resources.Load<Sprite>("Actors/Benjamin/Ben_Save");
+        if (saveslotactorimage.name == "Isis")
+            saveslotactorimage.sprite = Resources.Load<Sprite>("Actors/Isis/Isis_Save");
+        #region Obsolety
+        //saveslotactorimage.sprite = Resources.Load<Actor>("Prefabs/Actor/Enzo").actorimage;
+        #endregion
         saveslotdatatext.text = PlayerPrefs.GetString(saveslotdatasavekey);
         saveslottime = PlayerPrefs.GetFloat(saveslottimesavekey);
         saveslottimetext.text = saveslottime.ToString();
@@ -133,6 +151,7 @@ public class SaveSlot : MonoBehaviour {
         saveslotplayeractoraffinity = PlayerPrefs.GetInt(saveslotplayeractoraffinitysavekey);
 
         saveslotcurrentscene = PlayerPrefs.GetInt(saveslotcurrentscenesavekey);
+        saveslotcurrentlasttextfile = PlayerPrefs.GetInt(saveslotcurrentlastdialogsavekey);
         saveslotcurrenttextfile = PlayerPrefs.GetInt(saveslotcurrentdialogsavekey);
         saveslotcurrentdialogline = PlayerPrefs.GetInt(saveslotcurrentdialoglinesavekey);
         saveslotcurrentscenestate = PlayerPrefs.GetString(saveslotcurrentscenestatesavekey);
@@ -164,6 +183,7 @@ public class SaveSlot : MonoBehaviour {
         }
 
         gamedata.playercurrentscene = saveslotcurrentscene;
+        gamedata.playerlasttextfile = saveslotcurrentlasttextfile;
         gamedata.playercurrenttextfile = saveslotcurrenttextfile;
         gamedata.playercurrentdialogline = saveslotcurrentdialogline;
         gamedata.currentscenestate = saveslotcurrentscenestate;
@@ -187,15 +207,44 @@ public class SaveSlot : MonoBehaviour {
         if (gamedata.saverequest >= 0 && gamedata.loadrequest < 0)
         {
 
-            if (gamedata.playercurrentscene < 7)
+            if (gamedata.playercurrentscene <= 7)
             {
                 saveslotchaptertext.text = "Prologo";
+            }
+            if(gamedata.playercurrentscene >= 8 && gamedata.playercurrentscene <= 12)
+            {
+                saveslotchaptertext.text = "Benjamin Capitulo 1";
+            }
+            if (gamedata.playercurrentscene >= 13 && gamedata.playercurrentscene <= 16)
+            {
+                saveslotchaptertext.text = "Lorenzo Capitulo 1";
+            }
+            if (gamedata.playercurrentscene >= 17 && gamedata.playercurrentscene <= 17)
+            {
+                saveslotchaptertext.text = "Isis Capitulo 1";
             }
 
             saveslotactorimage.name = gamedata.playercurrentactor;
 
             if(gamedata.playercurrentactor == "Enzo")
+            {
+                saveslotactorimage.sprite = Resources.Load<Sprite>("Actors/Enzo/Enzo_Save");
+            }
+            if (gamedata.playercurrentactor == "Benjamin")
+            {
+                saveslotactorimage.sprite = Resources.Load<Sprite>("Actors/Benjamin/Ben_Save");
+            }
+            if (gamedata.playercurrentactor == "Isis")
+            {
+                saveslotactorimage.sprite = Resources.Load<Sprite>("Actors/Isis/Isis_Save");
+            }
+
+            #region Obsolety
+            /*
+            if(gamedata.playercurrentactor == "Enzo")
                 saveslotactorimage.sprite = Resources.Load<Actor>("Prefabs/Actor/Enzo").actorimage;
+            */
+            #endregion
 
             saveslotdatatext.text = gamedata.data;
 
@@ -226,6 +275,8 @@ public class SaveSlot : MonoBehaviour {
             }
 
             saveslotcurrentscene = gamedata.playercurrentscene;
+
+            saveslotcurrentlasttextfile = gamedata.playerlasttextfile;
 
             saveslotcurrenttextfile = gamedata.playercurrenttextfile;
 

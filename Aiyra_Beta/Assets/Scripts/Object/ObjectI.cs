@@ -34,6 +34,8 @@ public class ObjectI : MonoBehaviour {
     public bool isavailable;
     public bool hasbeenloaded;
 
+    public float timer;
+
     #endregion
 
     #region methods
@@ -82,11 +84,13 @@ public class ObjectI : MonoBehaviour {
     void Start()
     {
         LoadObjectStatus();
+        if (!isavailable)
+            gameObject.SetActive(false);
     }
     #endregion
 
     #region Mouse Interaction Methods
-
+    //Method that detect the collision of the mouse with the collider of the object
     void OnMouseOver()
     {
         if (!gamecontroller.pausemenu.gameObject.activeInHierarchy)
@@ -126,6 +130,7 @@ public class ObjectI : MonoBehaviour {
                                 {
                                     gamecontroller.currentscene = 2;
                                     gamecontroller.dialogbox.StartDialog(0);
+                                    gamecontroller.background.currentbackground = 0;
                                 }
                                 else
                                 {
@@ -172,7 +177,7 @@ public class ObjectI : MonoBehaviour {
                             PlayInteractionSound();
                             OnClickPickUpObjectAndDisplay();
                             OnClickRewardPlayerWithObject();
-                            GoToDialog(5, 0);
+                            GoToDialog(10, 0);
                         }
                     }
 
@@ -189,7 +194,8 @@ public class ObjectI : MonoBehaviour {
                             if (gameObject.name == "BedroomLightSwitch")
                             {
                                 PlayInteractionSound();
-                                ChangeBackground(1, 0);
+                                ChangeBackground(0, 1);
+                                
                             }
                             else if (gameObject.name == "BedroomAlarm")
                             {
@@ -205,66 +211,83 @@ public class ObjectI : MonoBehaviour {
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(11, 0);
                             }
                             else if (gameObject.name == "BedroomManga")
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(5, 0);
                             }
                             else if (gameObject.name == "BedroomMythologyBook")
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(4, 0);
                             }
                             else if (gameObject.name == "BedroomComputer")
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(3, 0);
                             }
                             else if (gameObject.name == "BedroomPoster1")
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(10, 0);
                             }
                             else if (gameObject.name == "BedroomPoster2")
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(8, 0);
                             }
                             else if (gameObject.name == "BedroomPoster3")
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(6, 0);
                             }
                             else if (gameObject.name == "BedroomPoster4")
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(7, 0);
                             }
                             else if (gameObject.name == "BedroomPoster5")
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(9, 0);
                             }
 
                         #endregion
 
                             #region Livingroom Objects
 
+                            else if(gameObject.name == "LivingroomBreakfast")
+                            {
+                                PlayInteractionSound();
+                                GoToDialog(9,0);
+                            }
                             else if (gameObject.name == "LivingroomLawsBooks")
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(11, 0);
                             }
                             else if (gameObject.name == "LivingroomNursingBooks")
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(12, 0);
                             }
                             else if (gameObject.name == "LivingroomDoorPicture")
                             {
                                 PlayInteractionSound();
                                 OnClickPickUpObjectAndDisplay();
+                                GoToDialog(13, 0);
                             }
 
                             #endregion
@@ -286,6 +309,7 @@ public class ObjectI : MonoBehaviour {
             else { Debug.Log("Scene not in interaction"); }
         }
     }
+    //Method that detect the exit of mouse collision with the collider of the object
     void OnMouseExit()
     {
         objectimage.sprite = objectnormal;
@@ -317,30 +341,25 @@ public class ObjectI : MonoBehaviour {
 
     #region Feedback Methods
 
-    public void Changebackground(Color NewBackgroundColor)
+    //Method that set the background between night and day
+    public void ChangeBackground(int NormalStateBackground, int NewBackground)
     {
-        Debug.Log("Background with new color");
-    }
-    //Method that set the background
-    public void ChangeBackground(int NewBackground,int NormalStateBackground)
-    {
-        if(gamecontroller.background.currentbackground == NormalStateBackground)
+        if (gamecontroller.background.currentbackground == NormalStateBackground)
         {
             gamecontroller.background.currentbackground = NewBackground;
-            //gamecontroller.canprogress = false;
+
             foreach (GameObject objecti in gamecontroller.scenes[gamecontroller.currentscene].objects)
             {
                 if (objecti.GetComponent<ObjectI>().objectimage != null)
                 {
-                    objecti.GetComponent<ObjectI>().objectimage.color = new Color(0.1f, 0.1f, 0.1f, 1f); /*new Color(0.6f, 0.6f, 0.6f);*/
+                    objecti.GetComponent<ObjectI>().objectimage.color = new Color(1f, 1f, 1f, 1f);
                 }
             }
         }
-
-        if(gamecontroller.background.currentbackground == NewBackground)
+        else
         {
             gamecontroller.background.currentbackground = NormalStateBackground;
-            //gamecontroller.canprogress = true;
+
             foreach (GameObject objecti in gamecontroller.scenes[gamecontroller.currentscene].objects)
             {
                 if (objecti.GetComponent<ObjectI>().objectimage != null)
@@ -349,8 +368,48 @@ public class ObjectI : MonoBehaviour {
                 }
             }
         }
+
+        #region Obsolety
+        /*
+        if (timer < 1.0f)
+        {
+            if (gamecontroller.background.currentbackground == NormalStateBackground)
+            {
+                gamecontroller.background.currentbackground = NewBackground;
+                
+                //gamecontroller.canprogress = false;
+                foreach (GameObject objecti in gamecontroller.scenes[gamecontroller.currentscene].objects)
+                {
+                    if (objecti.GetComponent<ObjectI>().objectimage != null)
+                    {
+                        objecti.GetComponent<ObjectI>().objectimage.color = new Color(0.1f, 0.1f, 0.1f, 1f);
+                    }
+                }
+            }
+
+            if (gamecontroller.background.currentbackground == NewBackground)
+            {
+                gamecontroller.background.currentbackground = NormalStateBackground;
+                //gamecontroller.canprogress = true;
+                foreach (GameObject objecti in gamecontroller.scenes[gamecontroller.currentscene].objects)
+                {
+                    if (objecti.GetComponent<ObjectI>().objectimage != null)
+                    {
+                        objecti.GetComponent<ObjectI>().objectimage.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+                    }
+                }
+            }
+
+            timer = 1.0f;
+        }
+        else
+        {
+            timer -= 1.0f;
+        }
+        */
+        #endregion
     }
-    // metodo que serve para mostrar o objeto conectado com o objeto
+    // method that serves to show the connected object, it interface
     public void OnClickPickUpObjectAndDisplay()
     {
         if (conectedobject != null)
@@ -374,21 +433,21 @@ public class ObjectI : MonoBehaviour {
     {
         if (gameObject.name == "Broche")
         {
-            if (gamecontroller.player.inventary[0].Length <= 0)
-                gamecontroller.player.inventary[0] = gameObject.name;
+            gamecontroller.player.inventary[0] = gameObject.name;
 
             isininventary = -1;
             SaveObjectStatus();
+            gamecontroller.gamedata.SaveAllPlayerData();
             //destroy but need test 
             //Destroy(gameObject);
         }
         if (gameObject.name == "LivingroomDiaryBox")
         {
-            if (gamecontroller.player.inventary[1].Length <= 0)
-                gamecontroller.player.inventary[1] = gameObject.name;
+            gamecontroller.player.inventary[1] = gameObject.name;
 
             isininventary = -1;
             SaveObjectStatus();
+            gamecontroller.gamedata.SaveAllPlayerData();
             //Destroy(gameObject);
         }
         #region Obsolety
@@ -423,6 +482,7 @@ public class ObjectI : MonoBehaviour {
         gamecontroller.scenes[gamecontroller.currentscene].scenestate = Scene.state.dialog;
         gamecontroller.dialogbox.currentdialog = DialogToGo;
         gamecontroller.dialogbox.dialog.currentdialogline = DialogLineToGo;
+        gamecontroller.dialogbox.dialog.ChangeDialogText();
     }
     //Method that play the object interaction sound
     public void PlayInteractionSound()

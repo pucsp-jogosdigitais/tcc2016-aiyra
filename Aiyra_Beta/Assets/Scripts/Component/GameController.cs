@@ -4,7 +4,7 @@ using System.Collections;
 
 public class GameController : MonoBehaviour
 {
-    //Always set last dialog trought script
+    //Always set last dialog trougth this script
 
     #region Actors Reference Keys
     private const string unkownreference = "???";
@@ -303,7 +303,8 @@ public class GameController : MonoBehaviour
         }
 
         #region Background change lines
-        switch(currentscene)
+        //Method that check the scene and it current dialog to change the background according to it 
+        switch (currentscene)
         {
             case 3:
                 if (dialogbox.currentdialog == 0 && dialogbox.dialog.currentdialogline >= 16)
@@ -330,7 +331,9 @@ public class GameController : MonoBehaviour
                 }
                 break;
             default:
-                background.currentbackground = 0;
+                //check if is a scene that have a lightswitch to do not give a conflict between the scripts: objectI script and gamecontroller script
+                if(currentscene != 1)
+                    background.currentbackground = 0;
                 break;
         }
         #endregion
@@ -357,6 +360,20 @@ public class GameController : MonoBehaviour
         //check if the music player has end the current music to play the next music
         if (!musicplayer.music.isPlaying)
             musicplayer.NextMusic();
+
+        #region Music change lines
+
+        switch (currentscene)
+        {
+            case 1:
+                musicplayer.musicplayerbehaviour = MusicPlayer.MusicPlayerBehaviour.justone;
+                break;
+            default:
+                musicplayer.musicplayerbehaviour = MusicPlayer.MusicPlayerBehaviour.random;
+                break;
+        }
+
+        #endregion
     }
 
     #endregion
@@ -408,7 +425,7 @@ public class GameController : MonoBehaviour
                 }
                 if (dialogbox.currentdialog == 2)
                 {
-                    if (dialogbox.dialog.currentdialogline >= 0 && dialogbox.dialog.currentdialogline < 6 || dialogbox.dialog.currentdialogline >= 8)
+                    if (dialogbox.dialog.currentdialogline != 10)
                         dialogbox.SetSpeakerName(player.playername);
                     else { dialogbox.SetSpeakerName(motherreference); }
                 }
@@ -417,91 +434,311 @@ public class GameController : MonoBehaviour
             case 2:
                 if (dialogbox.currentdialog == 0)
                 {
-                    if (dialogbox.dialog.currentdialogline == 0)
+                    if (dialogbox.dialog.currentdialogline == 0 
+                     || dialogbox.dialog.currentdialogline == 4 
+                     || dialogbox.dialog.currentdialogline == 5)
                         dialogbox.SetSpeakerName(motherreference);
                     else
                     {
                         dialogbox.SetSpeakerName(player.playername);
                     }
                 }
-                else if (dialogbox.currentdialog == 1
-                || dialogbox.currentdialog == 2
-                || dialogbox.currentdialog == 3
-                || dialogbox.currentdialog == 4
-                || dialogbox.currentdialog == 5
-                || dialogbox.currentdialog == 6
-                || dialogbox.currentdialog == 7)
+                if(dialogbox.currentdialog == 1)
                 {
-                    dialogbox.SetSpeakerName(motherreference);
-                }
-                else if (dialogbox.currentdialog == 8)
-                {
-                    if (dialogbox.dialog.currentdialogline == 5
-                    || dialogbox.dialog.currentdialogline == 10
-                    || dialogbox.dialog.currentdialogline == 11
-                    || dialogbox.dialog.currentdialogline == 13
-                    || dialogbox.dialog.currentdialogline == 17
-                    || dialogbox.dialog.currentdialogline == 18
-                    || dialogbox.dialog.currentdialogline == 20
-                    || dialogbox.dialog.currentdialogline == 21
-                    /* precisa fazer*/)
-                    {
+                    if (dialogbox.dialog.currentdialogline == 1
+                     || dialogbox.dialog.currentdialogline == 2
+                     || dialogbox.dialog.currentdialogline == 3
+                     || dialogbox.dialog.currentdialogline == 4
+                     || dialogbox.dialog.currentdialogline == 6
+                     || dialogbox.dialog.currentdialogline == 7
+                     || dialogbox.dialog.currentdialogline == 8)
                         dialogbox.SetSpeakerName(motherreference);
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
                     }
+                }
+                if(dialogbox.currentdialog == 2)
+                {
+                    if (dialogbox.dialog.currentdialogline == 0
+                     || dialogbox.dialog.currentdialogline == 1
+                     || dialogbox.dialog.currentdialogline == 2
+                     || dialogbox.dialog.currentdialogline == 3
+                     || dialogbox.dialog.currentdialogline == 4
+                     || dialogbox.dialog.currentdialogline == 5
+                     || dialogbox.dialog.currentdialogline == 6
+                     || dialogbox.dialog.currentdialogline == 7
+                     || dialogbox.dialog.currentdialogline == 8
+                     || dialogbox.dialog.currentdialogline == 9)
+                        dialogbox.SetSpeakerName(motherreference);
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
+                    }
+                }
+                if(dialogbox.currentdialog == 3)
+                {
+                    if (dialogbox.dialog.currentdialogline == 0
+                     || dialogbox.dialog.currentdialogline == 1
+                     || dialogbox.dialog.currentdialogline == 2
+                     || dialogbox.dialog.currentdialogline == 3
+                     || dialogbox.dialog.currentdialogline == 4
+                     || dialogbox.dialog.currentdialogline == 6
+                     || dialogbox.dialog.currentdialogline == 7
+                     || dialogbox.dialog.currentdialogline == 8
+                     || dialogbox.dialog.currentdialogline == 9)
+                        dialogbox.SetSpeakerName(motherreference);
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
+                    }
+                }
+                if(dialogbox.currentdialog == 4)
+                {
+                    if (dialogbox.dialog.currentdialogline == 0
+                     || dialogbox.dialog.currentdialogline == 1
+                     || dialogbox.dialog.currentdialogline == 3
+                     || dialogbox.dialog.currentdialogline == 4
+                     || dialogbox.dialog.currentdialogline == 5
+                     || dialogbox.dialog.currentdialogline == 6
+                     || dialogbox.dialog.currentdialogline == 7
+                     || dialogbox.dialog.currentdialogline == 8)
+                        dialogbox.SetSpeakerName(motherreference);
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
+                    }
+                }
+                if(dialogbox.currentdialog == 5)
+                {
+                    dialogbox.SetSpeakerName(player.playername);
+                }
+                if (dialogbox.currentdialog == 6)
+                {
+                    dialogbox.SetSpeakerName(player.playername);
+                }
+                if (dialogbox.currentdialog == 7)
+                {
+                    dialogbox.SetSpeakerName(player.playername);
+                }
+                if (dialogbox.currentdialog == 8)
+                {
+                    if (dialogbox.dialog.currentdialogline == 7
+                        || dialogbox.dialog.currentdialogline == 13
+                        || dialogbox.dialog.currentdialogline == 14
+                        || dialogbox.dialog.currentdialogline == 16
+                        || dialogbox.dialog.currentdialogline == 20
+                        || dialogbox.dialog.currentdialogline == 21
+                        || dialogbox.dialog.currentdialogline == 23
+                        || dialogbox.dialog.currentdialogline == 24
+                        || dialogbox.dialog.currentdialogline == 26
+                        || dialogbox.dialog.currentdialogline == 27
+                        || dialogbox.dialog.currentdialogline == 28
+                        || dialogbox.dialog.currentdialogline == 30
+                        || dialogbox.dialog.currentdialogline == 31
+                        || dialogbox.dialog.currentdialogline == 32
+                        || dialogbox.dialog.currentdialogline == 33
+                        || dialogbox.dialog.currentdialogline == 34
+                        || dialogbox.dialog.currentdialogline == 35
+                        || dialogbox.dialog.currentdialogline == 36
+                        || dialogbox.dialog.currentdialogline == 37
+                        || dialogbox.dialog.currentdialogline == 38
+                        || dialogbox.dialog.currentdialogline == 40
+                        || dialogbox.dialog.currentdialogline == 41
+                        || dialogbox.dialog.currentdialogline == 53
+                        || dialogbox.dialog.currentdialogline == 58)
+                        dialogbox.SetSpeakerName(motherreference);
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
+                    }
+                }
+                if (dialogbox.currentdialog == 9
+                || dialogbox.currentdialog == 11
+                || dialogbox.currentdialog == 12
+                || dialogbox.currentdialog == 13
+                || dialogbox.currentdialog == 14)
+                {
+                    dialogbox.SetSpeakerName(player.playername);
                 }
                 break;
             case 3:
                 if (dialogbox.currentdialog == 0)
                 {
-                    if (dialogbox.dialog.currentdialogline >= 0 && dialogbox.dialog.currentdialogline <= 14
-                    || dialogbox.dialog.currentdialogline >= 16 && dialogbox.dialog.currentdialogline <= 18
-                    || dialogbox.dialog.currentdialogline >= 20 && dialogbox.dialog.currentdialogline <= 21)
-                    {
-                        dialogbox.SetSpeakerName(player.playername);
-                    }
-                    else
+                    //Cenario Rua
+                    if (dialogbox.dialog.currentdialogline == 22
+                      ||dialogbox.dialog.currentdialogline == 27)
                     {
                         dialogbox.SetSpeakerName(juruparireference);
                     }
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
+                    }
                 }
-                else if (dialogbox.currentdialog == 1)
+                if (dialogbox.currentdialog == 1)
                 {
-                    //precisa fazer
-                    dialogbox.SetSpeakerName(player.playername);
+                    //Seguir Jurupari
+                    if (dialogbox.dialog.currentdialogline == 6
+                      ||dialogbox.dialog.currentdialogline == 7
+                      ||dialogbox.dialog.currentdialogline == 9
+                      ||dialogbox.dialog.currentdialogline == 10)
+                    {
+                        dialogbox.SetSpeakerName(juruparireference);
+                    }
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
+                    }
                 }
-                else if (dialogbox.currentdialog == 2)
+                if (dialogbox.currentdialog == 2)
                 {
-                    //precisa fazer
-                    dialogbox.SetSpeakerName(player.playername);
+                    //Não seguir Jurupari
+                    if (dialogbox.dialog.currentdialogline == 4
+                      || dialogbox.dialog.currentdialogline == 5
+                      || dialogbox.dialog.currentdialogline == 12
+                      || dialogbox.dialog.currentdialogline == 13
+                      || dialogbox.dialog.currentdialogline == 22
+                      || dialogbox.dialog.currentdialogline == 23)
+                    {
+                        dialogbox.SetSpeakerName(juruparireference);
+                    }
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
+                    }
                 }
                 break;
             case 4:
                 if (dialogbox.currentdialog == 0)
                 {
-                    //precisa fazer
-                    if (dialogbox.dialog.currentdialogline >= 0 && dialogbox.dialog.currentdialogline <= 5)
-                    {
-                        dialogbox.SetSpeakerName(player.playername);
-                    }
-                    if (dialogbox.dialog.currentdialogline == 6)
+                    //Sala de aula normal
+                    if (dialogbox.dialog.currentdialogline == 6
+                      || dialogbox.dialog.currentdialogline == 7
+                      || dialogbox.dialog.currentdialogline == 11
+                      || dialogbox.dialog.currentdialogline == 16)
                     {
                         dialogbox.SetSpeakerName(teacherreference);
                     }
-                    if (dialogbox.dialog.currentdialogline == 7)
+                    else if(dialogbox.dialog.currentdialogline == 17)
                     {
                         dialogbox.SetSpeakerName("Colegas");
+                    }
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
                     }
                 }
                 break;
             case 5:
+                //Rua da casa abandonada volta da sala de aula
                 dialogbox.SetSpeakerName(player.playername);
                 break;
             case 6:
-                //precisa fazer
-                dialogbox.SetSpeakerName(player.playername);
+                if (dialogbox.currentdialog == 0)
+                {
+                    //cena Jardim continuação do seguir jurupari
+                    if (dialogbox.dialog.currentdialogline == 5
+                     || dialogbox.dialog.currentdialogline == 9
+                     || dialogbox.dialog.currentdialogline == 13
+                     || dialogbox.dialog.currentdialogline == 17
+                     || dialogbox.dialog.currentdialogline == 18
+                     || dialogbox.dialog.currentdialogline == 21
+                     || dialogbox.dialog.currentdialogline == 22
+                     || dialogbox.dialog.currentdialogline == 23
+                     || dialogbox.dialog.currentdialogline == 25
+                     || dialogbox.dialog.currentdialogline == 28
+                     || dialogbox.dialog.currentdialogline == 29
+                     || dialogbox.dialog.currentdialogline == 31
+                     || dialogbox.dialog.currentdialogline == 33
+                     || dialogbox.dialog.currentdialogline == 35
+                     || dialogbox.dialog.currentdialogline == 37
+                     || dialogbox.dialog.currentdialogline == 38
+                     || dialogbox.dialog.currentdialogline == 41
+                     || dialogbox.dialog.currentdialogline == 42
+                     || dialogbox.dialog.currentdialogline == 46
+                     || dialogbox.dialog.currentdialogline == 51
+                     || dialogbox.dialog.currentdialogline == 52)
+                    {
+                        dialogbox.SetSpeakerName(juruparireference);
+                    }
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
+                    }
+                }
+                if(dialogbox.currentdialog == 1)
+                {
+                    //cena Jardim continuação do nao seguir jurupari
+                    if (dialogbox.dialog.currentdialogline == 5
+                     || dialogbox.dialog.currentdialogline == 11
+                     || dialogbox.dialog.currentdialogline == 15
+                     || dialogbox.dialog.currentdialogline == 18
+                     || dialogbox.dialog.currentdialogline == 19
+                     || dialogbox.dialog.currentdialogline == 23
+                     || dialogbox.dialog.currentdialogline == 24
+                     || dialogbox.dialog.currentdialogline == 27
+                     || dialogbox.dialog.currentdialogline == 28
+                     || dialogbox.dialog.currentdialogline == 29
+                     || dialogbox.dialog.currentdialogline == 30
+                     || dialogbox.dialog.currentdialogline == 32
+                     || dialogbox.dialog.currentdialogline == 35
+                     || dialogbox.dialog.currentdialogline == 36
+                     || dialogbox.dialog.currentdialogline == 37
+                     || dialogbox.dialog.currentdialogline == 39
+                     || dialogbox.dialog.currentdialogline == 40
+                     || dialogbox.dialog.currentdialogline == 43
+                     || dialogbox.dialog.currentdialogline == 44
+                     || dialogbox.dialog.currentdialogline == 48
+                     || dialogbox.dialog.currentdialogline == 50
+                     || dialogbox.dialog.currentdialogline == 51
+                     || dialogbox.dialog.currentdialogline == 55
+                     || dialogbox.dialog.currentdialogline == 56
+                     || dialogbox.dialog.currentdialogline == 58
+                     || dialogbox.dialog.currentdialogline == 63
+                     || dialogbox.dialog.currentdialogline == 64)
+                    {
+                        dialogbox.SetSpeakerName(juruparireference);
+                    }
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
+                    }
+                }
+                if(dialogbox.currentdialog == 2)
+                {
+                    //cena Jardim resposta entrar no portal
+                    if (dialogbox.dialog.currentdialogline == 24
+                     || dialogbox.dialog.currentdialogline == 25
+                     || dialogbox.dialog.currentdialogline == 26)
+                    {
+                        dialogbox.SetSpeakerName(juruparireference);
+                    }
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
+                    }
+                }
+                if (dialogbox.currentdialog == 3)
+                {
+                    //cena Jardim resposta não entrar no portal
+                    if (dialogbox.dialog.currentdialogline == 25
+                     || dialogbox.dialog.currentdialogline == 26
+                     || dialogbox.dialog.currentdialogline == 27
+                     || dialogbox.dialog.currentdialogline == 29
+                     || dialogbox.dialog.currentdialogline == 30
+                     || dialogbox.dialog.currentdialogline == 31)
+                    {
+                        dialogbox.SetSpeakerName(juruparireference);
+                    }
+                    else
+                    {
+                        dialogbox.SetSpeakerName(player.playername);
+                    }
+                }
                 break;
             case 7:
-                //precisa fazer
+                //Cena Portal explosão
                 dialogbox.SetSpeakerName(player.playername);
                 break;
         }
@@ -546,7 +783,7 @@ public class GameController : MonoBehaviour
                 if (dialogbox.currentdialog == 1)
                 {
                     dialogbox.currentdialoganswers = 1;
-                    if (dialogbox.dialog.currentdialogline == 13)
+                    if (dialogbox.dialog.currentdialogline == 14)
                     {
                         if (!dialogbox.hasanswered)
                             dialogbox.dialog.isanswermoment = true;
@@ -597,13 +834,16 @@ public class GameController : MonoBehaviour
                         dialogbox.hasanswered = false;
                     }
                 }
-                if (dialogbox.currentdialog == 5)
+                if (dialogbox.currentdialog == 10)
                 {
-                    if (dialogbox.dialog.currentdialogline >= 0)
+                    if (dialogbox.dialog.currentdialogline >= 1)
                     {
                         dialogbox.currentdialoganswers = 1;
                         if (!dialogbox.hasanswered)
+                        {
+                            dialogbox.dialog.isanswerssplit = false;
                             dialogbox.dialog.isanswermoment = true;
+                        }
                     }
                     else
                     {
@@ -645,7 +885,7 @@ public class GameController : MonoBehaviour
             case 6:
                 if (dialogbox.currentdialog == 0)
                 {
-                    if (dialogbox.dialog.currentdialogline == 70)
+                    if (dialogbox.dialog.currentdialogline == 53)
                     {
                         dialogbox.currentdialoganswers = 0;
                         if (!dialogbox.hasanswered)
@@ -841,7 +1081,11 @@ public class GameController : MonoBehaviour
                 if (dialogbox.currentdialog == 1 || dialogbox.currentdialog == 2)
                 {
                     if (dialogbox.dialog.currentdialogline <= dialogbox.dialog.enddialogatline)
-                        dialogbox.nextdialog = 3;
+                        dialogbox.nextdialog = dialogbox.endatdialog;
+                }
+                if(dialogbox.currentdialog >= 3 && dialogbox.currentdialog <= 11)
+                {
+                    dialogbox.nextdialog = dialogbox.currentdialog;
                 }
                 break;
             case 2:
@@ -855,11 +1099,11 @@ public class GameController : MonoBehaviour
                 {
                     dialogbox.nextdialog = 4;
                 }
-                if (dialogbox.currentdialog == 5)
+                if (dialogbox.currentdialog == 10)
                 {
                     dialogbox.AnswerButtonsSetNextDialog(6, 7, 8);
-                    if (dialogbox.lastanswerid == -1)
-                        dialogbox.nextdialog = 8;
+                    if (dialogbox.lastanswerid < 0)
+                        dialogbox.nextdialog = dialogbox.endatdialog;
                 }
                 if (dialogbox.currentdialog == 6 || dialogbox.currentdialog == 7)
                 {
@@ -869,11 +1113,19 @@ public class GameController : MonoBehaviour
                 {
                     //dialogbox.AnswerButtonsSetNextDialog(5,6,8);
                     if (dialogbox.dialog.currentdialogline != 60)
-                        dialogbox.nextdialog = 9;
+                        dialogbox.nextdialog = dialogbox.endatdialog;
                     else
                     {
                         dialogbox.nextdialog = dialogbox.currentdialog;
                     }
+                }
+                if(dialogbox.currentdialog == 9
+                || dialogbox.currentdialog == 11
+                || dialogbox.currentdialog == 12
+                || dialogbox.currentdialog == 13
+                || dialogbox.currentdialog == 14)
+                {
+                    dialogbox.nextdialog = dialogbox.currentdialog;
                 }
                 break;
             case 3:
@@ -1040,10 +1292,20 @@ public class GameController : MonoBehaviour
             switch (actors[i].name)
             {
                 #region Benjamin lines
-                /*
                 case "Benjamin":
                     switch (currentscene)
                     {
+                        /*
+                        //test ok
+                        case 9:
+                            switch (dialogbox.currentdialog)
+                            {
+                                case 0:
+                                    actors[i].dialoglines = new int[1] { 0 };
+                                    break;
+                            }
+                            break;
+                            */
                         default:
                             if (actors[i].dialoglines.Length > 0)
                             {
@@ -1053,28 +1315,46 @@ public class GameController : MonoBehaviour
                             break;
                     }
                     break;
-                    */
                 #endregion
                 #region Enzo Lines
-                /*
-            case "Enzo":
-                switch (currentscene)
-                {
-                    default:
-                        if (actors[i].dialoglines.Length > 0)
-                        {
-                            Debug.Log("Doing Default of Enzo lines");
-                            actors[i].dialoglines = new int[0];
-                        }
-                        break;
-                }
-                break;
-                */
+                case "Enzo":
+                    switch (currentscene)
+                    {
+                        /* test not ok 
+                        case 9:
+                            switch (dialogbox.currentdialog)
+                            {
+                                case 0:
+                                    actors[i].dialoglines = new int[1] { 0 };
+                                    break;
+                            }
+                            break;
+                            /**/
+                        default:
+                            if (actors[i].dialoglines.Length > 0)
+                            {
+                                Debug.Log("Doing Default of Enzo lines");
+                                actors[i].dialoglines = new int[0];
+                            }
+                            break;
+                    }
+                    break;
                 #endregion
                 #region Isis Lines
                 case "Isis":
                     switch (currentscene)
                     {
+                        /* test ok
+                        8
+                        case 9:
+                            switch(dialogbox.currentdialog)
+                            {
+                                case 0:
+                                    actors[i].dialoglines = new int[1] { 0 };
+                                    break;
+                            }
+                            break;
+                    */
                         default:
                             if (actors[i].dialoglines.Length > 0)
                             {
@@ -1117,7 +1397,7 @@ public class GameController : MonoBehaviour
                             {
                                 case 0:
                                     //deixada na escola
-                                    actors[i].dialoglines = new int[14] { 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33 };
+                                    actors[i].dialoglines = new int[14] { 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35 };
                                     break;
                                 case 1:
                                     //seguir jurupari
@@ -1140,7 +1420,7 @@ public class GameController : MonoBehaviour
                             switch(dialogbox.currentdialog)
                             {
                                 case 0:
-                                    actors[i].dialoglines = new int[2] { 5, 6 };
+                                    actors[i].dialoglines = new int[50] { 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54 };
                                     break;
                                 case 1:
                                     actors[i].dialoglines = new int[56] { 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60 };
@@ -1167,6 +1447,16 @@ public class GameController : MonoBehaviour
                 case "Klaus":
                     switch (currentscene)
                     {
+                        /* test ok
+                        case 9:
+                            switch(dialogbox.currentdialog)
+                            {
+                                case 0:
+                                    actors[i].dialoglines = new int[1] { 0 };
+                                    break;
+                            }
+                            break;
+                    */
                         default:
                             if (actors[i].dialoglines.Length > 0)
                             {
@@ -1191,7 +1481,7 @@ public class GameController : MonoBehaviour
                                     actors[i].dialoglines = new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                                     break;
                                 case 2:
-                                    actors[i].dialoglines = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
+                                    actors[i].dialoglines = new int[11] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
                                     break;
                                 case 3:
                                     actors[i].dialoglines = new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -1257,11 +1547,11 @@ public class GameController : MonoBehaviour
                         {
                             switch (currentscene)
                             {
-                                case 0:
+                                case 9:
                                     switch (dialogbox.dialog.currentdialogline)
                                     {
                                         case 0:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 7);
                                             break;
                                         default:
                                             Debug.Log("Doing actor Benjamin Default motion");
@@ -1290,18 +1580,18 @@ public class GameController : MonoBehaviour
                         {
                             switch (currentscene)
                             {
-                                case 7:
-                                    switch (dialogbox.dialog.currentdialogline)
+                                //test not ok
+                                /*
+                                case 9:
+                                    switch(dialogbox.dialog.currentdialogline)
                                     {
                                         case 0:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
-                                            break;
-                                        default:
-                                            Debug.Log("Doing actor Enzo Default motion");
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                            //actors[i].actormodel.motionfile = Resources.Load<TextAsset>("Actors/Enzo/motions/Angry.mtnb");
+                                            //actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
                                             break;
                                     }
                                     break;
+                                    /**/
                                 default:
                                     if (actors[i].actoranimator.GetInteger(actors[i].motionreference) != 0)
                                     {
@@ -1323,6 +1613,21 @@ public class GameController : MonoBehaviour
                         {
                             switch (currentscene)
                             {
+                                /*test ok
+                                case 9:
+                                    switch(dialogbox.currentdialog)
+                                    {
+                                        case 0:
+                                            switch(dialogbox.dialog.currentdialogline)
+                                            {
+                                                case 0:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 7);
+                                                    break;
+                                            }
+                                            break;
+                                    }
+                                    break;
+                                    */
                                 default:
                                     if (actors[i].actoranimator.GetInteger(actors[i].motionreference) != 0)
                                     {
@@ -1347,6 +1652,7 @@ public class GameController : MonoBehaviour
                                 case 0:
                                     switch (dialogbox.currentdialog)
                                     {
+                                        //texto sonho com indizinho
                                         case 0:
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
@@ -1374,13 +1680,13 @@ public class GameController : MonoBehaviour
                                                 case 8:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
                                                     break;
-                                                case 9:
+                                                case 10:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
                                                     break;
-                                                case 10:
+                                                case 11:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
                                                     break;
-                                                case 11:
+                                                case 12:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
                                                     break;
                                             }
@@ -1388,34 +1694,38 @@ public class GameController : MonoBehaviour
                                         case 1:
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
+                                                //pergunta sobre dimensões
                                                 case 0:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 6);
                                                     break;
-                                                case 1:
+                                                case 3:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
                                                     break;
-                                                case 2:
-                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                                    break;
                                                 case 4:
-                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
-                                                    break;
-                                                case 5:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
                                                     break;
                                                 case 6:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
                                                     break;
-                                                case 8:
+                                                case 7:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
                                                     break;
-                                                case 9:
-                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
-                                                    break;
-                                                case 10:
+                                                case 8:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
                                                     break;
+                                                case 9:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
+                                                    break;
+                                                case 10:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                    break;
+                                                case 11:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
+                                                    break;
                                                 case 12:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
+                                                    break;
+                                                case 14:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
                                                     break;
                                             }
@@ -1423,19 +1733,20 @@ public class GameController : MonoBehaviour
                                         case 2:
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
+                                                //pergunta quem é jurupari
                                                 case 0:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
                                                     break;
-                                                case 1:
+                                                case 2:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 6);
                                                     break;
-                                                case 2:
-                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
-                                                    break;
                                                 case 3:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                                    break;
+                                                case 6:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
                                                     break;
-                                                case 5:
+                                                case 8:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
                                                     break;
                                             }
@@ -1443,6 +1754,7 @@ public class GameController : MonoBehaviour
                                         case 3:
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
+                                                //pergunta onde estou
                                                 case 0:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
                                                     break;
@@ -1463,17 +1775,15 @@ public class GameController : MonoBehaviour
                                         case 4:
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
+                                                //despedida sonho
                                                 case 0:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
                                                     break;
                                                 case 1:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
                                                     break;
-                                                case 2:
+                                                case 4:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
-                                                    break;
-                                                case 3:
-                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
                                                     break;
                                             }
                                             break;
@@ -1490,11 +1800,11 @@ public class GameController : MonoBehaviour
                                 case 3:
                                     switch (dialogbox.currentdialog)
                                     {
-                                        case 0:
+                                        case 0://ok
                                             //chegar na escola
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
-                                                case 20:
+                                                case 3:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
                                                     break;
                                                 case 22:
@@ -1508,7 +1818,7 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        case 1:
+                                        case 1://Ok
                                             //seguir jurupari
                                             switch(dialogbox.dialog.currentdialogline)
                                             {
@@ -1556,12 +1866,11 @@ public class GameController : MonoBehaviour
                                 case 6:
                                     switch(dialogbox.currentdialog)
                                     {
-                                        case 0:
-                                            //8.1
-                                            //precisa checar
+                                        case 0://ok
+                                            //continuação seguir jurupari
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
-                                                case 0:
+                                                case 5:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
                                                     break;
                                                 case 9:
@@ -1580,31 +1889,31 @@ public class GameController : MonoBehaviour
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
                                                     break;
                                                 case 23:
-                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
                                                     break;
                                                 case 28:
-                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
                                                     break;
                                                 case 29:
-                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
                                                     break;
                                                 case 33:
-                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
-                                                    break;
-                                                case 37:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
                                                     break;
-                                                case 41:
+                                                case 37:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
                                                     break;
-                                                case 42:
+                                                case 41:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
                                                     break;
-                                                case 46:
+                                                case 42:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
                                                     break;
-                                                case 51:
+                                                case 46:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 6);
+                                                    break;
+                                                case 51:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
                                                     break;
                                             }
                                             break;
@@ -1722,6 +2031,21 @@ public class GameController : MonoBehaviour
                         {
                             switch (currentscene)
                             {
+                                /* test ok
+                                case 9:
+                                    switch(dialogbox.currentdialog)
+                                    {
+                                        case 0:
+                                            switch(dialogbox.dialog.currentdialogline)
+                                            {
+                                                case 0:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    break;
+                                            }
+                                            break;
+                                    }
+                                    break;
+                                    */
                                 default:
                                     if (actors[i].actoranimator.GetInteger(actors[i].motionreference) != 0)
                                     {
@@ -1738,186 +2062,186 @@ public class GameController : MonoBehaviour
                         break;
                     #endregion
                     #region Mae Do jogador Emotions
-                    case "MaedaLuna":
+                    case "MaedaLuna"://ok
                         if (actors[i].gameObject.activeInHierarchy)
                         {
                             switch (currentscene)
                             {
-                                /*
                                 case 2:
                                     switch (dialogbox.currentdialog)
                                     {
-                                        */
-                                /*
-                                case 0:
-                                    switch (dialogbox.dialog.currentdialogline)
-                                    {
                                         case 0:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                            switch (dialogbox.dialog.currentdialogline)
+                                            {
+                                                //Bom dia mae do jogador
+                                                case 0:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    break;
+                                                case 1:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                    break;
+                                                case 4:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                                    break;
+                                                case 5:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                    break;
+                                            }
                                             break;
-                                        case 1:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                            break;
-                                        case 3:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
-                                            break;
-                                        case 4:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                            break;
-                                    }
-                                    break;
 
-                                case 1:
-                                    switch(dialogbox.dialog.currentdialogline)
-                                    {
-                                        case 0:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
-                                            break;
-                                        case 3:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
-                                            break;
-                                        case 4:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
-                                            break;
-                                        case 6:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
-                                            break;
-                                        case 7:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
-                                            break;
-                                    }
-                                    break;
-                                    case 2:
-                                    switch(dialogbox.dialog.currentdialogline)
-                                    {
-                                        case 0:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
+                                        case 1:
+                                            switch (dialogbox.dialog.currentdialogline)
+                                            {
+                                                //TO animada
+                                                case 0:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
+                                                    break;
+                                                case 3:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
+                                                    break;
+                                                case 4:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
+                                                    break;
+                                                case 6:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                                    break;
+                                                case 7:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    break;
+                                            }
                                             break;
                                         case 2:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
-                                            break;
-                                        case 4:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                            break;
-                                        case 6:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
-                                            break;
-                                        case 7:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
-                                            break;
-                                    }
-                                    break;
-                                    case 3:
-                                    switch(dialogbox.dialog.currentdialogline)
-                                    {
-                                        case 0:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
-                                            break;
-                                        case 2:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
+                                            switch (dialogbox.dialog.currentdialogline)
+                                            {
+                                                //nao sabe muito bem
+                                                case 0:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
+                                                    break;
+                                                case 2:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    break;
+                                                case 4:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                    break;
+                                                case 6:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
+                                                    break;
+                                                case 7:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                                    break;
+                                            }
                                             break;
                                         case 3:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
-                                            break;
-                                        case 6:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
-                                            break;
-                                        case 7:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
-                                            break;
-                                        case 9:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
-                                            break;
-                                    }
-                                    break;
-                                case 4:
-                                    switch(dialogbox.dialog.currentdialogline)
-                                    {
-                                        case 0:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
-                                            break;
-                                        case 1:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
-                                            break;
-                                        case 3:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                            switch (dialogbox.dialog.currentdialogline)
+                                            {
+                                                //Nao esta animada
+                                                case 0:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
+                                                    break;
+                                                case 2:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
+                                                    break;
+                                                case 3:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    break;
+                                                case 6:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
+                                                    break;
+                                                case 7:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                                    break;
+                                                case 9:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    break;
+                                            }
                                             break;
                                         case 4:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                            switch (dialogbox.dialog.currentdialogline)
+                                            {
+                                                //Mae oferece o cafe da manha e fala do presente
+                                                case 0:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
+                                                    break;
+                                                case 2:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
+                                                    break;
+                                                case 5:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    break;
+                                                case 6:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                                    break;
+                                                case 8:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                    break;
+                                            }
                                             break;
-                                        case 5:
-                                            actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                            break;
-                                    }
-                                    break;
-                                    */
-                                /*
-                            case 8:
 
-                                switch (dialogbox.dialog.currentdialogline)
-                                {
-                                    case 5:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                        break;
-                                    case 10:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
-                                        break;
-                                    case 13:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
-                                        break;
-                                    case 14:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                        break;
-                                    case 17:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
-                                        break;
-                                    case 18:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
-                                        break;
-                                    case 19:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                        break;
-                                    case 20:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
-                                        break;
-                                    case 24:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
-                                        break;
-                                    case 25:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
-                                        break;
-                                    case 26:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
-                                        break;
-                                    case 28:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                        break;
-                                    case 29:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
-                                        break;
-                                    case 31:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
-                                        break;
-                                    case 32:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                        break;
-                                    case 33:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
-                                        break;
-                                    case 35:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                        break;
-                                    case 44:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
-                                        break;
-                                    case 48:
-                                        actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
-                                        break;
-                                }
-                                break;
-                                */
-                                /*}
-                                break;*/
+                                        case 8:
+                                            switch (dialogbox.dialog.currentdialogline)
+                                            {
+                                                //Mae comenta sobre a historia da luna
+                                                case 7:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                    break;
+                                                case 13:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                                    break;
+                                                case 16:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
+                                                    break;
+                                                case 17:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                    break;
+                                                case 20:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    break;
+                                                case 21:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
+                                                    break;
+                                                case 22:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                    break;
+                                                case 23:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
+                                                    break;
+                                                case 28:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    break;
+                                                case 29:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
+                                                    break;
+                                                case 30:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    break;
+                                                case 32:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                    break;
+                                                case 35:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 1);
+                                                    break;
+                                                case 37:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
+                                                    break;
+                                                case 39:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                    break;
+                                                case 40:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                                    break;
+                                                case 42:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
+                                                    break;
+                                                case 53:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 3);
+                                                    break;
+                                                case 58:
+                                                    actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
+                                                    break;
+                                            }
+                                            break;
+                                    }
+                                    break;
                                 default:
                                     if (actors[i].actoranimator.GetInteger(actors[i].motionreference) != 0)
                                     {
@@ -2010,10 +2334,15 @@ public class GameController : MonoBehaviour
                     {
                         objecti.GetComponent<ObjectI>().isininventary = 0;
                     }
-                    else
+                    if(objecti.gameObject.name == "LivingroomDiaryBox")
                     {
                         objecti.GetComponent<ObjectI>().isininventary = 0;
                     }
+                    if(objecti.gameObject.name != "")
+                    {
+                        objecti.GetComponent<ObjectI>().isininventary = 0;
+                    }
+
                     objecti.GetComponent<ObjectI>().SaveObjectStatus();
                 }
         }
@@ -2052,15 +2381,19 @@ public class GameController : MonoBehaviour
             if (objecti.GetComponent<ObjectI>().objectinventarystatussavekey.Length <= 0)
                 objecti.GetComponent<ObjectI>().UploadObjectISaveKey();
 
-            //Check if puzzle has not be loaded to load it
+            //Check if objectI has not be loaded to load it
             if (!objecti.GetComponent<ObjectI>().hasbeenloaded)
             {
                 objecti.GetComponent<ObjectI>().LoadObjectStatus();
                 objecti.GetComponent<ObjectI>().hasbeenloaded = true;
             }
-            //Check if puzzle has been resolved to save it status
+            //Check if objectI has been resolved to save it status
             if (objecti.GetComponent<ObjectI>().isininventary < 0)
+            {
                 objecti.GetComponent<ObjectI>().SaveObjectStatus();
+                objecti.GetComponent<ObjectI>().isavailable = false;
+                objecti.gameObject.SetActive(false);
+            }
 
             //Update objecti self life
             objecti.GetComponent<ObjectI>().UpdateObjectIShelfLife();
@@ -2176,6 +2509,7 @@ public class GameController : MonoBehaviour
                 case 5: scenes[i].scenename = "Rua da Escola"; break;
                 case 6: scenes[i].scenename = "Jardim da Casa Abandonada"; break;
                 case 7: scenes[i].scenename = "Portal"; break;
+                case 8: scenes[i].scenename = "QuedaPortalBenjamin"; break;
             }
             Debug.Log("Scene " + scenes[i].scenename + " Avaliable");
         }
@@ -2194,6 +2528,16 @@ public class GameController : MonoBehaviour
                 case 5: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
                 case 6: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
                 case 7: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 8: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 9: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 10: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 11: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 12: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 13: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 14: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 15: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 16: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
+                case 17: scenes[i].GetComponent<SceneBehaviour>().isfinalscene = false; break;
             }
             Debug.Log("Scene " + scenes[i].scenename + " is a final scene?: " + scenes[i].GetComponent<SceneBehaviour>().isfinalscene);
         }
@@ -2329,6 +2673,12 @@ public class GameController : MonoBehaviour
                     {
                         //Load Actor selection scene
                         OnDialogEndGoTo(8);
+                        //Auto processed text
+                        if (dialogbox.currentdialog == dialogbox.endatdialog)
+                        {
+                            Debug.Log("Doing Auto Processed on text after loading interface");
+                            dialogbox.Processed();
+                        }
                     }
                 }
                 if (gamedata.playercurrentactor == "Enzo")
@@ -2338,6 +2688,12 @@ public class GameController : MonoBehaviour
                     {
                         //Load Actor selection scene
                         OnDialogEndGoTo(13);
+                        //Auto processed text
+                        if (dialogbox.currentdialog == dialogbox.endatdialog)
+                        {
+                            Debug.Log("Doing Auto Processed on text after loading interface");
+                            dialogbox.Processed();
+                        }
                     }
                 }
                 if (gamedata.playercurrentactor == "Isis")
@@ -2347,6 +2703,12 @@ public class GameController : MonoBehaviour
                     {
                         //Load Actor selection scene
                         OnDialogEndGoTo(17);
+                        //Auto processed text
+                        if (dialogbox.currentdialog == dialogbox.endatdialog)
+                        {
+                            Debug.Log("Doing Auto Processed on text after loading interface");
+                            dialogbox.Processed();
+                        }
                     }
                 }
                 #region Obsolety
@@ -2423,8 +2785,8 @@ public class GameController : MonoBehaviour
                 }
                 if (scenes[currentscene].puzzles[0].resolved && !scenes[currentscene].puzzles[0].active)
                 {
-                    if(dialogbox.dialog.currentdialogline == dialogbox.dialog.enddialogatline)
-                        OnDialogEndGoTo(9);
+                    if (dialogbox.dialog.currentdialogline == 37)
+                            OnDialogEndGoTo(9);
                 }
                 break;
             case 9:
@@ -2433,9 +2795,18 @@ public class GameController : MonoBehaviour
                 break;
             case 10:
                 TimeToSetScene();
+                OnDialogEndGoTo(11);
                 break;
             case 11:
                 TimeToSetScene();
+                if (gamedata.currentbenjaminaffinity > 7)
+                {
+                    OnDialogEndGoTo(12);
+                }
+                else
+                {
+                    scenes[currentscene].GetComponent<SceneBehaviour>().isfinalscene = true;
+                }
                 break;
             case 12:
                 TimeToSetScene();
@@ -2948,6 +3319,7 @@ public class GameController : MonoBehaviour
             }
 
             gamedata.playercurrentscene = currentscene;
+            gamedata.playerlasttextfile = dialogbox.lastdialog;
             gamedata.playercurrenttextfile = dialogbox.currentdialog;
             gamedata.playercurrentdialogline = dialogbox.dialog.currentdialogline;
             gamedata.currentscenestate = scenes[currentscene].scenestate.ToString();
@@ -3013,6 +3385,7 @@ public class GameController : MonoBehaviour
 
         //Update the game data to the current game play and put the values of the player current state in the history of the game
         currentscene = gamedata.playercurrentscene;
+        dialogbox.lastdialog = gamedata.playerlasttextfile;
         dialogbox.currentdialog = gamedata.playercurrenttextfile;
         dialogbox.dialog.currentdialogline = gamedata.playercurrentdialogline;
         if (gamedata.currentscenestate == "dialog")
@@ -3060,7 +3433,8 @@ public class GameController : MonoBehaviour
                     {
                         if(messagebox.messagetime < 0)
                             canprogress = true;
-                        messagebox.SetMessageTime(100f);
+                        //set timer of message for a possibly next display
+                        messagebox.SetMessageTime(300f);
                     }
                 }
                 break;
@@ -3085,7 +3459,8 @@ public class GameController : MonoBehaviour
                     {
                         if(messagebox.messagetime < 0)
                             canprogress = true;
-                        messagebox.SetMessageTime(100f);
+                        //set timer of message for a possibly next display
+                        messagebox.SetMessageTime(300f);
                     }
                 }
                 break;
@@ -3171,7 +3546,7 @@ public class GameController : MonoBehaviour
                                     {
                                         loadinginterface.gameObject.SetActive(false);
                                         canprogress = true;
-                                        loadinginterface.hasbeendisplayed = true;
+                                        //TEST loadinginterface.hasbeendisplayed = true;
                                     }
                                 }
                                 break;
@@ -3219,6 +3594,7 @@ public class GameController : MonoBehaviour
                                     loadinginterface.gameObject.SetActive(false);
                                     canprogress = true;
                                     loadinginterface.hasbeendisplayed = true;
+                                    //End text 0 to the game auto run
                                     dialogbox.Processed();
                                 }
                             }
@@ -3259,6 +3635,7 @@ public class GameController : MonoBehaviour
                                     loadinginterface.gameObject.SetActive(false);
                                     canprogress = true;
                                     loadinginterface.hasbeendisplayed = true;
+                                    //End text 0 to the game auto run
                                     dialogbox.Processed();
                                 }
                             }
@@ -3299,6 +3676,7 @@ public class GameController : MonoBehaviour
                                     loadinginterface.gameObject.SetActive(false);
                                     canprogress = true;
                                     loadinginterface.hasbeendisplayed = true;
+                                    //End text 0 to the game auto run
                                     dialogbox.Processed();
                                 }
                             }

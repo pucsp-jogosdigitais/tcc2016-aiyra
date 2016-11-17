@@ -55,12 +55,21 @@ public class ObjectIInterface : MonoBehaviour {
     //If object active on mouse over and click the gameobject close
     void OnMouseOver()
     {
-        if (Input.GetButtonDown("Interaction"))
+        if (Input.GetButtonDown("Confirm"))
         {
             if (gameObject.activeInHierarchy)
             {
                 gameObject.SetActive(false);
                 gamecontroller.canprogress = true;
+            }
+        }
+        if(Input.GetButtonDown("Interaction"))
+        {
+            if(gameObject.activeInHierarchy)
+            {
+                gameObject.SetActive(false);
+                gamecontroller.canprogress = true;
+                gamecontroller.dialogbox.Processed();
             }
         }
     }

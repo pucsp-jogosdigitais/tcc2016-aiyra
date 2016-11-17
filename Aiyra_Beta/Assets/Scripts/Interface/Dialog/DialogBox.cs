@@ -315,6 +315,69 @@ public class DialogBox : MonoBehaviour {
     #endregion
 
     #endregion
+  
+    #region Methods for processed button
+    //processed dialog with timer less than 0 else take one float of the timer
+    public void ProcessedWithTimer()
+    {
+        if (gamecontroller.canprogress)
+        {
+            if (processtimer <= 0)
+            {
+                if (dialogbox.gameObject.activeInHierarchy && !gamecontroller.pausemenu.gameObject.activeInHierarchy)
+                {
+                    if (onclickenddialog)
+                        scene.scenestate = Scene.state.interaction;
+                    else
+                    {
+                        if (dialog.isanswermoment)
+                        {
+                            DisplayAnswers();
+                        }
+                        if (hasnextdialog)
+                        {
+                            onclickenddialog = false;
+
+                            if (!dialog.isanswermoment)
+                            {
+
+                                if (dialog.currentdialogline == dialog.enddialogatline)
+                                {
+                                    currentdialog = nextdialog;
+                                    currentdialoganswers = nextdialoganswers;
+                                    RestartDialog();
+                                    dialog.ChangeDialogText();
+                                }
+                                else
+                                {
+                                    dialog.currentdialogline++;
+                                }
+                            }
+                        }
+                        if (!hasnextdialog)
+                        {
+                            if (!dialog.isanswermoment)
+                                if (dialog.currentdialogline == dialog.enddialogatline)
+                                    onclickenddialog = true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!gamecontroller.pausemenu.gameObject.activeInHierarchy)
+                    {
+                        Debug.Log("DialogBox not active can�t procced with dialog");
+                        EndDialog();
+                    }
+                }
+                //reset timer according to the time take
+                processtimer = 0.1f;
+            }
+            else { processtimer -= 1.0f; }
+        }
+    }
+
+    #endregion
 
     #endregion
 
