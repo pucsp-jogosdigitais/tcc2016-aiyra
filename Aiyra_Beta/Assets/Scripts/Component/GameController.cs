@@ -321,13 +321,17 @@ public class GameController : MonoBehaviour
                 {
                     background.currentbackground = 3;
                 }
-                if(dialogbox.currentdialog == 2 && dialogbox.dialog.currentdialogline >= 57)
+                if(dialogbox.currentdialog == 1 && dialogbox.dialog.currentdialogline >= 57)
                 {
                     background.currentbackground = 3;
                 }
-                if(dialogbox.currentdialog == 3 || dialogbox.currentdialog == 4)
+                if(dialogbox.currentdialog == 2)
                 {
-                    background.currentbackground = 1;
+                    background.currentbackground = 3;
+                }
+                if(dialogbox.currentdialog == 3)
+                {
+                    background.currentbackground = 3;
                 }
                 break;
             default:
@@ -1423,13 +1427,13 @@ public class GameController : MonoBehaviour
                                     actors[i].dialoglines = new int[50] { 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54 };
                                     break;
                                 case 1:
-                                    actors[i].dialoglines = new int[56] { 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60 };
+                                    actors[i].dialoglines = new int[61] { 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65 };
                                     break;
                                 case 2:
-                                    actors[i].dialoglines = new int[30] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29 };
+                                    actors[i].dialoglines = new int[29] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 };
                                     break;
                                 case 3:
-                                    actors[i].dialoglines = new int[41] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
+                                    actors[i].dialoglines = new int[40] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39};
                                     break;
                             }
                             break;
@@ -1649,11 +1653,11 @@ public class GameController : MonoBehaviour
                         {
                             switch (currentscene)
                             {
-                                case 0:
+                                case 0://ok
                                     switch (dialogbox.currentdialog)
                                     {
                                         //texto sonho com indizinho
-                                        case 0:
+                                        case 0://ok
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
                                                 case 0:
@@ -1691,7 +1695,7 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        case 1:
+                                        case 1://ok
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
                                                 //pergunta sobre dimensões
@@ -1730,7 +1734,7 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        case 2:
+                                        case 2://ok
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
                                                 //pergunta quem é jurupari
@@ -1751,7 +1755,7 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        case 3:
+                                        case 3://ok
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
                                                 //pergunta onde estou
@@ -1772,7 +1776,7 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        case 4:
+                                        case 4://ok
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
                                                 //despedida sonho
@@ -1787,17 +1791,9 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        //Terminar
-                                        default:
-                                            if (actors[i].actoranimator.GetInteger(actors[i].motionreference) != 0)
-                                            {
-                                                Debug.Log("Doing actor Jurupari Default motion");
-                                                actors[i].actoranimator.SetInteger(actors[i].motionreference, 0);
-                                            }
-                                            break;
                                     }
                                     break;
-                                case 3:
+                                case 3://ok
                                     switch (dialogbox.currentdialog)
                                     {
                                         case 0://ok
@@ -1836,7 +1832,7 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        case 2:
+                                        case 2://ok
                                             //não seguir jurupari
                                             switch(dialogbox.dialog.currentdialogline)
                                             {
@@ -1863,7 +1859,7 @@ public class GameController : MonoBehaviour
                                             break;
                                     }
                                     break;
-                                case 6:
+                                case 6://ok
                                     switch(dialogbox.currentdialog)
                                     {
                                         case 0://ok
@@ -1917,11 +1913,10 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                    case 1:
-                                        //9.2
+                                    case 1://ok
+                                        //continuar se soltar do jurupari
                                         switch(dialogbox.dialog.currentdialogline)
                                             {
-                                                //terminar
                                                 case 5:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 2);
                                                     break;
@@ -1943,7 +1938,7 @@ public class GameController : MonoBehaviour
                                                 case 30:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 5);
                                                     break;
-                                                case 36:
+                                                case 35:
                                                     actors[i].actoranimator.SetInteger(actors[i].motionreference, 4);
                                                     break;
                                                 case 37:
@@ -1969,7 +1964,7 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        case 2:
+                                        case 2://ok
                                             //10 entrar no portal
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
@@ -1987,7 +1982,7 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        case 3:
+                                        case 3://ok
                                             //11 nao entrar no portal
                                             switch(dialogbox.dialog.currentdialogline)
                                             {
@@ -2070,7 +2065,7 @@ public class GameController : MonoBehaviour
                                 case 2:
                                     switch (dialogbox.currentdialog)
                                     {
-                                        case 0:
+                                        case 0://ok
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
                                                 //Bom dia mae do jogador
@@ -2089,7 +2084,7 @@ public class GameController : MonoBehaviour
                                             }
                                             break;
 
-                                        case 1:
+                                        case 1://ok
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
                                                 //TO animada
@@ -2110,7 +2105,7 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        case 2:
+                                        case 2://ok
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
                                                 //nao sabe muito bem
@@ -2131,7 +2126,7 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        case 3:
+                                        case 3://ok
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
                                                 //Nao esta animada
@@ -2155,7 +2150,7 @@ public class GameController : MonoBehaviour
                                                     break;
                                             }
                                             break;
-                                        case 4:
+                                        case 4://ok
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
                                                 //Mae oferece o cafe da manha e fala do presente
@@ -2177,7 +2172,7 @@ public class GameController : MonoBehaviour
                                             }
                                             break;
 
-                                        case 8:
+                                        case 8://ok
                                             switch (dialogbox.dialog.currentdialogline)
                                             {
                                                 //Mae comenta sobre a historia da luna
@@ -3413,6 +3408,7 @@ public class GameController : MonoBehaviour
         switch(currentscene)
         {
             case 1:
+                bool hasshowafterdialog = false;
                 if (messagebox.messagepath != "LoadingInterfaces/" || messagebox.messagename != "BoxBroche")
                 {
                     messagebox.SetMessagePath("LoadingInterfaces/");
@@ -3420,21 +3416,51 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    messagebox.UploadMessageBox();
-                    if (messagebox.gameObject.activeInHierarchy)
+                    //test
+                    if (!hasshowafterdialog && !dialogbox.gameObject.activeInHierarchy)
                     {
-                        messagebox.messagetime -= 1f;
-                        canprogress = false;
+                        messagebox.UploadMessageBox();
+                        if (messagebox.gameObject.activeInHierarchy)
+                        {
+                            messagebox.messagetime -= 1f;
+                            canprogress = false;
 
-                        if (messagebox.messagetime < 0)
-                            messagebox.gameObject.SetActive(false);
+                            if (messagebox.messagetime < 0)
+                            {
+                                messagebox.gameObject.SetActive(false);
+                                hasshowafterdialog = true;
+                            }
+                        }
+                        else
+                        {
+                            if (messagebox.messagetime < 0)
+                                canprogress = true;
+                            //set timer of message for a possibly next display
+                            messagebox.SetMessageTime(300f);
+                        }
                     }
                     else
                     {
-                        if(messagebox.messagetime < 0)
-                            canprogress = true;
-                        //set timer of message for a possibly next display
-                        messagebox.SetMessageTime(300f);
+                        //running
+                        messagebox.UploadMessageBox();
+                        if (messagebox.gameObject.activeInHierarchy)
+                        {
+                            messagebox.messagetime -= 1f;
+                            canprogress = false;
+
+                            if (messagebox.messagetime < 0)
+                            {
+                                messagebox.gameObject.SetActive(false);
+                                hasshowafterdialog = true;
+                            }
+                        }
+                        else
+                        {
+                            if (messagebox.messagetime < 0)
+                                canprogress = true;
+                            //set timer of message for a possibly next display
+                            messagebox.SetMessageTime(300f);
+                        }
                     }
                 }
                 break;
