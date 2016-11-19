@@ -144,45 +144,9 @@ public class GalleryMenu : MonoBehaviour {
             case 0:
                 for (int i = 0; i < actorcgspage0.Length; i++)
                 {
-                    //Benjamin
-                    actorcgspage0[i].SetCGPath("CGs/");
-                    switch (i)
-                    {
-                        case 0:
-                            actorcgspage0[i].SetCGName("PuzzlePatio1.2");
-                            break;
-                        case 1:
-                            actorcgspage0[i].SetCGName("Benjamin e protagonista 1");
-                            break;
-                        default:
-                            actorcgspage0[i].SetCGName("PuzzlePatio1.2");
-                            break;
-                    }
-                }
-                for (int i = 0; i < actorcgspage1.Length; i++)
-                {
-                    //Enzo
-                    actorcgspage1[i].SetCGPath("CGs/");
-                    switch (i)
-                    {
-                        case 0:
-                            actorcgspage1[i].SetCGName("PuzzlePatio1.2");
-                            break;
-                        case 1:
-                            actorcgspage1[i].SetCGName("Enzo e protagonista 1");
-                            break;
-                        default:
-                            actorcgspage1[i].SetCGName("PuzzlePatio1.2");
-                            break;
-                    }
-                }
-                break;
-            case 1:
-                for (int i = 0; i < actorcgspage0.Length; i++)
-                {
                     //Enzo
                     actorcgspage0[i].SetCGPath("CGs/");
-                    switch(i)
+                    switch (i)
                     {
                         case 0:
                             actorcgspage0[i].SetCGName("PuzzlePatio1.2");
@@ -205,7 +169,43 @@ public class GalleryMenu : MonoBehaviour {
                             actorcgspage1[i].SetCGName("PuzzlePatio1.2");
                             break;
                         case 1:
+                            actorcgspage1[i].SetCGName("Isis e protagonista 1");
+                            break;
+                        default:
+                            actorcgspage1[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                    }
+                }
+                break;
+            case 1:
+                for (int i = 0; i < actorcgspage0.Length; i++)
+                {
+                    //Isis
+                    actorcgspage0[i].SetCGPath("CGs/");
+                    switch(i)
+                    {
+                        case 0:
+                            actorcgspage0[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                        case 1:
                             actorcgspage0[i].SetCGName("Isis e protagonista 1");
+                            break;
+                        default:
+                            actorcgspage0[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                    }
+                }
+                for (int i = 0; i < actorcgspage1.Length; i++)
+                {
+                    //Ben
+                    actorcgspage1[i].SetCGPath("CGs/");
+                    switch (i)
+                    {
+                        case 0:
+                            actorcgspage1[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                        case 1:
+                            actorcgspage0[i].SetCGName("Benjamin e protagonista 1");
                             break;
                         default:
                             actorcgspage1[i].SetCGName("PuzzlePatio1.2");
@@ -217,8 +217,20 @@ public class GalleryMenu : MonoBehaviour {
             case 2:
                 for (int i = 0; i < actorcgspage0.Length; i++)
                 {
+                    //Ben
                     actorcgspage0[i].SetCGPath("CGs/");
-                    actorcgspage0[i].SetCGName("PuzzlePatio1.2");
+                    switch (i)
+                    {
+                        case 0:
+                            actorcgspage0[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                        case 1:
+                            actorcgspage0[i].SetCGName("Benjamin e protagonista 1");
+                            break;
+                        default:
+                            actorcgspage0[i].SetCGName("PuzzlePatio1.2");
+                            break;
+                    }
                 }
                 for (int i = 0; i < actorcgspage1.Length; i++)
                 {

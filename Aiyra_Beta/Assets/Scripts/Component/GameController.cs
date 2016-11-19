@@ -1056,19 +1056,75 @@ public class GameController : MonoBehaviour
     {
         switch (currentscene)
         {
-            case 1:
-                if (dialogbox.currentdialog == 0)
-                {
+            //reset answer values to start new game clean
+            case 0:
+                if(dialogbox.currentdialog == 0)
                     dialogbox.SetAnswerButtonsValue(0, 0, 0);
-                }
                 break;
-            case 7:
-                if (dialogbox.currentdialog == 0)
+            case 14:
+                if (gamedata.currentenzoaffinity < 10)
                 {
-                    if (dialogbox.lastanswerid < 0)
-                        dialogbox.SetAnswerButtonsValue(5, 10, 3);
+                    if (dialogbox.currentdialog == 0)
+                    {
+                        if (dialogbox.lastanswerid < 0)
+                            dialogbox.SetAnswerButtonsValue(0, 3, 2);
+                    }
                 }
+                else { Debug.Log("Player already reached max affinity points with actor Enzo next answer will have value: 0"); dialogbox.SetAnswerButtonsValue(0, 0, 0); }
                 break;
+            case 15:
+                if(gamedata.currentenzoaffinity < 10)
+                {
+                    if(dialogbox.currentdialog == 0)
+                    {
+                        if (dialogbox.lastanswerid < 0)
+                            dialogbox.SetAnswerButtonsValue(3, 0, 2);
+                    }
+                    if(dialogbox.currentdialog == 1)
+                    {
+                        if (dialogbox.lastanswerid < 0)
+                            dialogbox.SetAnswerButtonsValue(0, 0, 0);
+                    }
+                    if(dialogbox.currentdialog == 2)
+                    {
+                        if (dialogbox.lastanswerid < 0)
+                            dialogbox.SetAnswerButtonsValue(3, 4, 0);
+                    }
+                    if(dialogbox.currentdialog == 3)
+                    {
+                        if (dialogbox.lastanswerid < 0)
+                            dialogbox.SetAnswerButtonsValue(3, 4, 0);
+                    }
+                    if (dialogbox.currentdialog == 4)
+                    {
+                        if (dialogbox.lastanswerid < 0)
+                            dialogbox.SetAnswerButtonsValue(3, 4, 0);
+                    }
+                    if (dialogbox.currentdialog == 5)
+                    {
+                        if (dialogbox.lastanswerid < 0)
+                            dialogbox.SetAnswerButtonsValue(3, 4, 0);
+                    }
+                }
+                else { Debug.Log("Player already reached max affinity points with actor Enzo next answer will have value: 0"); dialogbox.SetAnswerButtonsValue(0, 0, 0); }
+                break;
+                #region Obsolety
+                /*
+                case 1:
+                    if (dialogbox.currentdialog == 0)
+                    {
+                        dialogbox.SetAnswerButtonsValue(0, 0, 0);
+                    }
+                    break;
+                case 7:
+                    if (dialogbox.currentdialog == 0)
+                    {
+                        if (dialogbox.lastanswerid < 0)
+                            dialogbox.SetAnswerButtonsValue(5, 10, 3);
+                    }
+                    break;
+                    */
+                #endregion
         }
 
     }
@@ -3717,6 +3773,10 @@ public class GameController : MonoBehaviour
             }
         }
     }
+    void AdjustActorsLayout()
+    {
+        
+    }
 
     #endregion
 
@@ -4293,7 +4353,7 @@ public class GameController : MonoBehaviour
             case 16://Primeira CG Enzo
                 TimeToSetScene();
                 //need to check if is final line
-                if(dialogbox.dialog.currentdialogline == 30)
+                if(dialogbox.dialog.currentdialogline == 71)
                 {
                     //Unlock cg with enzo
                     string[] CGsToUnlock = new string[1] { enzogalleryreference + 1.ToString() };
