@@ -43,6 +43,18 @@ public class PuzzlePortalFall : MonoBehaviour {
         {
             if (!puzzle.resolved && puzzle.active)
             {
+                if (Input.GetKey(KeyCode.W))
+                {
+                    if (transform.rotation.eulerAngles.z >= 180)
+                        transform.Rotate(0, 0, 1f);
+                    else { transform.Rotate(0, 0, -1f); }
+                }
+                if(Input.GetKey(KeyCode.S))
+                {
+                    if (transform.rotation.eulerAngles.z < 180)
+                        transform.Rotate(0, 0, 1f);
+                    else { transform.Rotate(0, 0, -1f); }
+                }
                 if (Input.GetKey(KeyCode.A))
                     transform.Rotate(0, 0, 1f);
                 if (Input.GetKey(KeyCode.D))
